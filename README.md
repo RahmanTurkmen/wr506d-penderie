@@ -25,6 +25,21 @@ docker compose exec php vendor/bin/phpunit
 docker compose exec php composer audit
 ```
 
+## Installation — Frontend
+
+Le service `frontend` démarre automatiquement avec `docker compose up -d --build` (voir plus haut).
+
+L'appli est disponible sur http://localhost:5173.
+
+Pour lancer le frontend en local sans Docker (optionnel) :
+
+```bash
+cd frontend
+cp .env.example .env.local
+npm install
+npm run dev
+```
+
 ## Stack
 
 PHP 8.4 · Symfony 7.4 · MariaDB 11.4 · Doctrine · API Platform. Front : React + Vite (découplé, dans `frontend/`). Voir `Setup.md` pour le détail complet (modèle de données, autorisations, conventions Git).
