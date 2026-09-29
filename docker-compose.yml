@@ -1,0 +1,21 @@
+services:
+  php:
+    build: ./backend/docker/php
+    volumes: ["./backend:/var/www/html"]
+    depends_on: [database]
+  nginx:
+    image: nginx:1.27-alpine
+    ports: ["8080:80"]
+    volumes: ["./backend:/var/www/html", "./backend/docker/nginx/default.conf:/etc/nginx/conf.d/default.conf"]
+    depends_on: [php]
+  database:
+    image: mariadb:11.4
+    environment:
+      MARIADB_DATABASE: lumen
+      MARIADB_USER: app
+      MARIADB_PASSWORD: ${DB_PASSWORD:-app_dev}
+      MARIADB_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-root_dev}
+    volumes: ["db_data:/var/lib/mysql"]
+    ports: ["3306:3306"]
+volumes:
+  db_data:
