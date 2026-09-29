@@ -8,5 +8,10 @@
 /backend/vendor/
 ###< symfony/framework-bundle ###
 
+###> phpunit/phpunit ###
+/backend/phpunit.xml
+/backend/.phpunit.cache/
+###< phpunit/phpunit ###
+
 /frontend/node_modules/
 /.idea/
