@@ -11,3 +11,10 @@ RUN apt-get update && apt-get install -y \
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
 WORKDIR /var/www/html
+
+# vendor/ est baké dans l'image (volume anonyme en docker-compose.yml) :
+# un bind mount Windows pour des milliers de petits fichiers est très lent.
+COPY composer.json composer.lock ./
+RUN composer install --no-scripts --no-interaction --optimize-autoloader
+
+COPY . .
