@@ -37,6 +37,9 @@ export function AddObjetPage({ token, activeProfil, onCreated, onCancel }) {
   const [type, setType] = useState('vetement')
   const [categorieId, setCategorieId] = useState(null)
   const [categorieSuggestion, setCategorieSuggestion] = useState('')
+  const [marque, setMarque] = useState('')
+  const [taille, setTaille] = useState('')
+  const [couleur, setCouleur] = useState('')
   const [tagIds, setTagIds] = useState([])
   const [logementId, setLogementId] = useState(null)
   const [pieceId, setPieceId] = useState(null)
@@ -123,6 +126,8 @@ export function AddObjetPage({ token, activeProfil, onCreated, onCancel }) {
     if (suggestion) {
       if (suggestion.nom) setNom(suggestion.nom)
       if (suggestion.type) setType(suggestion.type)
+      if (suggestion.marque) setMarque(suggestion.marque)
+      if (suggestion.couleur) setCouleur(suggestion.couleur)
       if (suggestion.categorie) {
         const match = categories.find((c) => c.nom.toLowerCase() === suggestion.categorie.toLowerCase())
         if (match) setCategorieId(match.id)
@@ -147,6 +152,9 @@ export function AddObjetPage({ token, activeProfil, onCreated, onCancel }) {
         categorieId,
         pieceId,
         tagIds,
+        marque: marque.trim(),
+        taille: taille.trim(),
+        couleur: couleur.trim(),
       },
       photoFile,
     )
@@ -206,6 +214,36 @@ export function AddObjetPage({ token, activeProfil, onCreated, onCancel }) {
                   </Chip>
                 ))}
               </div>
+            </div>
+
+            <div className="grid grid-cols-3 gap-2.5">
+              <label className="block space-y-1.5 text-left">
+                <span className="text-sm font-medium text-foreground">Marque</span>
+                <input
+                  value={marque}
+                  onChange={(e) => setMarque(e.target.value)}
+                  placeholder="Facultatif"
+                  className="h-11 w-full rounded-[14px] border border-border bg-card px-3 text-sm text-foreground outline-none focus:border-primary"
+                />
+              </label>
+              <label className="block space-y-1.5 text-left">
+                <span className="text-sm font-medium text-foreground">Taille</span>
+                <input
+                  value={taille}
+                  onChange={(e) => setTaille(e.target.value)}
+                  placeholder="M, 42…"
+                  className="h-11 w-full rounded-[14px] border border-border bg-card px-3 text-sm text-foreground outline-none focus:border-primary"
+                />
+              </label>
+              <label className="block space-y-1.5 text-left">
+                <span className="text-sm font-medium text-foreground">Couleur</span>
+                <input
+                  value={couleur}
+                  onChange={(e) => setCouleur(e.target.value)}
+                  placeholder="Facultatif"
+                  className="h-11 w-full rounded-[14px] border border-border bg-card px-3 text-sm text-foreground outline-none focus:border-primary"
+                />
+              </label>
             </div>
 
             <PickOrCreate

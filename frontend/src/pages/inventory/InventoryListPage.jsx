@@ -6,7 +6,7 @@ import { photoUrl } from '@/lib/api'
 
 const TYPE_ICON = { vetement: Shirt, livre: BookOpen, vinyle: Disc3, autre: Package }
 
-export function InventoryListPage({ objets, categories, loading, error, onOpenObjet, onAddObjet }) {
+export function InventoryListPage({ objets, categories, loading, error, onOpenObjet, onAddObjet, onOpenDressing }) {
   const [search, setSearch] = useState('')
   const [categorieFilter, setCategorieFilter] = useState(null)
 
@@ -47,6 +47,21 @@ export function InventoryListPage({ objets, categories, loading, error, onOpenOb
             className="h-full min-w-0 flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
           />
         </div>
+
+        <button
+          type="button"
+          onClick={onOpenDressing}
+          className="flex w-full items-center gap-3 rounded-2xl bg-secondary px-4 py-3.5 text-left"
+        >
+          <span className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground">
+            <Shirt className="h-[18px] w-[18px]" />
+          </span>
+          <span className="flex-1">
+            <span className="block text-sm font-semibold text-primary">Mon dressing</span>
+            <span className="block text-xs text-primary/80">Filtre par catégorie et par tag</span>
+          </span>
+          <span className="text-sm text-primary">›</span>
+        </button>
 
         {categories.length > 0 && (
           <div className="flex gap-2 overflow-x-auto">

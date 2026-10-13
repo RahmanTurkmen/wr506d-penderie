@@ -1,8 +1,22 @@
 import { useState } from 'react'
-import { BookOpen, Check, Clock, Disc3, Loader2, MapPin, Package, QrCode, RefreshCw, Shirt, ShoppingBag, Tag } from 'lucide-react'
+import {
+  BookOpen,
+  Check,
+  Clock,
+  Disc3,
+  Loader2,
+  MapPin,
+  Package,
+  Pencil,
+  QrCode,
+  RefreshCw,
+  Shirt,
+  ShoppingBag,
+  Tag,
+} from 'lucide-react'
 import { Badge } from '@/components/lumen/primitives'
 import { ScreenHeader } from '@/components/lumen/ScreenHeader'
-import { createPret, photoUrl, updateObjetStatut } from '@/lib/api'
+import { createPret, photoUrl, updateObjet, updateObjetStatut } from '@/lib/api'
 
 const TYPE_ICON = { vetement: Shirt, livre: BookOpen, vinyle: Disc3, autre: Package }
 const TYPE_LABEL = { vetement: 'Vêtement', livre: 'Livre', vinyle: 'Vinyle', autre: 'Autre' }
@@ -25,6 +39,10 @@ export function ObjetDetailPage({ token, activeProfil, objet, onBack, onRefresh 
   const [lending, setLending] = useState(false)
   const [emprunteurNom, setEmprunteurNom] = useState('')
   const [dateFinPrevue, setDateFinPrevue] = useState('')
+  const [editing, setEditing] = useState(false)
+  const [editMarque, setEditMarque] = useState('')
+  const [editTaille, setEditTaille] = useState('')
+  const [editCouleur, setEditCouleur] = useState('')
 
   if (!objet) {
     return (
@@ -38,6 +56,31 @@ export function ObjetDetailPage({ token, activeProfil, objet, onBack, onRefresh 
   }
 
   const Icon = TYPE_ICON[objet.type] ?? Package
+
+  function openEdit() {
+    setEditMarque(objet.marque ?? '')
+    setEditTaille(objet.taille ?? '')
+    setEditCouleur(objet.couleur ?? '')
+    setEditing(true)
+  }
+
+  async function handleSaveEdit(e) {
+    e.preventDefault()
+    setBusy(true)
+    setMessage(null)
+    const res = await updateObjet(token, activeProfil?.id, objet.id, {
+      marque: editMarque.trim(),
+      taille: editTaille.trim(),
+      couleur: editCouleur.trim(),
+    })
+    setBusy(false)
+    if (!res.ok) {
+      setMessage({ tone: 'error', text: res.data?.error ?? 'Impossible de mettre à jour.' })
+      return
+    }
+    setEditing(false)
+    await onRefresh()
+  }
 
   async function handleStatut(statut) {
     setBusy(true)
@@ -74,7 +117,21 @@ export function ObjetDetailPage({ token, activeProfil, objet, onBack, onRefresh 
 
   return (
     <div className="flex flex-1 flex-col pb-28 md:pb-10">
-      <ScreenHeader title={objet.nom} subtitle={[objet.categorie?.nom, objet.piece?.nom ?? objet.conteneur?.nom].filter(Boolean).join(' · ')} onBack={onBack} />
+      <ScreenHeader
+        title={objet.nom}
+        subtitle={[objet.categorie?.nom, objet.piece?.nom ?? objet.conteneur?.nom].filter(Boolean).join(' · ')}
+        onBack={onBack}
+        action={
+          <button
+            type="button"
+            onClick={openEdit}
+            aria-label="Modifier marque, taille, couleur"
+            className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border bg-card text-foreground hover:bg-muted"
+          >
+            <Pencil className="h-[18px] w-[18px]" />
+          </button>
+        }
+      />
 
       <div className="mx-auto w-full max-w-xl space-y-5 px-6 py-5 md:px-10">
         {objet.photo ? (
@@ -92,10 +149,63 @@ export function ObjetDetailPage({ token, activeProfil, objet, onBack, onRefresh 
         </div>
 
         <div className="divide-y divide-border rounded-2xl bg-card px-4">
+          {objet.marque && <InfoRow icon={Tag} label="Marque" value={objet.marque} />}
+          {objet.taille && <InfoRow icon={Tag} label="Taille" value={objet.taille} />}
+          {objet.couleur && <InfoRow icon={Tag} label="Couleur" value={objet.couleur} />}
           <InfoRow icon={MapPin} label="Emplacement" value={objet.piece?.nom ?? objet.conteneur?.nom ?? '—'} />
           <InfoRow icon={QrCode} label="QR code" value={objet.qrCodeInterne} />
           {objet.tags?.length > 0 && <InfoRow icon={Tag} label="Tags" value={objet.tags.map((t) => t.nom).join(', ')} />}
         </div>
+
+        {!objet.marque && !objet.taille && !objet.couleur && !editing && (
+          <button type="button" onClick={openEdit} className="text-left text-sm font-semibold text-primary">
+            + Ajouter marque, taille, couleur
+          </button>
+        )}
+
+        {editing && (
+          <form onSubmit={handleSaveEdit} className="space-y-3 rounded-2xl bg-card p-4">
+            <p className="text-sm font-semibold text-foreground">Marque, taille, couleur</p>
+            <div className="grid grid-cols-3 gap-2.5">
+              <input
+                autoFocus
+                value={editMarque}
+                onChange={(e) => setEditMarque(e.target.value)}
+                placeholder="Marque"
+                className="h-11 w-full min-w-0 rounded-[14px] border border-border bg-background px-3 text-sm text-foreground outline-none focus:border-primary"
+              />
+              <input
+                value={editTaille}
+                onChange={(e) => setEditTaille(e.target.value)}
+                placeholder="Taille"
+                className="h-11 w-full min-w-0 rounded-[14px] border border-border bg-background px-3 text-sm text-foreground outline-none focus:border-primary"
+              />
+              <input
+                value={editCouleur}
+                onChange={(e) => setEditCouleur(e.target.value)}
+                placeholder="Couleur"
+                className="h-11 w-full min-w-0 rounded-[14px] border border-border bg-background px-3 text-sm text-foreground outline-none focus:border-primary"
+              />
+            </div>
+            <div className="flex gap-2.5">
+              <button
+                type="button"
+                onClick={() => setEditing(false)}
+                className="h-11 flex-1 rounded-full border border-border text-sm font-semibold text-foreground"
+              >
+                Annuler
+              </button>
+              <button
+                type="submit"
+                disabled={busy}
+                className="flex h-11 flex-1 items-center justify-center gap-2 rounded-full bg-primary text-sm font-semibold text-primary-foreground disabled:opacity-60"
+              >
+                {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
+                Enregistrer
+              </button>
+            </div>
+          </form>
+        )}
 
         {message && (
           <p

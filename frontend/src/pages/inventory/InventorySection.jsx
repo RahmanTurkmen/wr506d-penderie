@@ -1,22 +1,26 @@
 import { useEffect, useState } from 'react'
-import { listCategories, listObjets } from '@/lib/api'
+import { listCategories, listObjets, listTags } from '@/lib/api'
 import { AddObjetPage } from './AddObjetPage'
+import { DressingPage } from './DressingPage'
 import { InventoryListPage } from './InventoryListPage'
 import { ObjetDetailPage } from './ObjetDetailPage'
 
 export function InventorySection({ token, activeProfil, initialView = 'list', initialObjetId = null, onConsumeInitialView }) {
   const [view, setView] = useState(initialView)
   const [selectedId, setSelectedId] = useState(initialObjetId)
+  const [returnView, setReturnView] = useState('list')
 
   const [objets, setObjets] = useState([])
   const [categories, setCategories] = useState([])
+  const [tags, setTags] = useState([])
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState('')
 
   async function refresh() {
-    const [objetsRes, categoriesRes] = await Promise.all([
+    const [objetsRes, categoriesRes, tagsRes] = await Promise.all([
       listObjets(token, activeProfil?.id),
       listCategories(token, activeProfil?.id),
+      listTags(token, activeProfil?.id),
     ])
     if (!objetsRes.ok) {
       setError(objetsRes.data?.error ?? 'Impossible de charger tes objets.')
@@ -26,6 +30,7 @@ export function InventorySection({ token, activeProfil, initialView = 'list', in
       setObjets(objetsRes.data ?? [])
     }
     if (categoriesRes.ok) setCategories(categoriesRes.data ?? [])
+    if (tagsRes.ok) setTags(tagsRes.data ?? [])
     setLoading(false)
   }
 
@@ -61,6 +66,21 @@ export function InventorySection({ token, activeProfil, initialView = 'list', in
     )
   }
 
+  if (view === 'dressing') {
+    return (
+      <DressingPage
+        objets={objets}
+        tags={tags}
+        onBack={() => setView('list')}
+        onOpenObjet={(id) => {
+          setSelectedId(id)
+          setReturnView('dressing')
+          setView('detail')
+        }}
+      />
+    )
+  }
+
   if (view === 'detail') {
     const objet = objets.find((o) => o.id === selectedId) ?? null
     return (
@@ -68,7 +88,7 @@ export function InventorySection({ token, activeProfil, initialView = 'list', in
         token={token}
         activeProfil={activeProfil}
         objet={objet}
-        onBack={() => setView('list')}
+        onBack={() => setView(returnView)}
         onRefresh={refresh}
       />
     )
@@ -82,9 +102,11 @@ export function InventorySection({ token, activeProfil, initialView = 'list', in
       error={error}
       onOpenObjet={(id) => {
         setSelectedId(id)
+        setReturnView('list')
         setView('detail')
       }}
       onAddObjet={() => setView('add')}
+      onOpenDressing={() => setView('dressing')}
     />
   )
 }
