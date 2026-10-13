@@ -5,7 +5,7 @@ import { Boxes, Building2, Home, Shirt, User } from 'lucide-react'
 // Figma, mais restent inertes tant que leur section n'existe pas.
 export const NAV_ITEMS = [
   { screen: 'accueil', icon: Home, label: 'Accueil', ready: true },
-  { screen: 'inventaire', icon: Boxes, label: 'Inventaire', ready: false },
+  { screen: 'inventaire', icon: Boxes, label: 'Inventaire', ready: true },
   { screen: 'logements', icon: Building2, label: 'Logements', ready: false },
   { screen: 'tenues', icon: Shirt, label: 'Tenues', ready: false },
   { screen: 'profil', icon: User, label: 'Profil', ready: false },

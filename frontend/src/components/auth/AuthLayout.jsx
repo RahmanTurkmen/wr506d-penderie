@@ -16,7 +16,7 @@ export function AuthLayout({ children }) {
         <div className="space-y-3">
           <h1 className="text-5xl font-bold tracking-tight">Lumen</h1>
           <p className="max-w-sm text-xl text-secondary">
-            Range, retrouve, prête. Entre amis, sans rien publier.
+            Range, retrouve, prête. Entre amis.
           </p>
         </div>
         <ul className="space-y-4">

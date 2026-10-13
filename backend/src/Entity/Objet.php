@@ -46,6 +46,9 @@ class Objet
     #[ORM\Column(length: 100, unique: true)]
     private string $qrCodeInterne;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $photo = null;
+
     /** @var Collection<int, Tag> */
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'objets')]
     #[ORM\JoinTable(name: 'objet_tag')]
@@ -181,6 +184,18 @@ class Objet
     public function getQrCodeInterne(): string
     {
         return $this->qrCodeInterne;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): static
+    {
+        $this->photo = $photo;
+
+        return $this;
     }
 
     /** @return Collection<int, Tag> */
