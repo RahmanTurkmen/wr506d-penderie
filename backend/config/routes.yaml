@@ -9,3 +9,11 @@
 
 controllers:
     resource: routing.controllers
+
+# La route ne pointe vers aucun contrôleur : le firewall "login" (json_login)
+# intercepte la requête avant que Symfony n'essaie d'exécuter un contrôleur.
+# Sans cette route, RouterListener (priorité 32) jette un 404 avant même que
+# le firewall (priorité 8) ait la main.
+api_login:
+    path: /api/login
+    methods: [POST]
