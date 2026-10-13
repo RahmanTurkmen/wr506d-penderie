@@ -1,7 +1,12 @@
 services:
   php:
-    build: ./backend/docker/php
-    volumes: ["./backend:/var/www/html"]
+    build:
+      context: ./backend
+      dockerfile: docker/php/Dockerfile
+    volumes:
+      - ./backend:/var/www/html
+      - /var/www/html/vendor
+      - /var/www/html/var
     depends_on: [database]
   nginx:
     image: nginx:1.27-alpine
@@ -21,8 +26,12 @@ services:
     build: ./frontend
     command: npm run dev -- --host 0.0.0.0
     volumes: ["./frontend:/app", "/app/node_modules"]
-    environment:
-      VITE_API_URL: "http://localhost:8080"
+    # Pas de VITE_API_URL ici : le front déduit l'URL de l'API à partir de
+    # l'hôte utilisé pour le charger (cf. frontend/src/lib/api.js), pour
+    # marcher aussi bien en localhost que depuis un téléphone sur le même
+    # réseau. Décommenter pour forcer une URL précise si besoin.
+    # environment:
+    #   VITE_API_URL: "http://localhost:8080"
     ports: ["5173:5173"]
     depends_on: [nginx]
 volumes:

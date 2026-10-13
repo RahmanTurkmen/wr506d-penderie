@@ -17,18 +17,11 @@ import {
   Sun,
   Users,
 } from 'lucide-react'
+import { Badge, EmptyState, IconButton, IconTile, Row, SectionHeader } from '@/components/lumen/primitives'
 import { ProfilMenu } from '@/components/shell/ProfilMenu'
-import { listObjets, listPrets } from '@/lib/api'
+import { listObjets, listPrets, photoUrl } from '@/lib/api'
 
 const TYPE_ICON = { vetement: Shirt, livre: BookOpen, vinyle: Disc3, autre: Package }
-
-function IconTile({ icon: Icon, className = '' }) {
-  return (
-    <span className={`flex h-11 w-11 shrink-0 items-center justify-center rounded-[14px] bg-secondary text-primary ${className}`}>
-      <Icon className="h-5 w-5" />
-    </span>
-  )
-}
 
 function StatCard({ value, label, icon: Icon }) {
   return (
@@ -42,15 +35,16 @@ function StatCard({ value, label, icon: Icon }) {
   )
 }
 
-function QuickAction({ icon: Icon, label, primary }) {
+function QuickAction({ icon: Icon, label, primary, onClick, disabled }) {
   return (
     <button
       type="button"
-      disabled
-      title="Bientôt disponible"
-      className={`flex h-9 shrink-0 cursor-not-allowed items-center gap-2 rounded-full px-4 text-sm font-semibold opacity-60 ${
-        primary ? 'bg-primary text-primary-foreground' : 'bg-secondary text-primary'
-      }`}
+      disabled={disabled}
+      onClick={onClick}
+      title={disabled ? 'Bientôt disponible' : undefined}
+      className={`flex h-9 shrink-0 items-center gap-2 rounded-full px-4 text-sm font-semibold transition-opacity ${
+        disabled ? 'cursor-not-allowed opacity-60' : ''
+      } ${primary ? 'bg-primary text-primary-foreground' : 'bg-secondary text-primary'}`}
     >
       <Icon className="h-[15px] w-[15px]" />
       {label}
@@ -58,42 +52,7 @@ function QuickAction({ icon: Icon, label, primary }) {
   )
 }
 
-function Row({ lead, title, subtitle, trailing }) {
-  return (
-    <div className="flex items-center gap-3.5 rounded-2xl bg-card px-3.5 py-3">
-      {lead}
-      <div className="min-w-0 flex-1">
-        <p className="truncate text-sm font-semibold text-foreground">{title}</p>
-        {subtitle && <p className="truncate text-xs text-muted-foreground">{subtitle}</p>}
-      </div>
-      {trailing}
-    </div>
-  )
-}
-
-function Badge({ children, tone = 'pink' }) {
-  const toneClass = tone === 'solid' ? 'bg-primary text-primary-foreground' : 'bg-secondary text-primary'
-  return <span className={`shrink-0 rounded-full px-2.5 py-1 text-[11px] font-semibold ${toneClass}`}>{children}</span>
-}
-
-function IconButton({ icon: Icon, onClick, variant = 'ghost', ...props }) {
-  const variantClass =
-    variant === 'solid-light'
-      ? 'bg-white/15 text-white hover:bg-white/25'
-      : 'border border-border bg-card text-foreground hover:bg-muted'
-  return (
-    <button
-      type="button"
-      onClick={onClick}
-      className={`flex h-10 w-10 shrink-0 items-center justify-center rounded-full ${variantClass}`}
-      {...props}
-    >
-      <Icon className="h-[18px] w-[18px]" />
-    </button>
-  )
-}
-
-export function HomePage({ token, profils, activeProfil, onSwitchProfil }) {
+export function HomePage({ token, profils, activeProfil, onSwitchProfil, onAddObjet, onOpenObjet }) {
   const [objets, setObjets] = useState(null)
   const [prets, setPrets] = useState({})
   const [error, setError] = useState('')
@@ -213,27 +172,22 @@ export function HomePage({ token, profils, activeProfil, onSwitchProfil }) {
             </div>
 
             <div className="-mx-6 flex gap-2.5 overflow-x-auto px-6 md:mx-0 md:px-0">
-              <QuickAction icon={Plus} label="Ajouter" primary />
-              <QuickAction icon={ScanLine} label="Scanner" />
-              <QuickAction icon={Sun} label="Tenue" />
+              <QuickAction icon={Plus} label="Ajouter" primary onClick={onAddObjet} />
+              <QuickAction icon={ScanLine} label="Scanner" disabled />
+              <QuickAction icon={Sun} label="Tenue" disabled />
             </div>
 
             <section className="space-y-2.5">
-              <div className="flex items-center justify-between">
-                <h2 className="text-base font-bold text-foreground">Prêts à suivre</h2>
-              </div>
-              {enCours.length === 0 && (
-                <p className="rounded-2xl bg-card px-4 py-5 text-center text-sm text-muted-foreground">
-                  Aucun objet prêté pour le moment.
-                </p>
-              )}
+              <SectionHeader title="Prêts à suivre" />
+              {enCours.length === 0 && <EmptyState>Aucun objet prêté pour le moment.</EmptyState>}
               {enCours.slice(0, 3).map((o) => {
                 const pret = prets[o.id]
                 const retour = pret?.dateFinPrevue
                 return (
                   <Row
                     key={o.id}
-                    lead={<IconTile icon={RefreshCw} />}
+                    onClick={onOpenObjet ? () => onOpenObjet(o.id) : undefined}
+                    lead={<IconTile icon={RefreshCw} photoSrc={photoUrl(o.photo)} />}
                     title={o.nom}
                     subtitle={
                       pret
@@ -247,18 +201,13 @@ export function HomePage({ token, profils, activeProfil, onSwitchProfil }) {
             </section>
 
             <section className="space-y-2.5">
-              <div className="flex items-center justify-between">
-                <h2 className="text-base font-bold text-foreground">Récemment ajoutés</h2>
-              </div>
-              {recents.length === 0 && (
-                <p className="rounded-2xl bg-card px-4 py-5 text-center text-sm text-muted-foreground">
-                  Aucun objet pour le moment — la création d'objet arrive dans une prochaine section.
-                </p>
-              )}
+              <SectionHeader title="Récemment ajoutés" />
+              {recents.length === 0 && <EmptyState>Aucun objet pour le moment — ajoute ton premier objet.</EmptyState>}
               {recents.map((o) => (
                 <Row
                   key={o.id}
-                  lead={<IconTile icon={TYPE_ICON[o.type] ?? Package} />}
+                  onClick={onOpenObjet ? () => onOpenObjet(o.id) : undefined}
+                  lead={<IconTile icon={TYPE_ICON[o.type] ?? Package} photoSrc={photoUrl(o.photo)} />}
                   title={o.nom}
                   subtitle={[o.categorie?.nom, o.piece?.nom ?? o.conteneur?.nom].filter(Boolean).join(' · ')}
                 />
