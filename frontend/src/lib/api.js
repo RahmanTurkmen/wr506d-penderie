@@ -121,9 +121,16 @@ export function createObjet(token, profilId, payload, photoFile) {
   formData.append('categorieId', payload.categorieId)
   if (payload.pieceId) formData.append('pieceId', payload.pieceId)
   if (payload.conteneurId) formData.append('conteneurId', payload.conteneurId)
+  if (payload.marque) formData.append('marque', payload.marque)
+  if (payload.taille) formData.append('taille', payload.taille)
+  if (payload.couleur) formData.append('couleur', payload.couleur)
   for (const tagId of payload.tagIds ?? []) formData.append('tagIds[]', tagId)
   formData.append('photo', photoFile)
   return request('POST', '/api/objets', { token, profilId, formData })
+}
+
+export function updateObjet(token, profilId, objetId, payload) {
+  return request('PATCH', `/api/objets/${objetId}`, { token, profilId, body: payload })
 }
 
 export function listCategories(token, profilId) {

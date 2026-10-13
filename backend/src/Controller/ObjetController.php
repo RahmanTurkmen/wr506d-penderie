@@ -45,6 +45,9 @@ class ObjetController
             'statut' => $objet->getStatut()->value,
             'qrCodeInterne' => $objet->getQrCodeInterne(),
             'photo' => $objet->getPhoto(),
+            'marque' => $objet->getMarque(),
+            'taille' => $objet->getTaille(),
+            'couleur' => $objet->getCouleur(),
             'categorie' => ['id' => (string) $objet->getCategorie()->getId(), 'nom' => $objet->getCategorie()->getNom()],
             'piece' => $objet->getPiece() ? ['id' => (string) $objet->getPiece()->getId(), 'nom' => $objet->getPiece()->getNom()] : null,
             'conteneur' => $objet->getConteneur() ? ['id' => (string) $objet->getConteneur()->getId(), 'nom' => $objet->getConteneur()->getNom()] : null,
@@ -116,6 +119,9 @@ class ObjetController
         $pieceId = $data['pieceId'] ?? null;
         $conteneurId = $data['conteneurId'] ?? null;
         $tagIds = $data['tagIds'] ?? [];
+        $marque = $data['marque'] ?? null;
+        $taille = $data['taille'] ?? null;
+        $couleur = $data['couleur'] ?? null;
 
         if (!\is_string($nom) || '' === $nom) {
             return new JsonResponse(['error' => 'nom est requis.'], 400);
@@ -151,6 +157,16 @@ class ObjetController
 
         $objet = new Objet($profil, $categorie, $nom, $type, $this->generateQrCode(), $emplacement);
 
+        if (\is_string($marque) && '' !== trim($marque)) {
+            $objet->setMarque(trim($marque));
+        }
+        if (\is_string($taille) && '' !== trim($taille)) {
+            $objet->setTaille(trim($taille));
+        }
+        if (\is_string($couleur) && '' !== trim($couleur)) {
+            $objet->setCouleur(trim($couleur));
+        }
+
         foreach ((array) $tagIds as $tagId) {
             $tag = $this->em->getRepository(Tag::class)->find($tagId);
             if (null !== $tag) {
@@ -170,6 +186,40 @@ class ObjetController
         $this->em->flush();
 
         return new JsonResponse($this->serialize($objet), 201);
+    }
+
+    /**
+     * Correction des champs descriptifs après coup (ex. marque/couleur mal
+     * devinées par le scan, ou laissées vides exprès pour compléter plus
+     * tard). Tous les champs sont facultatifs ; seuls ceux fournis sont mis
+     * à jour. Un champ envoyé à "" efface la valeur existante.
+     */
+    #[Route('/api/objets/{id}', name: 'api_objets_update', methods: ['PATCH'])]
+    public function update(string $id, Request $request, #[CurrentUser] User $user): JsonResponse
+    {
+        $objet = $this->em->getRepository(Objet::class)->find($id);
+        if (null === $objet || $objet->getProfil()->getUser() !== $user) {
+            return new JsonResponse(['error' => 'Objet introuvable.'], 404);
+        }
+
+        $data = json_decode($request->getContent(), true) ?? [];
+
+        if (\array_key_exists('nom', $data)) {
+            if (!\is_string($data['nom']) || '' === trim($data['nom'])) {
+                return new JsonResponse(['error' => 'nom ne peut pas être vide.'], 400);
+            }
+            $objet->setNom(trim($data['nom']));
+        }
+        foreach (['marque' => 'setMarque', 'taille' => 'setTaille', 'couleur' => 'setCouleur'] as $field => $setter) {
+            if (\array_key_exists($field, $data)) {
+                $value = \is_string($data[$field]) ? trim($data[$field]) : null;
+                $objet->$setter('' === $value ? null : $value);
+            }
+        }
+
+        $this->em->flush();
+
+        return new JsonResponse($this->serialize($objet));
     }
 
     #[Route('/api/objets/{id}/statut', name: 'api_objets_statut', methods: ['PATCH'])]
