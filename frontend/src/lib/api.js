@@ -154,6 +154,14 @@ export function createPiece(token, profilId, logementId, nom) {
   return request('POST', `/api/logements/${logementId}/pieces`, { token, profilId, body: { nom } })
 }
 
+export function listPieces(token, profilId, logementId) {
+  return request('GET', `/api/logements/${logementId}/pieces`, { token, profilId })
+}
+
+export function createConteneur(token, profilId, pieceId, nom) {
+  return request('POST', `/api/pieces/${pieceId}/conteneurs`, { token, profilId, body: { nom } })
+}
+
 export function scanObjet(token, profilId, file) {
   const formData = new FormData()
   formData.append('photo', file)
