@@ -1,37 +1,43 @@
-import { useState } from 'react'
-import { LogOut } from 'lucide-react'
+import { useEffect, useState } from 'react'
+import { Loader2 } from 'lucide-react'
 import { AuthLayout } from '@/components/auth/AuthLayout'
-import { PillButton } from '@/components/auth/PillButton'
+import { AppShell } from '@/components/shell/AppShell'
 import { LoginPage } from '@/pages/auth/LoginPage'
 import { RegisterPage } from '@/pages/auth/RegisterPage'
 import { ForgotPasswordPage } from '@/pages/auth/ForgotPasswordPage'
 import { EmailSentPage } from '@/pages/auth/EmailSentPage'
-import { getToken, setToken } from '@/lib/api'
-
-// Placeholder le temps de construire les sections suivantes (02 — Accueil, ...).
-function SignedInPlaceholder({ onLogout }) {
-  return (
-    <div className="flex min-h-svh flex-col items-center justify-center gap-4 bg-background px-6 text-center">
-      <div className="flex h-16 w-16 items-center justify-center rounded-[20px] bg-primary text-primary-foreground">
-        <span className="text-2xl font-bold">L</span>
-      </div>
-      <div>
-        <h1 className="text-xl font-bold text-foreground">Connecté</h1>
-        <p className="mt-1 text-sm text-muted-foreground">
-          L'accueil (section 02) arrive bientôt. En attendant, la connexion fonctionne.
-        </p>
-      </div>
-      <PillButton variant="outline" icon={LogOut} className="w-auto px-6" onClick={onLogout}>
-        Se déconnecter
-      </PillButton>
-    </div>
-  )
-}
+import { HomePage } from '@/pages/home/HomePage'
+import { getStoredProfilId, getToken, listProfils, setStoredProfilId, setToken } from '@/lib/api'
 
 export default function App() {
   const [token, setTokenState] = useState(() => getToken())
   const [screen, setScreen] = useState('login')
   const [pendingEmail, setPendingEmail] = useState('')
+
+  const [profils, setProfils] = useState([])
+  const [activeProfilId, setActiveProfilId] = useState(() => getStoredProfilId())
+  const [profilsLoading, setProfilsLoading] = useState(false)
+
+  useEffect(() => {
+    if (!token) return
+    let cancelled = false
+    setProfilsLoading(true)
+    listProfils(token).then(({ ok, data }) => {
+      if (cancelled) return
+      setProfilsLoading(false)
+      if (!ok) return
+      setProfils(data ?? [])
+      setActiveProfilId((current) => {
+        if (current && (data ?? []).some((p) => p.id === current)) return current
+        const first = data?.[0]?.id ?? null
+        setStoredProfilId(first)
+        return first
+      })
+    })
+    return () => {
+      cancelled = true
+    }
+  }, [token])
 
   function handleLogin(newToken) {
     setToken(newToken)
@@ -41,7 +47,15 @@ export default function App() {
   function handleLogout() {
     setToken(null)
     setTokenState(null)
+    setStoredProfilId(null)
+    setActiveProfilId(null)
+    setProfils([])
     setScreen('login')
+  }
+
+  function handleSwitchProfil(id) {
+    setActiveProfilId(id)
+    setStoredProfilId(id)
   }
 
   function handleRegistered(email) {
@@ -55,7 +69,28 @@ export default function App() {
   }
 
   if (token) {
-    return <SignedInPlaceholder onLogout={handleLogout} />
+    if (profilsLoading && profils.length === 0) {
+      return (
+        <div className="flex min-h-svh items-center justify-center bg-background text-muted-foreground">
+          <Loader2 className="h-5 w-5 animate-spin" />
+        </div>
+      )
+    }
+
+    const activeProfil = profils.find((p) => p.id === activeProfilId)
+    const subtitle = activeProfil
+      ? activeProfil.type === 'principal'
+        ? 'Compte principal'
+        : activeProfil.estMineur
+          ? 'Profil enfant'
+          : 'Profil géré'
+      : ''
+
+    return (
+      <AppShell active="accueil" onNavigate={() => {}} profilNom={activeProfil?.nom} profilSubtitle={subtitle} onLogout={handleLogout}>
+        <HomePage token={token} profils={profils} activeProfil={activeProfil} onSwitchProfil={handleSwitchProfil} />
+      </AppShell>
+    )
   }
 
   let page
