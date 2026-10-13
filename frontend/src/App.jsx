@@ -8,6 +8,7 @@ import { ForgotPasswordPage } from '@/pages/auth/ForgotPasswordPage'
 import { EmailSentPage } from '@/pages/auth/EmailSentPage'
 import { HomePage } from '@/pages/home/HomePage'
 import { InventorySection } from '@/pages/inventory/InventorySection'
+import { LogementsSection } from '@/pages/logements/LogementsSection'
 import { getStoredProfilId, getToken, listProfils, setStoredProfilId, setToken } from '@/lib/api'
 
 export default function App() {
@@ -94,7 +95,7 @@ export default function App() {
 
     return (
       <AppShell active={activeTab} onNavigate={setActiveTab} profilNom={activeProfil?.nom} profilSubtitle={subtitle} onLogout={handleLogout}>
-        {activeTab === 'inventaire' ? (
+        {activeTab === 'inventaire' && (
           <InventorySection
             token={token}
             activeProfil={activeProfil}
@@ -102,7 +103,18 @@ export default function App() {
             initialObjetId={inventoryRequest?.objetId ?? null}
             onConsumeInitialView={() => setInventoryRequest(null)}
           />
-        ) : (
+        )}
+        {activeTab === 'logements' && (
+          <LogementsSection
+            token={token}
+            activeProfil={activeProfil}
+            onOpenObjet={(id) => {
+              setInventoryRequest({ view: 'detail', objetId: id })
+              setActiveTab('inventaire')
+            }}
+          />
+        )}
+        {activeTab === 'accueil' && (
           <HomePage
             token={token}
             profils={profils}
