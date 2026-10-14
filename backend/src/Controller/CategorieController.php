@@ -18,6 +18,7 @@ class CategorieController
     {
     }
 
+    /** @return array<string, mixed> */
     private function serialize(Categorie $categorie): array
     {
         return ['id' => (string) $categorie->getId(), 'nom' => $categorie->getNom()];

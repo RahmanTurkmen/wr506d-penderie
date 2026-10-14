@@ -37,6 +37,7 @@ export function InlineCreate({ label, placeholder, onCreate }) {
     <form onSubmit={submit} className="flex items-center gap-2">
       <input
         autoFocus
+        aria-label={label}
         value={draft}
         onChange={(e) => setDraft(e.target.value)}
         placeholder={placeholder}
@@ -45,6 +46,7 @@ export function InlineCreate({ label, placeholder, onCreate }) {
       <button
         type="submit"
         disabled={saving || !draft.trim()}
+        aria-label="Confirmer"
         className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground disabled:opacity-50"
       >
         {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}

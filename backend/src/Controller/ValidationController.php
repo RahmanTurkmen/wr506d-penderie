@@ -27,6 +27,7 @@ class ValidationController
     {
     }
 
+    /** @return array<string, mixed> */
     private function serialize(Validation $validation): array
     {
         return [

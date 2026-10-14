@@ -21,6 +21,7 @@ class RefusTenueController
     {
     }
 
+    /** @return array<string, mixed> */
     private function serialize(RefusTenue $refus): array
     {
         return [

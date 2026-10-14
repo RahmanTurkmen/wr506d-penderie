@@ -17,6 +17,7 @@ class PieceController
     {
     }
 
+    /** @return array<string, mixed> */
     private function serialize(Piece $piece): array
     {
         return [

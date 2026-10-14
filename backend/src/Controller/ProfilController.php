@@ -17,6 +17,7 @@ class ProfilController
     {
     }
 
+    /** @return array<string, mixed> */
     private function serialize(Profil $profil): array
     {
         return [
