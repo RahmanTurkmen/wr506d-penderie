@@ -19,6 +19,7 @@ class LogementController
     {
     }
 
+    /** @return array<string, mixed> */
     private function serialize(Logement $logement): array
     {
         return [

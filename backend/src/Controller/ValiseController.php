@@ -20,11 +20,13 @@ class ValiseController
     {
     }
 
+    /** @return array<string, mixed> */
     private function serialize(Valise $valise): array
     {
         return [
             'id' => (string) $valise->getId(),
             'nom' => $valise->getNom(),
+            'createdAt' => $valise->getCreatedAt()->format('c'),
             'objets' => array_map(
                 fn ($o) => ['id' => (string) $o->getId(), 'nom' => $o->getNom()],
                 $valise->getObjets()->toArray(),

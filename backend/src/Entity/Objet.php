@@ -46,6 +46,18 @@ class Objet
     #[ORM\Column(length: 100, unique: true)]
     private string $qrCodeInterne;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $photo = null;
+
+    #[ORM\Column(length: 100, nullable: true)]
+    private ?string $marque = null;
+
+    #[ORM\Column(length: 30, nullable: true)]
+    private ?string $taille = null;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $couleur = null;
+
     /** @var Collection<int, Tag> */
     #[ORM\ManyToMany(targetEntity: Tag::class, inversedBy: 'objets')]
     #[ORM\JoinTable(name: 'objet_tag')]
@@ -181,6 +193,54 @@ class Objet
     public function getQrCodeInterne(): string
     {
         return $this->qrCodeInterne;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(?string $photo): static
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+
+    public function getMarque(): ?string
+    {
+        return $this->marque;
+    }
+
+    public function setMarque(?string $marque): static
+    {
+        $this->marque = $marque;
+
+        return $this;
+    }
+
+    public function getTaille(): ?string
+    {
+        return $this->taille;
+    }
+
+    public function setTaille(?string $taille): static
+    {
+        $this->taille = $taille;
+
+        return $this;
+    }
+
+    public function getCouleur(): ?string
+    {
+        return $this->couleur;
+    }
+
+    public function setCouleur(?string $couleur): static
+    {
+        $this->couleur = $couleur;
+
+        return $this;
     }
 
     /** @return Collection<int, Tag> */

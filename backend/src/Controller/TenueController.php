@@ -20,11 +20,13 @@ class TenueController
     {
     }
 
+    /** @return array<string, mixed> */
     private function serialize(Tenue $tenue): array
     {
         return [
             'id' => (string) $tenue->getId(),
             'nom' => $tenue->getNom(),
+            'createdAt' => $tenue->getCreatedAt()->format('c'),
             'objets' => array_map(
                 fn ($o) => ['id' => (string) $o->getId(), 'nom' => $o->getNom()],
                 $tenue->getObjets()->toArray(),

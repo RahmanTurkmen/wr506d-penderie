@@ -26,6 +26,7 @@ class TransactionController
      * §8 (tableau séance 8) : un sous-compte enfant voit une vente avec le
      * prix caché.
      */
+    /** @return array<string, mixed> */
     private function serialize(Transaction $transaction, bool $hidePrice): array
     {
         return [

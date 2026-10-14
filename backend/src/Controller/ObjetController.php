@@ -15,19 +15,28 @@ use App\Entity\Tag;
 use App\Entity\User;
 use App\Entity\Validation;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\DependencyInjection\Attribute\Autowire;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Component\Uid\Uuid;
 
 class ObjetController
 {
     use ResolvesActiveProfilTrait;
 
-    public function __construct(private readonly EntityManagerInterface $em)
-    {
+    private const ALLOWED_PHOTO_MIME = ['image/jpeg', 'image/png', 'image/webp'];
+    private const MAX_PHOTO_SIZE = 8 * 1024 * 1024; // 8 Mo
+
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        #[Autowire('%kernel.project_dir%')] private readonly string $projectDir,
+    ) {
     }
 
+    /** @return array<string, mixed> */
     private function serialize(Objet $objet): array
     {
         return [
@@ -36,6 +45,10 @@ class ObjetController
             'type' => $objet->getType()->value,
             'statut' => $objet->getStatut()->value,
             'qrCodeInterne' => $objet->getQrCodeInterne(),
+            'photo' => $objet->getPhoto(),
+            'marque' => $objet->getMarque(),
+            'taille' => $objet->getTaille(),
+            'couleur' => $objet->getCouleur(),
             'categorie' => ['id' => (string) $objet->getCategorie()->getId(), 'nom' => $objet->getCategorie()->getNom()],
             'piece' => $objet->getPiece() ? ['id' => (string) $objet->getPiece()->getId(), 'nom' => $objet->getPiece()->getNom()] : null,
             'conteneur' => $objet->getConteneur() ? ['id' => (string) $objet->getConteneur()->getId(), 'nom' => $objet->getConteneur()->getNom()] : null,
@@ -44,6 +57,28 @@ class ObjetController
                 $objet->getTags()->toArray(),
             ),
         ];
+    }
+
+    /**
+     * Enregistre la photo sur disque (public/uploads/objets) et renvoie le
+     * chemin public (servi tel quel par nginx, qui a public/ comme racine).
+     */
+    private function storePhoto(UploadedFile $photo): ?string
+    {
+        $mime = $photo->getMimeType() ?? $photo->getClientMimeType();
+        if (!\in_array($mime, self::ALLOWED_PHOTO_MIME, true) || $photo->getSize() > self::MAX_PHOTO_SIZE) {
+            return null;
+        }
+
+        $dir = $this->projectDir.'/public/uploads/objets';
+        if (!is_dir($dir)) {
+            mkdir($dir, 0775, true);
+        }
+
+        $filename = Uuid::v7()->toRfc4122().'.'.($photo->guessExtension() ?: 'jpg');
+        $photo->move($dir, $filename);
+
+        return '/uploads/objets/'.$filename;
     }
 
     private function generateQrCode(): string
@@ -74,13 +109,20 @@ class ObjetController
             return new JsonResponse(['error' => 'Aucun profil pour cet utilisateur.'], 404);
         }
 
-        $data = json_decode($request->getContent(), true) ?? [];
+        // Multipart (avec photo éventuelle) ou JSON classique (compatibilité) :
+        // on normalise les deux dans le même tableau $data.
+        $isMultipart = str_starts_with((string) $request->headers->get('Content-Type'), 'multipart/form-data');
+        $data = $isMultipart ? $request->request->all() : (json_decode($request->getContent(), true) ?? []);
+
         $nom = $data['nom'] ?? null;
         $typeValue = $data['type'] ?? null;
         $categorieId = $data['categorieId'] ?? null;
         $pieceId = $data['pieceId'] ?? null;
         $conteneurId = $data['conteneurId'] ?? null;
         $tagIds = $data['tagIds'] ?? [];
+        $marque = $data['marque'] ?? null;
+        $taille = $data['taille'] ?? null;
+        $couleur = $data['couleur'] ?? null;
 
         if (!\is_string($nom) || '' === $nom) {
             return new JsonResponse(['error' => 'nom est requis.'], 400);
@@ -116,6 +158,16 @@ class ObjetController
 
         $objet = new Objet($profil, $categorie, $nom, $type, $this->generateQrCode(), $emplacement);
 
+        if (\is_string($marque) && '' !== trim($marque)) {
+            $objet->setMarque(trim($marque));
+        }
+        if (\is_string($taille) && '' !== trim($taille)) {
+            $objet->setTaille(trim($taille));
+        }
+        if (\is_string($couleur) && '' !== trim($couleur)) {
+            $objet->setCouleur(trim($couleur));
+        }
+
         foreach ((array) $tagIds as $tagId) {
             $tag = $this->em->getRepository(Tag::class)->find($tagId);
             if (null !== $tag) {
@@ -123,10 +175,52 @@ class ObjetController
             }
         }
 
+        $photo = $request->files->get('photo');
+        if ($photo instanceof UploadedFile) {
+            $path = $this->storePhoto($photo);
+            if (null !== $path) {
+                $objet->setPhoto($path);
+            }
+        }
+
         $this->em->persist($objet);
         $this->em->flush();
 
         return new JsonResponse($this->serialize($objet), 201);
+    }
+
+    /**
+     * Correction des champs descriptifs après coup (ex. marque/couleur mal
+     * devinées par le scan, ou laissées vides exprès pour compléter plus
+     * tard). Tous les champs sont facultatifs ; seuls ceux fournis sont mis
+     * à jour. Un champ envoyé à "" efface la valeur existante.
+     */
+    #[Route('/api/objets/{id}', name: 'api_objets_update', methods: ['PATCH'])]
+    public function update(string $id, Request $request, #[CurrentUser] User $user): JsonResponse
+    {
+        $objet = $this->em->getRepository(Objet::class)->find($id);
+        if (null === $objet || $objet->getProfil()->getUser() !== $user) {
+            return new JsonResponse(['error' => 'Objet introuvable.'], 404);
+        }
+
+        $data = json_decode($request->getContent(), true) ?? [];
+
+        if (\array_key_exists('nom', $data)) {
+            if (!\is_string($data['nom']) || '' === trim($data['nom'])) {
+                return new JsonResponse(['error' => 'nom ne peut pas être vide.'], 400);
+            }
+            $objet->setNom(trim($data['nom']));
+        }
+        foreach (['marque' => 'setMarque', 'taille' => 'setTaille', 'couleur' => 'setCouleur'] as $field => $setter) {
+            if (\array_key_exists($field, $data)) {
+                $value = \is_string($data[$field]) ? trim($data[$field]) : null;
+                $objet->$setter('' === $value ? null : $value);
+            }
+        }
+
+        $this->em->flush();
+
+        return new JsonResponse($this->serialize($objet));
     }
 
     #[Route('/api/objets/{id}/statut', name: 'api_objets_statut', methods: ['PATCH'])]

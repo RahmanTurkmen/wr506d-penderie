@@ -45,6 +45,11 @@ class Valise
         return $this->profil;
     }
 
+    public function getCreatedAt(): \DateTimeImmutable
+    {
+        return $this->createdAt;
+    }
+
     public function getNom(): string
     {
         return $this->nom;

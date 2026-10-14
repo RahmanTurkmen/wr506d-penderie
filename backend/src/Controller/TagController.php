@@ -18,6 +18,7 @@ class TagController
     {
     }
 
+    /** @return array<string, mixed> */
     private function serialize(Tag $tag): array
     {
         return ['id' => (string) $tag->getId(), 'nom' => $tag->getNom()];

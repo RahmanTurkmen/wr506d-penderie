@@ -7,6 +7,8 @@ import { RegisterPage } from '@/pages/auth/RegisterPage'
 import { ForgotPasswordPage } from '@/pages/auth/ForgotPasswordPage'
 import { EmailSentPage } from '@/pages/auth/EmailSentPage'
 import { HomePage } from '@/pages/home/HomePage'
+import { InventorySection } from '@/pages/inventory/InventorySection'
+import { LogementsSection } from '@/pages/logements/LogementsSection'
 import { getStoredProfilId, getToken, listProfils, setStoredProfilId, setToken } from '@/lib/api'
 
 export default function App() {
@@ -17,6 +19,9 @@ export default function App() {
   const [profils, setProfils] = useState([])
   const [activeProfilId, setActiveProfilId] = useState(() => getStoredProfilId())
   const [profilsLoading, setProfilsLoading] = useState(false)
+
+  const [activeTab, setActiveTab] = useState('accueil')
+  const [inventoryRequest, setInventoryRequest] = useState(null)
 
   useEffect(() => {
     if (!token) return
@@ -50,6 +55,8 @@ export default function App() {
     setStoredProfilId(null)
     setActiveProfilId(null)
     setProfils([])
+    setActiveTab('accueil')
+    setInventoryRequest(null)
     setScreen('login')
   }
 
@@ -87,8 +94,42 @@ export default function App() {
       : ''
 
     return (
-      <AppShell active="accueil" onNavigate={() => {}} profilNom={activeProfil?.nom} profilSubtitle={subtitle} onLogout={handleLogout}>
-        <HomePage token={token} profils={profils} activeProfil={activeProfil} onSwitchProfil={handleSwitchProfil} />
+      <AppShell active={activeTab} onNavigate={setActiveTab} profilNom={activeProfil?.nom} profilSubtitle={subtitle} onLogout={handleLogout}>
+        {activeTab === 'inventaire' && (
+          <InventorySection
+            token={token}
+            activeProfil={activeProfil}
+            initialView={inventoryRequest?.view ?? 'list'}
+            initialObjetId={inventoryRequest?.objetId ?? null}
+            onConsumeInitialView={() => setInventoryRequest(null)}
+          />
+        )}
+        {activeTab === 'logements' && (
+          <LogementsSection
+            token={token}
+            activeProfil={activeProfil}
+            onOpenObjet={(id) => {
+              setInventoryRequest({ view: 'detail', objetId: id })
+              setActiveTab('inventaire')
+            }}
+          />
+        )}
+        {activeTab === 'accueil' && (
+          <HomePage
+            token={token}
+            profils={profils}
+            activeProfil={activeProfil}
+            onSwitchProfil={handleSwitchProfil}
+            onAddObjet={() => {
+              setInventoryRequest({ view: 'add' })
+              setActiveTab('inventaire')
+            }}
+            onOpenObjet={(id) => {
+              setInventoryRequest({ view: 'detail', objetId: id })
+              setActiveTab('inventaire')
+            }}
+          />
+        )}
       </AppShell>
     )
   }
