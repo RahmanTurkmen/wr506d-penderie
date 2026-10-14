@@ -55,12 +55,54 @@ Rien à corriger dans l'immédiat côté frontend.
 
 ---
 
+## Dépendances — Snyk
+
+Scan des vulnérabilités connues dans les dépendances, backend (Composer) et frontend (npm). Ajouté le 14/10/2026.
+
+```bash
+npx snyk test --file=composer.lock --package-manager=composer   # depuis backend/
+npx snyk test --file=package.json                                # depuis frontend/
+```
+
+### Backend — 0 vulnérabilité
+
+```
+Tested 130 dependencies for known issues, no vulnerable paths found.
+```
+
+### Frontend — 3 vulnérabilités trouvées, toutes dans `shadcn` (outil CLI, pas du code applicatif)
+
+| Faille | Sévérité | Paquet | Correctif amont |
+|---|---|---|---|
+| Uncontrolled Recursion ([SNYK-JS-BRACES-19963945](https://security.snyk.io/vuln/SNYK-JS-BRACES-19963945)) | Haute | `braces@3.0.3` | Aucun disponible |
+| Prototype Pollution ([SNYK-JS-DEEPMERGE-19964053](https://security.snyk.io/vuln/SNYK-JS-DEEPMERGE-19964053)) | Moyenne | `deepmerge@4.3.1` | Aucun disponible |
+| Allocation de ressources sans limite ([SNYK-JS-ZOD-20510278](https://security.snyk.io/vuln/SNYK-JS-ZOD-20510278)) | Haute | `zod@3.25.76` | Corrigé en `4.6.6`, mais `shadcn` dépend encore de `zod@3.x` en interne |
+
+Les trois viennent de `shadcn` (`shadcn@4.21.0 > fast-glob > micromatch > braces`, `shadcn > deepmerge`, `shadcn > zod`) : c'est l'outil CLI de scaffolding (`npx shadcn add ...`), jamais importé par le code de l'app — seul `shadcn/tailwind.css` est consommé au build via `index.css`. Ces failles ne sont donc jamais atteignables en production.
+
+**Correctif appliqué** : `shadcn` était classé dans `dependencies` (donc compté comme risque de prod par Snyk) alors que c'est un outil de développement — déplacé vers `devDependencies`, qui reflète son usage réel. Vérifié que `npm install` (utilisé tel quel dans `frontend/Dockerfile`, sans `--omit=dev`) l'installe toujours, et que `vite build` fonctionne sans changement.
+
+```
+# avant (dependencies) :
+✗ 3 issues, 5 vulnerable paths — scannées par défaut
+
+# après (devDependencies), scan par défaut (= prod) :
+✔ Tested 37 dependencies for known issues, no vulnerable paths found.
+
+# toujours présentes en forçant --dev (normal, aucun correctif amont) :
+✗ 3 issues, 5 vulnerable paths
+```
+
+Rien d'autre à corriger : `braces` et `deepmerge` n'ont aucun correctif publié par leurs mainteneurs pour l'instant, et le correctif de `zod` dépend d'une mise à jour majeure de `shadcn` lui-même (pas encore sortie). À surveiller (`snyk monitor` enverrait une alerte si un correctif sort), mais rien à faire de plus côté Lumen aujourd'hui.
+
+---
+
 ## Résumé
 
-| | Backend (PHPStan) | Frontend (oxlint) |
-|---|---|---|
-| Erreurs bloquantes | 0 | 0 |
-| À corriger si on a le temps | 2 (`file_get_contents`/`json_encode` pouvant renvoyer `false`) | 0 |
-| Cosmétique / documentation | ~32 (types de tableaux manquants, champs jamais lus) | 5 (patterns connus et acceptés) |
+| | Backend (PHPStan) | Frontend (oxlint) | Dépendances (Snyk) |
+|---|---|---|---|
+| Erreurs/vulnérabilités bloquantes | 0 | 0 | 0 (après reclassement `shadcn` en devDependencies) |
+| À corriger si on a le temps | 2 (`file_get_contents`/`json_encode` pouvant renvoyer `false`) | 0 | 0 (aucun correctif amont disponible pour les 3 restantes, non atteignables en prod) |
+| Cosmétique / documentation | ~32 (types de tableaux manquants, champs jamais lus) | 5 (patterns connus et acceptés) | — |
 
 Le code est propre dans l'ensemble — rien ne bloque ni ne représente un vrai risque en l'état. Les deux points PHPStan à corriger un jour sont des cas limites (`false` en cas d'échec improbable d'une fonction PHP), pas des bugs déclenchés en usage normal.
