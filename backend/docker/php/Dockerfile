@@ -6,6 +6,7 @@ RUN apt-get update && apt-get install -y \
     libicu-dev \
     libzip-dev \
     && docker-php-ext-install pdo_mysql intl zip opcache \
+    && pecl install pcov && docker-php-ext-enable pcov \
     && apt-get clean && rm -rf /var/lib/apt/lists/*
 
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer

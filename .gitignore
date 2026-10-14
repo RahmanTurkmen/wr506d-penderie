@@ -27,4 +27,10 @@
 /frontend/*.local
 ###< vite ###
 
+###> cypress ###
+/frontend/cypress/videos/
+/frontend/cypress/screenshots/
+/frontend/cypress/downloads/
+###< cypress ###
+
 /.idea/
