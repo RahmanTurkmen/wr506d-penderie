@@ -36,6 +36,7 @@ class ObjetController
     ) {
     }
 
+    /** @return array<string, mixed> */
     private function serialize(Objet $objet): array
     {
         return [

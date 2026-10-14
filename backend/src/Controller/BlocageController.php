@@ -19,6 +19,7 @@ class BlocageController
     {
     }
 
+    /** @return array<string, mixed> */
     private function serialize(Blocage $blocage): array
     {
         return [

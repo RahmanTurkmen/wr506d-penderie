@@ -18,6 +18,7 @@ class PretController
     {
     }
 
+    /** @return array<string, mixed> */
     private function serialize(Pret $pret): array
     {
         return [

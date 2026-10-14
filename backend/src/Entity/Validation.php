@@ -40,12 +40,13 @@ class Validation
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $decidedAt = null;
 
+    /** @param array<string, mixed>|null $payload */
     public function __construct(Profil $profil, ValidationType $type, ?array $payload = null)
     {
         $this->initializeId();
         $this->profil = $profil;
         $this->type = $type;
-        $this->payload = null !== $payload ? json_encode($payload) : null;
+        $this->payload = null !== $payload ? (json_encode($payload) ?: null) : null;
         $this->statut = ValidationStatut::EnAttente;
         $this->createdAt = new \DateTimeImmutable();
     }
@@ -60,6 +61,7 @@ class Validation
         return $this->type;
     }
 
+    /** @return array<string, mixed> */
     public function getPayload(): array
     {
         return null !== $this->payload ? json_decode($this->payload, true) : [];

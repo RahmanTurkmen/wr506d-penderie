@@ -17,6 +17,7 @@ class ConteneurController
     {
     }
 
+    /** @return array<string, mixed> */
     private function serialize(Conteneur $conteneur): array
     {
         return [

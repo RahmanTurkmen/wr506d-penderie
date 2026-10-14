@@ -25,6 +25,7 @@ class PartageController
     {
     }
 
+    /** @return array<string, mixed> */
     private function serialize(Partage $partage): array
     {
         return [
@@ -35,6 +36,7 @@ class PartageController
         ];
     }
 
+    /** @return array<string, mixed> */
     private function serializeCommentaire(Commentaire $commentaire): array
     {
         return [

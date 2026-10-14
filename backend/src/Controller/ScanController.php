@@ -90,6 +90,10 @@ class ScanController
      * la course tente en priorité celui qui a le plus de chances d'aboutir.
      * Un modèle jamais essayé est traité comme neutre (ni privilégié ni
      * pénalisé) pour continuer à lui laisser sa chance.
+     *
+     * @param list<string> $models
+     *
+     * @return list<string>
      */
     private function orderByReliability(array $models): array
     {
@@ -111,6 +115,7 @@ class ScanController
         return $this->projectDir.'/var/cache/scan_model_stats.json';
     }
 
+    /** @return array<string, array{success: int, failure: int}> */
     private function loadStats(): array
     {
         $file = $this->statsFile();
@@ -148,6 +153,10 @@ class ScanController
      * réponse fautive via `$e->getResponse()`, on la retire du lot, et on
      * relance `stream()` sur les candidats restants jusqu'à trouver un
      * gagnant ou épuiser le budget de temps.
+     *
+     * @param list<string> $models
+     *
+     * @return array{nom: string, marque: string, couleur: string, type: string, categorie: string, confidence: int}|null
      */
     private function race(array $models, string $dataUri): ?array
     {
@@ -237,6 +246,7 @@ class ScanController
         ]);
     }
 
+    /** @return array{nom: string, marque: string, couleur: string, type: string, categorie: string, confidence: int}|null */
     private function extractSuggestion(ResponseInterface $response): ?array
     {
         try {
@@ -266,6 +276,7 @@ class ScanController
             PROMPT;
     }
 
+    /** @return array{nom: string, marque: string, couleur: string, type: string, categorie: string, confidence: int}|null */
     private function parseSuggestion(string $content): ?array
     {
         $cleaned = trim($content);
@@ -280,7 +291,7 @@ class ScanController
             return null;
         }
 
-        $type = TypeObjet::tryFrom((string) ($data['type'] ?? ''))?->value ?? TypeObjet::Autre->value;
+        $type = (TypeObjet::tryFrom((string) ($data['type'] ?? '')) ?? TypeObjet::Autre)->value;
         $confidence = (int) ($data['confidence'] ?? 0);
 
         return [
