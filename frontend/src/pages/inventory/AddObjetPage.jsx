@@ -201,6 +201,7 @@ export function AddObjetPage({ token, activeProfil, onCreated, onCancel }) {
                 value={nom}
                 onChange={(e) => setNom(e.target.value)}
                 placeholder="Veste en jean"
+                data-cy="objet-nom"
                 className="h-[52px] w-full rounded-[14px] border border-border bg-card px-4 text-sm text-foreground outline-none focus:border-primary"
               />
             </label>
@@ -309,6 +310,7 @@ export function AddObjetPage({ token, activeProfil, onCreated, onCancel }) {
               type="button"
               disabled={!step2Valid}
               onClick={() => setStep(3)}
+              data-cy="objet-continuer"
               className="h-[52px] flex-1 rounded-full bg-primary text-[15px] font-semibold text-primary-foreground disabled:opacity-50"
             >
               Continuer
@@ -319,6 +321,7 @@ export function AddObjetPage({ token, activeProfil, onCreated, onCancel }) {
               type="button"
               disabled={!step3Valid || saving}
               onClick={handleSubmit}
+              data-cy="objet-ajouter"
               className="flex h-[52px] flex-1 items-center justify-center gap-2 rounded-full bg-primary text-[15px] font-semibold text-primary-foreground disabled:opacity-50"
             >
               {saving ? <Loader2 className="h-[18px] w-[18px] animate-spin" /> : <Check className="h-[18px] w-[18px]" />}

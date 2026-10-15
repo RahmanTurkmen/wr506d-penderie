@@ -9,6 +9,7 @@ import { EmailSentPage } from '@/pages/auth/EmailSentPage'
 import { HomePage } from '@/pages/home/HomePage'
 import { InventorySection } from '@/pages/inventory/InventorySection'
 import { LogementsSection } from '@/pages/logements/LogementsSection'
+import { PretsSection } from '@/pages/prets/PretsSection'
 import { getStoredProfilId, getToken, listProfils, setStoredProfilId, setToken } from '@/lib/api'
 
 export default function App() {
@@ -114,12 +115,24 @@ export default function App() {
             }}
           />
         )}
+        {activeTab === 'prets' && (
+          <PretsSection
+            token={token}
+            activeProfil={activeProfil}
+            onBack={() => setActiveTab('accueil')}
+            onOpenObjet={(id) => {
+              setInventoryRequest({ view: 'detail', objetId: id })
+              setActiveTab('inventaire')
+            }}
+          />
+        )}
         {activeTab === 'accueil' && (
           <HomePage
             token={token}
             profils={profils}
             activeProfil={activeProfil}
             onSwitchProfil={handleSwitchProfil}
+            onLogout={handleLogout}
             onAddObjet={() => {
               setInventoryRequest({ view: 'add' })
               setActiveTab('inventaire')
@@ -128,6 +141,7 @@ export default function App() {
               setInventoryRequest({ view: 'detail', objetId: id })
               setActiveTab('inventaire')
             }}
+            onOpenPrets={() => setActiveTab('prets')}
           />
         )}
       </AppShell>

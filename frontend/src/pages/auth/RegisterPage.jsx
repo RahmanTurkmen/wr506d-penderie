@@ -37,6 +37,7 @@ export function RegisterPage({ onRegistered, onNavigate }) {
           value={nom}
           onChange={(e) => setNom(e.target.value)}
           required
+          data-cy="register-nom"
         />
         <FieldInput
           label="Adresse e-mail"
@@ -47,6 +48,7 @@ export function RegisterPage({ onRegistered, onNavigate }) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          data-cy="register-email"
         />
         <FieldInput
           label="Mot de passe"
@@ -58,13 +60,18 @@ export function RegisterPage({ onRegistered, onNavigate }) {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          data-cy="register-password"
         />
         <div className="flex items-start gap-2.5 rounded-[14px] bg-secondary px-3.5 py-3 text-xs font-medium text-primary">
           <ShieldCheck className="mt-0.5 h-[18px] w-[18px] shrink-0" />
           Ton dressing reste privé tant que tu ne partages rien.
         </div>
-        {error && <p className="text-sm text-destructive">{error}</p>}
-        <PillButton type="submit" loading={loading}>
+        {error && (
+          <p className="text-sm text-destructive" data-cy="register-error">
+            {error}
+          </p>
+        )}
+        <PillButton type="submit" loading={loading} data-cy="register-submit">
           Créer mon compte
         </PillButton>
       </form>

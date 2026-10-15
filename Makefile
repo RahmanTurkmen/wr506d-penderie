@@ -119,7 +119,7 @@ test-db:
 	docker compose exec -e APP_ENV=test php php bin/console doctrine:migrations:migrate --no-interaction
 
 test-db-fixtures: test-db
-	docker compose exec -e APP_ENV=test php php bin/console doctrine:fixtures:load --no-interaction
+	docker compose exec -e APP_ENV=test php php bin/console doctrine:fixtures:load --group=test --no-interaction
 
 phpunit:
 	docker compose exec -e APP_ENV=test php vendor/bin/phpunit --testdox

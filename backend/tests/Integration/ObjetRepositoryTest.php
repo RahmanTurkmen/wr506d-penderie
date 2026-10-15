@@ -31,16 +31,16 @@ final class ObjetRepositoryTest extends KernelTestCase
         }
     }
 
-    public function testPerceuseMakitaExisteEtEstRangeeDansLEtabli(): void
+    public function testPerceuseExisteEtEstRangeeDansLArmoire(): void
     {
         self::bootKernel();
         $container = static::getContainer();
 
-        $perceuse = $container->get(ObjetRepository::class)->findOneBy(['nom' => 'Perceuse Makita']);
+        $perceuse = $container->get(ObjetRepository::class)->findOneBy(['nom' => 'Perceuse']);
 
         self::assertNotNull($perceuse);
         self::assertNotNull($perceuse->getConteneur());
-        self::assertSame('Établi', $perceuse->getConteneur()->getNom());
+        self::assertSame('Armoire', $perceuse->getConteneur()->getNom());
         self::assertNull($perceuse->getPiece());
     }
 
@@ -52,7 +52,7 @@ final class ObjetRepositoryTest extends KernelTestCase
         self::bootKernel();
         $container = static::getContainer();
 
-        $velo = $container->get(ObjetRepository::class)->findOneBy(['nom' => 'Vélo rose enfant']);
+        $velo = $container->get(ObjetRepository::class)->findOneBy(['nom' => 'Vélo enfant']);
         self::assertNotNull($velo);
 
         $validation = $container->get(\App\Repository\ValidationRepository::class)
