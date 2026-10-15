@@ -122,6 +122,27 @@ Les trois viennent de `shadcn` (`shadcn@4.21.0 > fast-glob > micromatch > braces
 
 Rien d'autre à corriger : `braces` et `deepmerge` n'ont aucun correctif publié par leurs mainteneurs pour l'instant, et le correctif de `zod` dépend d'une mise à jour majeure de `shadcn` lui-même (pas encore sortie). À surveiller (`snyk monitor` enverrait une alerte si un correctif sort), mais rien à faire de plus côté Lumen aujourd'hui.
 
+### Images Docker — correctif appliqué le 15/10/2026
+
+Snyk scanne aussi les `Dockerfile` du dépôt (vulnérabilités du système d'exploitation de l'image de base). Avant correctif : `backend/docker/php/Dockerfile` (base `php:8.4-fpm`, Debian) remontait **3 Critiques / 23 Hautes / 8 Moyennes / 254 Basses** ; `frontend/Dockerfile` (déjà en Alpine) **0 / 1 / 0 / 10**.
+
+**Correctifs** :
+
+- **Backend** : passage de `php:8.4-fpm` (Debian) à `php:8.4-fpm-alpine` — beaucoup moins de paquets système embarqués (musl/apk plutôt que glibc/apt, image Debian "complète"). Les paquets de compilation (`icu-dev`, `libzip-dev`, `autoconf`, `g++`, `make`, nécessaires pour compiler `pcov` et les extensions PHP) sont installés dans un groupe `apk` virtuel et **désinstallés juste après la compilation**, pour ne pas rester dans l'image finale — seules les bibliothèques runtime (`icu-libs`, `libzip`) sont réinstallées ensuite. Revérifié après coup : extensions PHP chargées (`pdo_mysql`, `intl`, `zip`, `opcache`, `pcov`), `composer` fonctionnel, PHPStan niveau 6 et les 33 tests PHPUnit toujours au vert.
+- **Frontend** : ajout de `apk update && apk upgrade --no-cache` (rattrape les correctifs de sécurité Alpine publiés depuis l'image de base figée) ; mise à jour du `npm` global (`npm install -g npm@latest`, lui-même embarque ses propres dépendances, parfois en retard) ; et `CYPRESS_INSTALL_BINARY=0` pour que le script d'installation de Cypress ne télécharge pas son binaire navigateur dans l'image — il ne tourne jamais dans ce conteneur (toujours lancé depuis l'hôte via `make cypress-run`), donc ce téléchargement n'était qu'une source de poids et de vulnérabilités inutile.
+
+**Résultat** (`snyk container test`, image reconstruite) :
+
+```
+# backend (lumen-php:latest)
+Tested 5 projects, no vulnerable paths were found.
+
+# frontend (lumen-frontend:latest)
+Tested 3 projects, 1 contained vulnerable paths.
+```
+
+Backend : 0 vulnérabilité. Frontend : les vulnérabilités restantes sont toutes **à l'intérieur de `npm` lui-même** (`/usr/local/lib/node_modules`, le CLI npm embarqué par l'image Node officielle — `brace-expansion`, `http-cache-semantics`, `ip-address`, `postcss-selector-parser`, `undici`), pas dans le code de l'app ni ses dépendances de prod. Même catégorie que `shadcn` plus haut : un outil de tooling, jamais exécuté contre une entrée utilisateur, dont certains correctifs n'existent simplement pas encore en amont (`http-cache-semantics` : "No upgrade or patch available"). Passer à `npm@latest` a déjà changé le jeu de CVE une fois (confirmé en re-scannant) ; ça continuera de bouger au gré des publications npm, sans action supplémentaire possible côté Lumen.
+
 ---
 
 ## Accessibilité numérique (A11Y)
