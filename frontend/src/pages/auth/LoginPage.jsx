@@ -37,6 +37,7 @@ export function LoginPage({ onLogin, onNavigate }) {
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
+          data-cy="login-email"
         />
         <FieldInput
           label="Mot de passe"
@@ -47,6 +48,7 @@ export function LoginPage({ onLogin, onNavigate }) {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          data-cy="login-password"
         />
         <button
           type="button"
@@ -55,8 +57,12 @@ export function LoginPage({ onLogin, onNavigate }) {
         >
           Mot de passe oublié ?
         </button>
-        {error && <p className="text-sm text-destructive">{error}</p>}
-        <PillButton type="submit" loading={loading}>
+        {error && (
+          <p className="text-sm text-destructive" data-cy="login-error">
+            {error}
+          </p>
+        )}
+        <PillButton type="submit" loading={loading} data-cy="login-submit">
           Se connecter
         </PillButton>
       </form>

@@ -107,6 +107,10 @@ export function createPret(token, profilId, objetId, emprunteurNom, dateFinPrevu
   return request('POST', `/api/objets/${objetId}/prets`, { token, profilId, body: { emprunteurNom, dateFinPrevue } })
 }
 
+export function cloturerPret(token, profilId, pretId) {
+  return request('PATCH', `/api/prets/${pretId}/cloturer`, { token, profilId })
+}
+
 export function updateObjetStatut(token, profilId, objetId, statut) {
   return request('PATCH', `/api/objets/${objetId}/statut`, { token, profilId, body: { statut } })
 }
@@ -173,4 +177,44 @@ export function scanObjet(token, profilId, file) {
   const formData = new FormData()
   formData.append('photo', file)
   return request('POST', '/api/objets/scan', { token, profilId, formData })
+}
+
+export function createProfil(token, nom, estMineur) {
+  return request('POST', '/api/profils', { token, body: { nom, estMineur } })
+}
+
+export function listTenues(token, profilId) {
+  return request('GET', '/api/tenues', { token, profilId })
+}
+
+export function createTenue(token, profilId, nom, objetIds) {
+  return request('POST', '/api/tenues', { token, profilId, body: { nom, objetIds } })
+}
+
+export function listRefusTenues(token, profilId) {
+  return request('GET', '/api/refus-tenues', { token, profilId })
+}
+
+export function createRefusTenue(token, profilId, { objetId, categorieId }) {
+  return request('POST', '/api/refus-tenues', { token, profilId, body: { objetId, categorieId } })
+}
+
+export function listBlocages(token, profilId) {
+  return request('GET', '/api/blocages', { token, profilId })
+}
+
+export function createBlocage(token, profilId, userEmail) {
+  return request('POST', '/api/blocages', { token, profilId, body: { userEmail } })
+}
+
+export function deleteBlocage(token, profilId, blocageId) {
+  return request('DELETE', `/api/blocages/${blocageId}`, { token, profilId })
+}
+
+export function listValidations(token) {
+  return request('GET', '/api/validations', { token })
+}
+
+export function decideValidation(token, validationId, statut) {
+  return request('PATCH', `/api/validations/${validationId}`, { token, body: { statut } })
 }
