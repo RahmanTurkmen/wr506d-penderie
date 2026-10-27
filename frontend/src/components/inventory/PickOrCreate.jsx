@@ -5,7 +5,18 @@ import { Chip } from '@/components/lumen/primitives'
 // Sélection simple (catégorie, logement, pièce...) parmi une liste existante,
 // avec un bouton « + » qui permet d'en créer une nouvelle à la volée quand
 // celle qu'on veut n'existe pas encore.
-export function PickOrCreate({ label, items, valueId, onChange, onCreate, placeholder = 'Nouveau nom', error, suggestion }) {
+export function PickOrCreate({
+  label,
+  items,
+  valueId,
+  onChange,
+  onCreate,
+  placeholder = 'Nouveau nom',
+  error,
+  suggestion,
+  allowCreate = true,
+  'data-cy': dataCy,
+}) {
   const [creating, setCreating] = useState(false)
   const [draft, setDraft] = useState('')
   const [saving, setSaving] = useState(false)
@@ -23,7 +34,7 @@ export function PickOrCreate({ label, items, valueId, onChange, onCreate, placeh
   }
 
   return (
-    <div className="space-y-2 text-left">
+    <div className="space-y-2 text-left" data-cy={dataCy}>
       {label && <span className="block text-sm font-medium text-foreground">{label}</span>}
       <div className="flex flex-wrap gap-2">
         {items.map((item) => (
@@ -31,7 +42,7 @@ export function PickOrCreate({ label, items, valueId, onChange, onCreate, placeh
             {item.nom}
           </Chip>
         ))}
-        {!creating && (
+        {allowCreate && !creating && (
           <Chip onClick={() => setCreating(true)} icon={Plus}>
             Nouveau
           </Chip>

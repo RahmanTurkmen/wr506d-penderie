@@ -9,6 +9,9 @@ import { EmailSentPage } from '@/pages/auth/EmailSentPage'
 import { HomePage } from '@/pages/home/HomePage'
 import { InventorySection } from '@/pages/inventory/InventorySection'
 import { LogementsSection } from '@/pages/logements/LogementsSection'
+import { PretsSection } from '@/pages/prets/PretsSection'
+import { ProfilSection } from '@/pages/profil/ProfilSection'
+import { TenuesSection } from '@/pages/tenues/TenuesSection'
 import { getStoredProfilId, getToken, listProfils, setStoredProfilId, setToken } from '@/lib/api'
 
 export default function App() {
@@ -22,6 +25,18 @@ export default function App() {
 
   const [activeTab, setActiveTab] = useState('accueil')
   const [inventoryRequest, setInventoryRequest] = useState(null)
+
+  async function refreshProfils() {
+    const { ok, data } = await listProfils(token)
+    if (!ok) return
+    setProfils(data ?? [])
+    setActiveProfilId((current) => {
+      if (current && (data ?? []).some((p) => p.id === current)) return current
+      const first = data?.[0]?.id ?? null
+      setStoredProfilId(first)
+      return first
+    })
+  }
 
   useEffect(() => {
     if (!token) return
@@ -114,12 +129,42 @@ export default function App() {
             }}
           />
         )}
+        {activeTab === 'prets' && (
+          <PretsSection
+            token={token}
+            activeProfil={activeProfil}
+            onBack={() => setActiveTab('accueil')}
+            onOpenObjet={(id) => {
+              setInventoryRequest({ view: 'detail', objetId: id })
+              setActiveTab('inventaire')
+            }}
+          />
+        )}
+        {activeTab === 'tenues' && (
+          <TenuesSection
+            token={token}
+            activeProfil={activeProfil}
+            onOpenObjet={(id) => {
+              setInventoryRequest({ view: 'detail', objetId: id })
+              setActiveTab('inventaire')
+            }}
+          />
+        )}
+        {activeTab === 'profil' && (
+          <ProfilSection
+            token={token}
+            activeProfil={activeProfil}
+            onLogout={handleLogout}
+            onProfilsChanged={refreshProfils}
+          />
+        )}
         {activeTab === 'accueil' && (
           <HomePage
             token={token}
             profils={profils}
             activeProfil={activeProfil}
             onSwitchProfil={handleSwitchProfil}
+            onLogout={handleLogout}
             onAddObjet={() => {
               setInventoryRequest({ view: 'add' })
               setActiveTab('inventaire')
@@ -128,6 +173,7 @@ export default function App() {
               setInventoryRequest({ view: 'detail', objetId: id })
               setActiveTab('inventaire')
             }}
+            onOpenPrets={() => setActiveTab('prets')}
           />
         )}
       </AppShell>

@@ -12,6 +12,7 @@ export function BottomTabBar({ active, onNavigate }) {
             disabled={!ready}
             title={ready ? undefined : 'Bientôt disponible'}
             onClick={() => ready && onNavigate(screen)}
+            data-cy={`nav-${screen}`}
             className={`flex flex-col items-center gap-1 py-1 text-[10px] font-medium ${
               isActive ? 'text-primary' : ready ? 'text-muted-foreground' : 'text-muted-foreground/40'
             }`}
