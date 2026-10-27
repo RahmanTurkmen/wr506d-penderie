@@ -210,3 +210,11 @@ export function createBlocage(token, profilId, userEmail) {
 export function deleteBlocage(token, profilId, blocageId) {
   return request('DELETE', `/api/blocages/${blocageId}`, { token, profilId })
 }
+
+export function listValidations(token) {
+  return request('GET', '/api/validations', { token })
+}
+
+export function decideValidation(token, validationId, statut) {
+  return request('PATCH', `/api/validations/${validationId}`, { token, body: { statut } })
+}

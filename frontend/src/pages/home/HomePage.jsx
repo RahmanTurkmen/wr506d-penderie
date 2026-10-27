@@ -12,6 +12,7 @@ import {
   RefreshCw,
   ScanLine,
   Search,
+  Shield,
   Shirt,
   ShoppingBag,
   Sun,
@@ -19,7 +20,7 @@ import {
 } from 'lucide-react'
 import { Badge, EmptyState, IconButton, IconTile, Row, SectionHeader } from '@/components/lumen/primitives'
 import { ProfilMenu } from '@/components/shell/ProfilMenu'
-import { listObjets, listPrets, photoUrl } from '@/lib/api'
+import { listObjets, listPrets, listValidations, photoUrl } from '@/lib/api'
 
 const TYPE_ICON = { vetement: Shirt, livre: BookOpen, vinyle: Disc3, autre: Package }
 
@@ -53,11 +54,12 @@ function QuickAction({ icon: Icon, label, primary, onClick, disabled, 'data-cy':
   )
 }
 
-export function HomePage({ token, profils, activeProfil, onSwitchProfil, onAddObjet, onOpenObjet, onOpenPrets, onLogout }) {
+export function HomePage({ token, profils, activeProfil, onSwitchProfil, onAddObjet, onOpenObjet, onOpenPrets, onOpenValidations, onLogout }) {
   const [objets, setObjets] = useState(null)
   const [prets, setPrets] = useState({})
   const [error, setError] = useState('')
   const [menuOpen, setMenuOpen] = useState(false)
+  const [validationsCount, setValidationsCount] = useState(0)
 
   useEffect(() => {
     let cancelled = false
@@ -92,6 +94,18 @@ export function HomePage({ token, profils, activeProfil, onSwitchProfil, onAddOb
       cancelled = true
     }
   }, [token, activeProfil?.id])
+
+  useEffect(() => {
+    let cancelled = false
+    if (token) {
+      listValidations(token).then(({ ok, data }) => {
+        if (!cancelled && ok) setValidationsCount((data ?? []).length)
+      })
+    }
+    return () => {
+      cancelled = true
+    }
+  }, [token])
 
   const loading = objets === null
   const list = objets ?? []
@@ -164,6 +178,23 @@ export function HomePage({ token, profils, activeProfil, onSwitchProfil, onAddOb
             <AlertCircle className="h-[18px] w-[18px] shrink-0" />
             {error}
           </div>
+        )}
+
+        {!loading && !error && validationsCount > 0 && (
+          <button
+            type="button"
+            onClick={onOpenValidations}
+            data-cy="home-validations-banner"
+            className="flex w-full items-start gap-2.5 rounded-2xl bg-secondary px-4 py-3 text-left text-xs font-medium text-primary"
+          >
+            <Shield className="mt-0.5 h-[18px] w-[18px] shrink-0" />
+            <span>
+              <span className="block text-sm font-semibold">
+                {validationsCount} demande{validationsCount > 1 ? 's' : ''} à valider
+              </span>
+              Un profil géré attend ton approbation pour partager ou vendre.
+            </span>
+          </button>
         )}
 
         {!loading && !error && (

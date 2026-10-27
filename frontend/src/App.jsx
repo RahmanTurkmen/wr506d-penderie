@@ -12,6 +12,7 @@ import { LogementsSection } from '@/pages/logements/LogementsSection'
 import { PretsSection } from '@/pages/prets/PretsSection'
 import { ProfilSection } from '@/pages/profil/ProfilSection'
 import { TenuesSection } from '@/pages/tenues/TenuesSection'
+import { ValidationsSection } from '@/pages/validations/ValidationsSection'
 import { getStoredProfilId, getToken, listProfils, setStoredProfilId, setToken } from '@/lib/api'
 
 export default function App() {
@@ -158,6 +159,7 @@ export default function App() {
             onProfilsChanged={refreshProfils}
           />
         )}
+        {activeTab === 'validations' && <ValidationsSection token={token} onBack={() => setActiveTab('accueil')} />}
         {activeTab === 'accueil' && (
           <HomePage
             token={token}
@@ -174,6 +176,7 @@ export default function App() {
               setActiveTab('inventaire')
             }}
             onOpenPrets={() => setActiveTab('prets')}
+            onOpenValidations={() => setActiveTab('validations')}
           />
         )}
       </AppShell>
