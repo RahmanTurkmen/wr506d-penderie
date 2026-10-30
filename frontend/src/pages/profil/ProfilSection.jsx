@@ -1,12 +1,15 @@
 import { useEffect, useState } from 'react'
 import { createBlocage, createProfil, deleteBlocage, listBlocages, listProfils } from '@/lib/api'
+import { AmisPage } from '@/pages/amis/AmisPage'
+import { PartagerObjetPage } from '@/pages/partage/PartagerObjetPage'
+import { VentesPage } from '@/pages/ventes/VentesPage'
 import { ConfidentialitePage } from './ConfidentialitePage'
 import { NewProfilPage } from './NewProfilPage'
 import { ProfilHomePage } from './ProfilHomePage'
 import { ProfilsFoyerPage } from './ProfilsFoyerPage'
 
 export function ProfilSection({ token, activeProfil, onLogout, onProfilsChanged }) {
-  const [view, setView] = useState('home') // 'home' | 'foyer' | 'new-profil' | 'confidentialite'
+  const [view, setView] = useState('home') // 'home' | 'foyer' | 'new-profil' | 'confidentialite' | 'amis' | 'ventes' | 'partage'
 
   const [profils, setProfils] = useState([])
   const [blocages, setBlocages] = useState([])
@@ -84,6 +87,18 @@ export function ProfilSection({ token, activeProfil, onLogout, onProfilsChanged 
     )
   }
 
+  if (view === 'amis') {
+    return <AmisPage onBack={() => setView('home')} />
+  }
+
+  if (view === 'ventes') {
+    return <VentesPage onBack={() => setView('home')} />
+  }
+
+  if (view === 'partage') {
+    return <PartagerObjetPage onBack={() => setView('home')} />
+  }
+
   return (
     <ProfilHomePage
       activeProfil={activeProfil}
@@ -93,6 +108,9 @@ export function ProfilSection({ token, activeProfil, onLogout, onProfilsChanged 
       loadingBlocages={loadingBlocages}
       onOpenFoyer={() => setView('foyer')}
       onOpenConfidentialite={() => setView('confidentialite')}
+      onOpenAmis={() => setView('amis')}
+      onOpenVentes={() => setView('ventes')}
+      onOpenPartage={() => setView('partage')}
       onLogout={onLogout}
     />
   )
