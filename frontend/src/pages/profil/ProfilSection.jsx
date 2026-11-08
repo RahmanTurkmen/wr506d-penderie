@@ -1,6 +1,9 @@
 import { useEffect, useState } from 'react'
 import { createBlocage, createProfil, deleteBlocage, listBlocages, listProfils } from '@/lib/api'
 import { AmisPage } from '@/pages/amis/AmisPage'
+import { AchatObjetPage } from '@/pages/achat/AchatObjetPage'
+import { NotificationsPage } from '@/pages/notifications/NotificationsPage'
+import { RecherchePage } from '@/pages/notifications/RecherchePage'
 import { PartagerObjetPage } from '@/pages/partage/PartagerObjetPage'
 import { VentesPage } from '@/pages/ventes/VentesPage'
 import { ConfidentialitePage } from './ConfidentialitePage'
@@ -9,7 +12,7 @@ import { ProfilHomePage } from './ProfilHomePage'
 import { ProfilsFoyerPage } from './ProfilsFoyerPage'
 
 export function ProfilSection({ token, activeProfil, onLogout, onProfilsChanged }) {
-  const [view, setView] = useState('home') // 'home' | 'foyer' | 'new-profil' | 'confidentialite' | 'amis' | 'ventes' | 'partage'
+  const [view, setView] = useState('home') // 'home' | 'foyer' | 'new-profil' | 'confidentialite' | 'amis' | 'ventes' | 'partage' | 'achat' | 'notifications' | 'recherche'
 
   const [profils, setProfils] = useState([])
   const [blocages, setBlocages] = useState([])
@@ -99,6 +102,18 @@ export function ProfilSection({ token, activeProfil, onLogout, onProfilsChanged 
     return <PartagerObjetPage onBack={() => setView('home')} />
   }
 
+  if (view === 'achat') {
+    return <AchatObjetPage onBack={() => setView('home')} />
+  }
+
+  if (view === 'notifications') {
+    return <NotificationsPage onBack={() => setView('home')} onOpenRecherche={() => setView('recherche')} />
+  }
+
+  if (view === 'recherche') {
+    return <RecherchePage onBack={() => setView('notifications')} />
+  }
+
   return (
     <ProfilHomePage
       activeProfil={activeProfil}
@@ -111,6 +126,8 @@ export function ProfilSection({ token, activeProfil, onLogout, onProfilsChanged 
       onOpenAmis={() => setView('amis')}
       onOpenVentes={() => setView('ventes')}
       onOpenPartage={() => setView('partage')}
+      onOpenAchat={() => setView('achat')}
+      onOpenNotifications={() => setView('notifications')}
       onLogout={onLogout}
     />
   )
