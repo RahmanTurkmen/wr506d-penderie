@@ -1,4 +1,4 @@
-import { Bell, Bookmark, CreditCard, Lock, LogOut, Newspaper, Share2, ShoppingBag, UserPlus, Users } from 'lucide-react'
+import { Bell, Bookmark, CreditCard, Lock, LogOut, Newspaper, Share2, ShieldCheck, ShoppingBag, UserPlus, Users } from 'lucide-react'
 import { IconTile, Row } from '@/components/lumen/primitives'
 import { ScreenHeader } from '@/components/lumen/ScreenHeader'
 
@@ -17,6 +17,7 @@ export function ProfilHomePage({
   onOpenNotifications,
   onOpenCollections,
   onOpenFilActualite,
+  onOpenAdmin,
   onLogout,
 }) {
   return (
@@ -46,6 +47,7 @@ export function ProfilHomePage({
         <Row lead={<IconTile icon={Bell} size={44} />} title="Notifications" subtitle="Aperçu (à venir)" onClick={onOpenNotifications} />
         <Row lead={<IconTile icon={Bookmark} size={44} />} title="Collections" subtitle="Aperçu (à venir)" onClick={onOpenCollections} />
         <Row lead={<IconTile icon={Newspaper} size={44} />} title="Fil d'actualité" subtitle="Aperçu (à venir)" onClick={onOpenFilActualite} />
+        <Row lead={<IconTile icon={ShieldCheck} size={44} />} title="Back-office admin" subtitle="Aperçu (à venir)" onClick={onOpenAdmin} />
         <Row lead={<IconTile icon={LogOut} size={44} />} title="Se déconnecter" onClick={onLogout} />
       </div>
     </div>

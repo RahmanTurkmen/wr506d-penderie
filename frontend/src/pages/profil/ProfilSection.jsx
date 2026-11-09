@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react'
 import { createBlocage, createProfil, deleteBlocage, listBlocages, listProfils } from '@/lib/api'
 import { AmisPage } from '@/pages/amis/AmisPage'
 import { AchatObjetPage } from '@/pages/achat/AchatObjetPage'
+import { AdminSection } from '@/pages/admin/AdminSection'
 import { CollectionsPage } from '@/pages/collections/CollectionsPage'
 import { FilActualitePage } from '@/pages/fil-actualite/FilActualitePage'
 import { NotificationsPage } from '@/pages/notifications/NotificationsPage'
@@ -14,7 +15,7 @@ import { ProfilHomePage } from './ProfilHomePage'
 import { ProfilsFoyerPage } from './ProfilsFoyerPage'
 
 export function ProfilSection({ token, activeProfil, onLogout, onProfilsChanged }) {
-  const [view, setView] = useState('home') // 'home' | 'foyer' | 'new-profil' | 'confidentialite' | 'amis' | 'ventes' | 'partage' | 'achat' | 'notifications' | 'recherche' | 'collections' | 'fil-actualite'
+  const [view, setView] = useState('home') // 'home' | 'foyer' | 'new-profil' | 'confidentialite' | 'amis' | 'ventes' | 'partage' | 'achat' | 'notifications' | 'recherche' | 'collections' | 'fil-actualite' | 'admin'
 
   const [profils, setProfils] = useState([])
   const [blocages, setBlocages] = useState([])
@@ -124,6 +125,10 @@ export function ProfilSection({ token, activeProfil, onLogout, onProfilsChanged 
     return <FilActualitePage onBack={() => setView('home')} />
   }
 
+  if (view === 'admin') {
+    return <AdminSection onBack={() => setView('home')} />
+  }
+
   return (
     <ProfilHomePage
       activeProfil={activeProfil}
@@ -140,6 +145,7 @@ export function ProfilSection({ token, activeProfil, onLogout, onProfilsChanged 
       onOpenNotifications={() => setView('notifications')}
       onOpenCollections={() => setView('collections')}
       onOpenFilActualite={() => setView('fil-actualite')}
+      onOpenAdmin={() => setView('admin')}
       onLogout={onLogout}
     />
   )
