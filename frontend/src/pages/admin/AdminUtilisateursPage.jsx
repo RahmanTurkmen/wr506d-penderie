@@ -46,7 +46,7 @@ export function AdminUtilisateursPage() {
         </div>
         <button
           type="button"
-          className="hidden h-10 shrink-0 items-center gap-2 rounded-full border border-border bg-card px-4 text-sm font-semibold text-foreground hover:bg-muted md:flex"
+          className="flex h-10 shrink-0 items-center gap-2 rounded-full border border-border bg-card px-4 text-sm font-semibold text-foreground hover:bg-muted"
         >
           <Copy className="h-4 w-4" />
           Exporter

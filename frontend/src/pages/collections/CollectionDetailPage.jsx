@@ -11,7 +11,7 @@ export function CollectionDetailPage({ collection, onBack }) {
         {collection.objets.length === 0 ? (
           <p className="rounded-2xl bg-card px-4 py-5 text-center text-sm text-muted-foreground">Aucun objet dans cette collection pour le moment.</p>
         ) : (
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3">
             {collection.objets.map((o) => (
               <div key={o.id} className="rounded-2xl bg-card p-3">
                 <span className="flex aspect-[4/3] w-full items-center justify-center rounded-[14px] bg-secondary text-primary">
@@ -28,7 +28,7 @@ export function CollectionDetailPage({ collection, onBack }) {
       <div className="px-6 pb-6 md:px-10">
         <button
           type="button"
-          className="flex h-[52px] w-full items-center justify-center gap-2 rounded-full bg-primary text-[15px] font-semibold text-primary-foreground md:w-auto md:px-6"
+          className="flex h-[52px] w-full items-center justify-center gap-2 rounded-full bg-primary text-[15px] font-semibold text-primary-foreground"
         >
           <Plus className="h-[18px] w-[18px]" />
           Ajouter des objets

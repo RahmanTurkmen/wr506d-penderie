@@ -15,10 +15,9 @@ const SIGNALEMENTS_INITIAUX = [
 
 // Section statique (pas d'entité "Administration" côté backend) : reprend
 // le Figma 14 — BACK-OFFICE ADMIN. La maquette ne dessine QUE des frames
-// desktop pour cette section (pas de "M ·"), mais l'écran suit le même
-// principe mobile-first que tout le reste de Lumen : listes empilées
-// (Row/Card) en mobile, classes `md:` pour l'enrichir au-delà — pas de
-// mise en page "tableau desktop" dédiée.
+// desktop pour cette section (pas de "M ·"), mais Lumen est une web app
+// mobile-first qui garde la même mise en page quelle que soit la largeur
+// de fenêtre : listes empilées (Row/Card), pas de tableau desktop dédié.
 //
 // La sidebar du Figma liste aussi "Ventes" et "Catégories" : non
 // construits ici (pas de contenu propre dans la maquette au-delà de ce

@@ -24,7 +24,7 @@ export function AdminDashboardPage({ signalements, onOpenSignalements }) {
 
   return (
     <div className="space-y-6">
-      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+      <div className="grid grid-cols-2 gap-3">
         <StatCard value="1 284" label="Utilisateurs" icon={Users} />
         <StatCard value="9 420" label="Objets" icon={Box} />
         <StatCard value="212" label="Ventes ce mois" icon={ShoppingBag} />

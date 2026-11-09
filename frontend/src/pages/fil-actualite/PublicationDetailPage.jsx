@@ -63,7 +63,7 @@ export function PublicationDetailPage({ publication, likes, onBack }) {
       <div className="px-6 pb-6 md:px-10">
         <button
           type="button"
-          className="flex h-[52px] w-full items-center justify-center gap-2 rounded-full bg-primary text-[15px] font-semibold text-primary-foreground md:w-auto md:px-6"
+          className="flex h-[52px] w-full items-center justify-center gap-2 rounded-full bg-primary text-[15px] font-semibold text-primary-foreground"
         >
           <MessageCircle className="h-[18px] w-[18px]" />
           Je suis intéressé

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { Bookmark, Disc3, Heart, Plus, Shirt } from 'lucide-react'
+import { Disc3, Heart, Plus, Shirt } from 'lucide-react'
 import { Badge, IconTile, Row } from '@/components/lumen/primitives'
 import { ScreenHeader } from '@/components/lumen/ScreenHeader'
 import { CollectionDetailPage } from './CollectionDetailPage'
@@ -53,20 +53,10 @@ export function CollectionsPage({ onBack }) {
       <button
         type="button"
         aria-label="Nouvelle collection"
-        className="fixed bottom-24 right-5 z-10 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg md:hidden"
+        className="fixed bottom-24 right-5 z-10 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg"
       >
         <Plus className="h-6 w-6" />
       </button>
-
-      <div className="hidden px-6 pb-6 md:block md:px-10">
-        <button
-          type="button"
-          className="flex h-[52px] items-center justify-center gap-2 rounded-full bg-primary px-5 text-[15px] font-semibold text-primary-foreground"
-        >
-          <Bookmark className="h-[18px] w-[18px]" />
-          Nouvelle collection
-        </button>
-      </div>
     </div>
   )
 }

@@ -12,7 +12,7 @@ export function AdminSignalementsPage({ signalements, onIgnorer, onRetirer }) {
 
       {signalements.map((s) => (
         <div key={s.id} className="rounded-2xl bg-card p-4">
-          <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+          <div className="flex flex-col gap-3">
             <div className="flex items-center gap-3.5">
               <IconTile icon={Flag} size={44} />
               <div className="min-w-0">
