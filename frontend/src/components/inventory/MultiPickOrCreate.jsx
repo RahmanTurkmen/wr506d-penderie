@@ -4,7 +4,7 @@ import { Chip } from '@/components/lumen/primitives'
 
 // Même principe que PickOrCreate, mais plusieurs éléments peuvent être
 // sélectionnés en même temps (les tags d'un objet).
-export function MultiPickOrCreate({ label, items, valueIds, onToggle, onCreate, placeholder = 'Nouveau tag' }) {
+export function MultiPickOrCreate({ label, items, valueIds, onToggle, onCreate, placeholder = 'Nouveau tag', allowCreate = true }) {
   const [creating, setCreating] = useState(false)
   const [draft, setDraft] = useState('')
   const [saving, setSaving] = useState(false)
@@ -30,7 +30,7 @@ export function MultiPickOrCreate({ label, items, valueIds, onToggle, onCreate, 
             {item.nom}
           </Chip>
         ))}
-        {!creating && (
+        {allowCreate && !creating && (
           <Chip onClick={() => setCreating(true)} icon={Plus}>
             Nouveau
           </Chip>

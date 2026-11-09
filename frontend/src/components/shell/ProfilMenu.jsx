@@ -1,6 +1,6 @@
-import { Baby, Check, Users } from 'lucide-react'
+import { Baby, Check, LogOut, Users } from 'lucide-react'
 
-export function ProfilMenu({ profils, activeId, onSwitch, onClose, align = 'left' }) {
+export function ProfilMenu({ profils, activeId, onSwitch, onClose, onLogout, align = 'left' }) {
   return (
     <>
       <button type="button" aria-label="Fermer" onClick={onClose} className="fixed inset-0 z-20 cursor-default" />
@@ -39,6 +39,25 @@ export function ProfilMenu({ profils, activeId, onSwitch, onClose, align = 'left
             </button>
           )
         })}
+        {onLogout && (
+          <>
+            <div className="my-1.5 border-t border-border" />
+            <button
+              type="button"
+              onClick={() => {
+                onClose()
+                onLogout()
+              }}
+              data-cy="profil-menu-logout"
+              className="flex w-full items-center gap-3 rounded-xl px-2.5 py-2.5 text-left text-sm font-medium text-foreground hover:bg-muted"
+            >
+              <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-secondary text-primary">
+                <LogOut className="h-4 w-4" />
+              </span>
+              Se déconnecter
+            </button>
+          </>
+        )}
       </div>
     </>
   )

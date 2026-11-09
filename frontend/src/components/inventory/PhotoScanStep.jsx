@@ -151,6 +151,7 @@ export function PhotoScanStep({ token, activeProfil, onResult }) {
         <button
           type="button"
           onClick={() => onResult({ file, suggestion: null })}
+          data-cy="objet-skip-photo"
           className="h-[52px] flex-1 rounded-full border border-border text-[15px] font-semibold text-foreground"
         >
           {!file ? 'Continuer sans photo' : suggestion ? 'Ignorer la suggestion' : 'Passer avec cette photo'}
