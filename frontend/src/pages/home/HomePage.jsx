@@ -6,7 +6,6 @@ import {
   Boxes,
   ChevronDown,
   Disc3,
-  Loader2,
   Package,
   Plus,
   RefreshCw,
@@ -17,7 +16,7 @@ import {
   ShoppingBag,
   Sun,
 } from 'lucide-react'
-import { Badge, EmptyState, IconButton, IconTile, Row, SectionHeader } from '@/components/lumen/primitives'
+import { Badge, EmptyState, IconButton, IconTile, Row, SectionHeader, Skeleton } from '@/components/lumen/primitives'
 import { ProfilMenu } from '@/components/shell/ProfilMenu'
 import { listObjets, listPrets, listValidations, photoUrl } from '@/lib/api'
 
@@ -135,9 +134,16 @@ export function HomePage({ token, profils, activeProfil, onSwitchProfil, onAddOb
 
       <div className="flex-1 space-y-6 px-6 py-6">
         {loading && (
-          <div className="flex items-center justify-center gap-2 py-16 text-sm text-muted-foreground">
-            <Loader2 className="h-4 w-4 animate-spin" />
-            Chargement…
+          <div className="space-y-6">
+            <div className="grid grid-cols-3 gap-3">
+              <Skeleton className="h-[78px]" />
+              <Skeleton className="h-[78px]" />
+              <Skeleton className="h-[78px]" />
+            </div>
+            <div className="space-y-2.5">
+              <Skeleton className="h-16" />
+              <Skeleton className="h-16" />
+            </div>
           </div>
         )}
 

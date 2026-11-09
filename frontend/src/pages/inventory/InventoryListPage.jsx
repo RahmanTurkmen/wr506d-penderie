@@ -1,6 +1,7 @@
 import { useMemo, useState } from 'react'
-import { AlertCircle, BookOpen, Disc3, ListFilter, Loader2, Package, Plus, Search, Shirt } from 'lucide-react'
-import { EmptyState } from '@/components/lumen/primitives'
+import { AlertCircle, BookOpen, Disc3, ListFilter, Package, Plus, Search, Shirt } from 'lucide-react'
+import { EmptyState, Skeleton } from '@/components/lumen/primitives'
+import { PullToRefresh } from '@/components/lumen/PullToRefresh'
 import { ScreenHeader } from '@/components/lumen/ScreenHeader'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { photoUrl } from '@/lib/api'
@@ -13,7 +14,7 @@ const TYPE_TONE = {
   autre: 'bg-sky-100 text-sky-700',
 }
 
-export function InventoryListPage({ objets, categories, loading, error, onOpenObjet, onAddObjet, onOpenDressing }) {
+export function InventoryListPage({ objets, categories, loading, error, onOpenObjet, onAddObjet, onOpenDressing, onRefresh }) {
   const [search, setSearch] = useState('')
   const [categorieFilter, setCategorieFilter] = useState(null)
 
@@ -34,6 +35,7 @@ export function InventoryListPage({ objets, categories, loading, error, onOpenOb
         subtitle={loading ? '…' : `${objets.length} objet${objets.length > 1 ? 's' : ''}`}
       />
 
+      <PullToRefresh onRefresh={onRefresh}>
       <div className="space-y-4 px-6 py-5 md:px-10">
         <div className="flex h-12 items-center gap-2.5 rounded-2xl border border-border bg-card px-4">
           <Search className="h-[18px] w-[18px] shrink-0 text-muted-foreground" />
@@ -85,9 +87,14 @@ export function InventoryListPage({ objets, categories, loading, error, onOpenOb
         )}
 
         {loading && (
-          <div className="flex items-center justify-center gap-2 py-16 text-sm text-muted-foreground">
-            <Loader2 className="h-4 w-4 animate-spin" />
-            Chargement…
+          <div className="grid grid-cols-2 gap-3">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="flex flex-col gap-2 rounded-2xl bg-card p-3">
+                <Skeleton className="aspect-square w-full" />
+                <Skeleton className="h-3.5 w-3/4" />
+                <Skeleton className="h-3 w-1/2" />
+              </div>
+            ))}
           </div>
         )}
 
@@ -135,6 +142,7 @@ export function InventoryListPage({ objets, categories, loading, error, onOpenOb
           </div>
         )}
       </div>
+      </PullToRefresh>
 
       {/* FAB mobile */}
       <button

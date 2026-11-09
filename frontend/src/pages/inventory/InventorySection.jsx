@@ -107,6 +107,7 @@ export function InventorySection({ token, activeProfil, initialView = 'list', in
       }}
       onAddObjet={() => setView('add')}
       onOpenDressing={() => setView('dressing')}
+      onRefresh={refresh}
     />
   )
 }
