@@ -1,4 +1,4 @@
-import { Lock, LogOut, Users } from 'lucide-react'
+import { Bell, Bookmark, CreditCard, Lock, LogOut, Newspaper, Share2, ShieldCheck, ShoppingBag, UserPlus, Users } from 'lucide-react'
 import { IconTile, Row } from '@/components/lumen/primitives'
 import { ScreenHeader } from '@/components/lumen/ScreenHeader'
 
@@ -10,6 +10,14 @@ export function ProfilHomePage({
   loadingBlocages,
   onOpenFoyer,
   onOpenConfidentialite,
+  onOpenAmis,
+  onOpenVentes,
+  onOpenPartage,
+  onOpenAchat,
+  onOpenNotifications,
+  onOpenCollections,
+  onOpenFilActualite,
+  onOpenAdmin,
   onLogout,
 }) {
   return (
@@ -32,6 +40,14 @@ export function ProfilHomePage({
           subtitle={loadingBlocages ? '…' : `${blocagesCount} utilisateur${blocagesCount > 1 ? 's' : ''} bloqué${blocagesCount > 1 ? 's' : ''}`}
           onClick={onOpenConfidentialite}
         />
+        <Row lead={<IconTile icon={UserPlus} size={44} />} title="Mes amis" subtitle="Aperçu (à venir)" onClick={onOpenAmis} />
+        <Row lead={<IconTile icon={ShoppingBag} size={44} />} title="Mes ventes" subtitle="Aperçu (à venir)" onClick={onOpenVentes} />
+        <Row lead={<IconTile icon={Share2} size={44} />} title="Partager un objet" subtitle="Aperçu (à venir)" onClick={onOpenPartage} />
+        <Row lead={<IconTile icon={CreditCard} size={44} />} title="Acheter un objet" subtitle="Aperçu (à venir)" onClick={onOpenAchat} />
+        <Row lead={<IconTile icon={Bell} size={44} />} title="Notifications" subtitle="Aperçu (à venir)" onClick={onOpenNotifications} />
+        <Row lead={<IconTile icon={Bookmark} size={44} />} title="Collections" subtitle="Aperçu (à venir)" onClick={onOpenCollections} />
+        <Row lead={<IconTile icon={Newspaper} size={44} />} title="Fil d'actualité" subtitle="Aperçu (à venir)" onClick={onOpenFilActualite} />
+        <Row lead={<IconTile icon={ShieldCheck} size={44} />} title="Back-office admin" subtitle="Aperçu (à venir)" onClick={onOpenAdmin} />
         <Row lead={<IconTile icon={LogOut} size={44} />} title="Se déconnecter" onClick={onLogout} />
       </div>
     </div>
