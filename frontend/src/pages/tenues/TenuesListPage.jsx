@@ -35,7 +35,7 @@ export function TenuesListPage({ tenues, refus, loading, error, onNewTenue, onNe
               {tenues.length === 0 && <EmptyState>Aucune tenue composée pour le moment.</EmptyState>}
 
               {tenues.length > 0 && (
-                <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+                <div className="grid grid-cols-2 gap-3">
                   {tenues.map((tenue) => (
                     <div key={tenue.id} className="rounded-2xl bg-card p-3">
                       <p className="truncate text-sm font-semibold text-foreground">{tenue.nom}</p>
@@ -90,7 +90,7 @@ export function TenuesListPage({ tenues, refus, loading, error, onNewTenue, onNe
         type="button"
         onClick={onNewTenue}
         aria-label="Nouvelle tenue"
-        className="fixed bottom-24 right-5 z-10 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg md:hidden"
+        className="fixed bottom-24 right-5 z-10 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg"
       >
         <Plus className="h-6 w-6" />
       </button>

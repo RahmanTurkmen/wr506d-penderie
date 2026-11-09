@@ -21,16 +21,6 @@ export function PretsListPage({ loans, loading, error, onOpenObjet, onNewPret, o
         title="Prêts"
         subtitle={loading ? '…' : `${enCours.length} en cours · ${termines.length} terminé${termines.length > 1 ? 's' : ''}`}
         onBack={onBack}
-        action={
-          <button
-            type="button"
-            onClick={onNewPret}
-            className="hidden h-10 shrink-0 items-center gap-2 rounded-full bg-primary px-4 text-sm font-semibold text-primary-foreground md:flex"
-          >
-            <Plus className="h-4 w-4" />
-            Nouveau prêt
-          </button>
-        }
       />
 
       <div className="space-y-4 px-6 py-5 md:px-10">
@@ -105,7 +95,7 @@ export function PretsListPage({ loans, loading, error, onOpenObjet, onNewPret, o
         type="button"
         onClick={onNewPret}
         aria-label="Nouveau prêt"
-        className="fixed bottom-24 right-5 z-10 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg md:hidden"
+        className="fixed bottom-24 right-5 z-10 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg"
       >
         <Plus className="h-6 w-6" />
       </button>

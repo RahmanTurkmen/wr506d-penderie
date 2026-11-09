@@ -5,21 +5,7 @@ import { ScreenHeader } from '@/components/lumen/ScreenHeader'
 export function ProfilsFoyerPage({ profils, activeProfilId, loading, onBack, onNewProfil }) {
   return (
     <div className="flex flex-1 flex-col pb-10">
-      <ScreenHeader
-        title="Profils du foyer"
-        subtitle="Un compte principal, des profils gérés"
-        onBack={onBack}
-        action={
-          <button
-            type="button"
-            onClick={onNewProfil}
-            className="hidden h-10 shrink-0 items-center gap-2 rounded-full bg-primary px-4 text-sm font-semibold text-primary-foreground md:flex"
-          >
-            <Plus className="h-4 w-4" />
-            Ajouter un profil
-          </button>
-        }
-      />
+      <ScreenHeader title="Profils du foyer" subtitle="Un compte principal, des profils gérés" onBack={onBack} />
 
       <div className="space-y-2.5 px-6 py-5 md:px-10">
         {loading && (
@@ -47,7 +33,7 @@ export function ProfilsFoyerPage({ profils, activeProfilId, loading, onBack, onN
         type="button"
         onClick={onNewProfil}
         aria-label="Ajouter un profil"
-        className="fixed bottom-24 right-5 z-10 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg md:hidden"
+        className="fixed bottom-24 right-5 z-10 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg"
       >
         <Plus className="h-6 w-6" />
       </button>
