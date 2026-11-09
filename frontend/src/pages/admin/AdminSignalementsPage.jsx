@@ -14,7 +14,7 @@ export function AdminSignalementsPage({ signalements, onIgnorer, onRetirer }) {
         <div key={s.id} className="rounded-2xl bg-card p-4">
           <div className="flex flex-col gap-3">
             <div className="flex items-center gap-3.5">
-              <IconTile icon={Flag} size={44} />
+              <IconTile icon={Flag} size={44} tone={s.urgence === 'Urgent' ? 'amber' : 'violet'} />
               <div className="min-w-0">
                 <p className="truncate text-sm font-semibold text-foreground">{s.titre}</p>
                 <p className="truncate text-xs text-muted-foreground">{s.detail}</p>

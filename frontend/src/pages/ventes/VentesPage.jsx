@@ -9,9 +9,9 @@ import { ScreenHeader } from '@/components/lumen/ScreenHeader'
 // (AddObjetPage/ObjetDetailPage) — ce flux-ci reste volontairement non
 // branché, comme demandé pour ce lot d'écrans.
 const ANNONCES = [
-  { id: 'velo', nom: 'Vélo rose enfant', icon: Bike, sousTitre: '45 € · 12 vues · 2 questions', statut: 'en_ligne' },
-  { id: 'poussette', nom: 'Poussette', icon: Box, sousTitre: '60 € · 31 vues', statut: 'en_ligne' },
-  { id: 'livres', nom: 'Lot de livres', icon: Book, sousTitre: '10 € · en attente de validation', statut: 'a_valider' },
+  { id: 'velo', nom: 'Vélo rose enfant', icon: Bike, sousTitre: '45 € · 12 vues · 2 questions', statut: 'en_ligne', tone: 'sky' },
+  { id: 'poussette', nom: 'Poussette', icon: Box, sousTitre: '60 € · 31 vues', statut: 'en_ligne', tone: 'amber' },
+  { id: 'livres', nom: 'Lot de livres', icon: Book, sousTitre: '10 € · en attente de validation', statut: 'a_valider', tone: 'violet' },
 ]
 
 export function VentesPage({ onBack }) {
@@ -45,7 +45,7 @@ export function VentesPage({ onBack }) {
         {visibles.map((a) => (
           <Row
             key={a.id}
-            lead={<IconTile icon={a.icon} size={48} />}
+            lead={<IconTile icon={a.icon} size={48} tone={a.tone} />}
             title={a.nom}
             subtitle={a.sousTitre}
             trailing={<Badge tone={a.statut === 'a_valider' ? 'solid' : 'pink'}>{a.statut === 'a_valider' ? 'À valider' : 'En ligne'}</Badge>}

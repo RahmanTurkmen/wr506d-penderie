@@ -16,6 +16,7 @@ const PUBLICATIONS = [
     avatar: 'L',
     quand: 'il y a 2 h',
     icon: Wrench,
+    tone: 'sky',
     texte: 'Tom met en vente une Veste Zara · 45 €',
     likes: 12,
     commentairesCount: 3,
@@ -31,6 +32,7 @@ const PUBLICATIONS = [
     avatar: 'I',
     quand: 'hier',
     icon: Disc3,
+    tone: 'violet',
     texte: 'Lilou a ajouté 6 vinyles à sa collection',
     likes: 12,
     commentairesCount: 3,
@@ -97,7 +99,9 @@ export function FilActualitePage({ onBack }) {
             <button
               type="button"
               onClick={() => setOpenId(p.id)}
-              className="mt-4 flex aspect-[295/110] w-full items-center justify-center rounded-2xl bg-secondary text-primary"
+              className={`mt-4 flex aspect-[295/110] w-full items-center justify-center rounded-2xl ${
+                p.tone === 'violet' ? 'bg-violet-100 text-violet-700' : p.tone === 'amber' ? 'bg-amber-100 text-amber-700' : p.tone === 'sky' ? 'bg-sky-100 text-sky-700' : 'bg-secondary text-primary'
+              }`}
             >
               <p.icon className="h-[50px] w-[50px]" />
             </button>

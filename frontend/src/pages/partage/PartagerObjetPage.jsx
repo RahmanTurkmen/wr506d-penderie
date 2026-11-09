@@ -7,9 +7,9 @@ import { ScreenHeader } from '@/components/lumen/ScreenHeader'
 // côté backend mais ce flux de composition reprend juste le Figma
 // 09 — PARTAGE PRIVÉ, 09.1). Objet de démo repris du Figma ("Veste Zara").
 const AMIS = [
-  { id: 'tom', nom: 'Tom' },
-  { id: 'lilou', nom: 'Lilou' },
-  { id: 'max', nom: 'Max' },
+  { id: 'tom', nom: 'Tom', tone: 'sky' },
+  { id: 'lilou', nom: 'Lilou', tone: 'pink' },
+  { id: 'max', nom: 'Max', tone: 'amber' },
 ]
 
 export function PartagerObjetPage({ onBack }) {
@@ -46,7 +46,7 @@ export function PartagerObjetPage({ onBack }) {
           <div className="space-y-2">
             {AMIS.map((a) => (
               <div key={a.id} className="flex items-center gap-3.5 rounded-2xl bg-card px-3.5 py-3">
-                <IconTile icon={UserPlus} size={40} />
+                <IconTile icon={UserPlus} size={40} tone={a.tone} />
                 <p className="min-w-0 flex-1 truncate text-sm font-semibold text-foreground">{a.nom}</p>
                 <Toggle checked={Boolean(choisis[a.id])} onChange={() => toggleAmi(a.id)} label={`Partager avec ${a.nom}`} />
               </div>
@@ -55,7 +55,7 @@ export function PartagerObjetPage({ onBack }) {
         )}
 
         <div className="flex items-center gap-3.5 rounded-2xl bg-card px-3.5 py-3">
-          <IconTile icon={Shield} size={40} />
+          <IconTile icon={Shield} size={40} tone="violet" />
           <div className="min-w-0 flex-1">
             <p className="truncate text-sm font-semibold text-foreground">Masquer l'emplacement</p>
             <p className="truncate text-xs text-muted-foreground">Caché aux amis</p>

@@ -14,7 +14,17 @@ export function CollectionDetailPage({ collection, onBack }) {
           <div className="grid grid-cols-2 gap-3">
             {collection.objets.map((o) => (
               <div key={o.id} className="rounded-2xl bg-card p-3">
-                <span className="flex aspect-[4/3] w-full items-center justify-center rounded-[14px] bg-secondary text-primary">
+                <span
+                  className={`flex aspect-[4/3] w-full items-center justify-center rounded-[14px] ${
+                    collection.tone === 'violet'
+                      ? 'bg-violet-100 text-violet-700'
+                      : collection.tone === 'amber'
+                        ? 'bg-amber-100 text-amber-700'
+                        : collection.tone === 'sky'
+                          ? 'bg-sky-100 text-sky-700'
+                          : 'bg-secondary text-primary'
+                  }`}
+                >
                   <Disc3 className="h-9 w-9" />
                 </span>
                 <p className="mt-2 truncate text-sm font-semibold text-foreground">{o.nom}</p>

@@ -8,12 +8,12 @@ import { ScreenHeader } from '@/components/lumen/ScreenHeader'
 // Les interactions (onglets, accepter/refuser) ne font que changer l'état
 // local, rien n'est persisté.
 const AMIS = [
-  { id: 'tom', nom: 'Tom', sousTitre: '4 objets partagés avec toi' },
-  { id: 'lilou', nom: 'Lilou', sousTitre: 'Ami depuis mars 2026' },
-  { id: 'max', nom: 'Max', sousTitre: '1 prêt en cours' },
+  { id: 'tom', nom: 'Tom', sousTitre: '4 objets partagés avec toi', tone: 'sky' },
+  { id: 'lilou', nom: 'Lilou', sousTitre: 'Ami depuis mars 2026', tone: 'pink' },
+  { id: 'max', nom: 'Max', sousTitre: '1 prêt en cours', tone: 'amber' },
 ]
 
-const DEMANDES_INITIALES = [{ id: 'noa', nom: 'Noa', sousTitre: 'Veut devenir ton ami' }]
+const DEMANDES_INITIALES = [{ id: 'noa', nom: 'Noa', sousTitre: 'Veut devenir ton ami', tone: 'violet' }]
 
 export function AmisPage({ onBack }) {
   const [tab, setTab] = useState('amis') // 'amis' | 'abonnes' | 'demandes'
@@ -41,7 +41,9 @@ export function AmisPage({ onBack }) {
         </div>
 
         {tab === 'amis' &&
-          AMIS.map((a) => <Row key={a.id} lead={<IconTile icon={UserPlus} size={44} />} title={a.nom} subtitle={a.sousTitre} />)}
+          AMIS.map((a) => (
+            <Row key={a.id} lead={<IconTile icon={UserPlus} size={44} tone={a.tone} />} title={a.nom} subtitle={a.sousTitre} />
+          ))}
 
         {tab === 'abonnes' && (
           <p className="rounded-2xl bg-card px-4 py-5 text-center text-sm text-muted-foreground">Aucun abonné pour le moment.</p>

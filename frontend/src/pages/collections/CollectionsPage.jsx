@@ -14,6 +14,7 @@ const COLLECTIONS = [
     sousTitre: '32 objets · privée',
     visibilite: 'Privée',
     icon: Disc3,
+    tone: 'violet',
     objets: [
       { id: 'abbey-road', nom: 'Abbey Road', sousTitre: 'The Beatles' },
       { id: 'kind-of-blue', nom: 'Kind of Blue', sousTitre: 'Miles Davis' },
@@ -21,8 +22,8 @@ const COLLECTIONS = [
       { id: 'discovery', nom: 'Discovery', sousTitre: 'Daft Punk' },
     ],
   },
-  { id: 'livres-cuisine', nom: 'Livres de cuisine', sousTitre: '14 objets · amis', visibilite: 'Amis', icon: Heart, objets: [] },
-  { id: 'vetements-vintage', nom: 'Vêtements vintage', sousTitre: '21 objets · privée', visibilite: 'Privée', icon: Shirt, objets: [] },
+  { id: 'livres-cuisine', nom: 'Livres de cuisine', sousTitre: '14 objets · amis', visibilite: 'Amis', icon: Heart, tone: 'amber', objets: [] },
+  { id: 'vetements-vintage', nom: 'Vêtements vintage', sousTitre: '21 objets · privée', visibilite: 'Privée', icon: Shirt, tone: 'pink', objets: [] },
 ]
 
 export function CollectionsPage({ onBack }) {
@@ -41,7 +42,7 @@ export function CollectionsPage({ onBack }) {
         {COLLECTIONS.map((c) => (
           <Row
             key={c.id}
-            lead={<IconTile icon={c.icon} size={48} />}
+            lead={<IconTile icon={c.icon} size={48} tone={c.tone} />}
             title={c.nom}
             subtitle={c.sousTitre}
             trailing={<Badge tone={c.visibilite === 'Privée' ? 'gray' : 'pink'}>{c.visibilite}</Badge>}

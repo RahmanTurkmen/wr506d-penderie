@@ -6,10 +6,10 @@ import { ScreenHeader } from '@/components/lumen/ScreenHeader'
 // n'existe côté backend : "lu/non lu" ne vit qu'en state local, rien n'est
 // envoyé à l'API.
 const INITIAL = [
-  { id: 1, icon: RefreshCw, titre: 'Veste Zara en retard', sousTitre: 'Tom devait la rendre le 14 oct.', nouveau: true },
-  { id: 2, icon: UserPlus, titre: 'Noa veut devenir ton ami', sousTitre: 'Il y a 2 h', nouveau: true },
-  { id: 3, icon: ShoppingBag, titre: 'Question sur « Poussette »', sousTitre: 'Lilou · il y a 5 h', nouveau: true },
-  { id: 4, icon: Check, titre: 'Prêt terminé', sousTitre: 'Max a rendu « Les 3 Mousquetaires »', nouveau: false },
+  { id: 1, icon: RefreshCw, tone: 'amber', titre: 'Veste Zara en retard', sousTitre: 'Tom devait la rendre le 14 oct.', nouveau: true },
+  { id: 2, icon: UserPlus, tone: 'sky', titre: 'Noa veut devenir ton ami', sousTitre: 'Il y a 2 h', nouveau: true },
+  { id: 3, icon: ShoppingBag, tone: 'violet', titre: 'Question sur « Poussette »', sousTitre: 'Lilou · il y a 5 h', nouveau: true },
+  { id: 4, icon: Check, tone: 'pink', titre: 'Prêt terminé', sousTitre: 'Max a rendu « Les 3 Mousquetaires »', nouveau: false },
 ]
 
 export function NotificationsPage({ onBack, onOpenRecherche }) {
@@ -37,7 +37,7 @@ export function NotificationsPage({ onBack, onOpenRecherche }) {
         {INITIAL.map((n) => (
           <Row
             key={n.id}
-            lead={<IconTile icon={n.icon} size={44} />}
+            lead={<IconTile icon={n.icon} size={44} tone={n.tone} />}
             title={n.titre}
             subtitle={n.sousTitre}
             trailing={n.nouveau ? <Badge tone="solid">Nouveau</Badge> : null}

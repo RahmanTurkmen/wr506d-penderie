@@ -19,7 +19,17 @@ export function PublicationDetailPage({ publication, likes, onBack }) {
               <p className="truncate text-xs text-muted-foreground">{publication.quand}</p>
             </div>
           </div>
-          <div className="mt-4 flex aspect-[295/110] w-full items-center justify-center rounded-2xl bg-secondary text-primary">
+          <div
+            className={`mt-4 flex aspect-[295/110] w-full items-center justify-center rounded-2xl ${
+              publication.tone === 'violet'
+                ? 'bg-violet-100 text-violet-700'
+                : publication.tone === 'amber'
+                  ? 'bg-amber-100 text-amber-700'
+                  : publication.tone === 'sky'
+                    ? 'bg-sky-100 text-sky-700'
+                    : 'bg-secondary text-primary'
+            }`}
+          >
             <publication.icon className="h-[50px] w-[50px]" />
           </div>
           <p className="mt-3 text-sm text-foreground">{publication.texte}</p>

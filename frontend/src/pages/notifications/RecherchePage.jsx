@@ -6,9 +6,9 @@ import { ScreenHeader } from '@/components/lumen/ScreenHeader'
 // Écran statique (Figma 13.2 Recherche). Filtre uniquement les résultats
 // factices ci-dessous en local, aucune requête API.
 const RESULTATS = [
-  { id: 1, type: 'objet', icon: Wrench, titre: 'Veste Zara', sousTitre: 'Cave › Établi' },
-  { id: 2, type: 'objet', icon: Wrench, titre: 'Perceuse à percussion', sousTitre: 'Garde-meuble' },
-  { id: 3, type: 'annonce', icon: ShoppingBag, titre: 'Perceuse sans fil · 40 €', sousTitre: 'Annonce de Tom' },
+  { id: 1, type: 'objet', icon: Wrench, tone: 'sky', titre: 'Veste Zara', sousTitre: 'Cave › Établi' },
+  { id: 2, type: 'objet', icon: Wrench, tone: 'sky', titre: 'Perceuse à percussion', sousTitre: 'Garde-meuble' },
+  { id: 3, type: 'annonce', icon: ShoppingBag, tone: 'amber', titre: 'Perceuse sans fil · 40 €', sousTitre: 'Annonce de Tom' },
 ]
 
 const FILTRES = [
@@ -60,7 +60,7 @@ export function RecherchePage({ onBack }) {
         )}
 
         {resultats.map((r) => (
-          <Row key={r.id} lead={<IconTile icon={r.icon} size={44} />} title={r.titre} subtitle={r.sousTitre} />
+          <Row key={r.id} lead={<IconTile icon={r.icon} size={44} tone={r.tone} />} title={r.titre} subtitle={r.sousTitre} />
         ))}
       </div>
     </div>

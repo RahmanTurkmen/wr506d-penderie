@@ -7,12 +7,12 @@ import { Badge, Row, SectionHeader, IconTile } from '@/components/lumen/primitiv
 // (aucune frame "M ·"), mais Lumen reste mobile-first de bout en bout :
 // même traitement responsive que partout ailleurs dans l'app (grille 2
 // colonnes en mobile, 4 à partir de md).
-function StatCard({ value, label, icon: Icon }) {
+function StatCard({ value, label, icon: Icon, tone }) {
   return (
     <div className="rounded-2xl border border-border bg-card px-4 py-3.5">
       <div className="flex items-center justify-between">
         <span className="text-2xl font-bold text-primary">{value}</span>
-        <Icon className="h-5 w-5 text-muted-foreground" />
+        <IconTile icon={Icon} size={32} tone={tone} />
       </div>
       <p className="mt-1 text-xs font-medium text-muted-foreground">{label}</p>
     </div>
@@ -25,10 +25,10 @@ export function AdminDashboardPage({ signalements, onOpenSignalements }) {
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-2 gap-3">
-        <StatCard value="1 284" label="Utilisateurs" icon={Users} />
-        <StatCard value="9 420" label="Objets" icon={Box} />
-        <StatCard value="212" label="Ventes ce mois" icon={ShoppingBag} />
-        <StatCard value={String(signalements.length)} label="Signalements" icon={Flag} />
+        <StatCard value="1 284" label="Utilisateurs" icon={Users} tone="sky" />
+        <StatCard value="9 420" label="Objets" icon={Box} tone="pink" />
+        <StatCard value="212" label="Ventes ce mois" icon={ShoppingBag} tone="amber" />
+        <StatCard value={String(signalements.length)} label="Signalements" icon={Flag} tone="violet" />
       </div>
 
       <section className="space-y-2.5">
@@ -43,7 +43,7 @@ export function AdminDashboardPage({ signalements, onOpenSignalements }) {
         {aTraiter.map((s) => (
           <Row
             key={s.id}
-            lead={<IconTile icon={Flag} size={44} />}
+            lead={<IconTile icon={Flag} size={44} tone={s.urgence === 'Urgent' ? 'amber' : 'violet'} />}
             title={s.titre}
             subtitle={s.detail}
             trailing={<Badge tone={s.urgence === 'Urgent' ? 'solid' : 'pink'}>{s.urgence}</Badge>}
