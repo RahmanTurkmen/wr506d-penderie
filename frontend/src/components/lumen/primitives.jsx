@@ -1,7 +1,17 @@
 // Petits blocs visuels partagés entre les écrans (accueil, inventaire, ...),
 // dans la charte Lumen (tuiles roses, cartes blanches arrondies, badges pill).
 
-export function IconTile({ icon: Icon, className = '', size = 44, photoSrc }) {
+// Palette de tons pastel (compatibles charte Lumen, pas de rouge/vert saturés)
+// pour donner un peu de variété visuelle aux tuiles d'icônes selon le type
+// d'objet, plutôt qu'un rose uniforme partout.
+const ICON_TILE_TONES = {
+  pink: 'bg-secondary text-primary',
+  amber: 'bg-amber-100 text-amber-700',
+  sky: 'bg-sky-100 text-sky-700',
+  violet: 'bg-violet-100 text-violet-700',
+}
+
+export function IconTile({ icon: Icon, className = '', size = 44, photoSrc, tone = 'pink' }) {
   if (photoSrc) {
     return (
       <img
@@ -14,7 +24,7 @@ export function IconTile({ icon: Icon, className = '', size = 44, photoSrc }) {
   }
   return (
     <span
-      className={`flex shrink-0 items-center justify-center rounded-[14px] bg-secondary text-primary ${className}`}
+      className={`flex shrink-0 items-center justify-center rounded-[14px] ${ICON_TILE_TONES[tone] ?? ICON_TILE_TONES.pink} ${className}`}
       style={{ width: size, height: size }}
     >
       <Icon className="h-5 w-5" />
@@ -39,7 +49,7 @@ export function Row({ lead, title, subtitle, trailing, onClick, className = '' }
       type={onClick ? 'button' : undefined}
       onClick={onClick}
       className={`flex w-full items-center gap-3.5 rounded-2xl bg-card px-3.5 py-3 text-left ${
-        onClick ? 'transition-colors hover:bg-muted' : ''
+        onClick ? 'transition-all duration-150 hover:bg-muted active:scale-[0.98]' : ''
       } ${className}`}
     >
       {lead}
@@ -55,7 +65,10 @@ export function Row({ lead, title, subtitle, trailing, onClick, className = '' }
 export function SectionHeader({ title, action }) {
   return (
     <div className="flex items-center justify-between">
-      <h2 className="text-base font-bold text-foreground">{title}</h2>
+      <h2 className="flex items-center gap-2 text-base font-bold text-foreground">
+        <span className="h-4 w-1 rounded-full bg-primary" aria-hidden="true" />
+        {title}
+      </h2>
       {action}
     </div>
   )
@@ -77,13 +90,32 @@ export function IconButton({ icon: Icon, onClick, variant = 'outline', className
   )
 }
 
+export function Toggle({ checked, onChange, label }) {
+  return (
+    <button
+      type="button"
+      role="switch"
+      aria-checked={checked}
+      aria-label={label}
+      onClick={() => onChange(!checked)}
+      className={`relative h-7 w-[46px] shrink-0 rounded-full transition-colors ${checked ? 'bg-primary' : 'bg-muted'}`}
+    >
+      <span
+        className={`absolute top-0.5 h-6 w-6 rounded-full bg-white shadow transition-transform ${
+          checked ? 'translate-x-[22px]' : 'translate-x-0.5'
+        }`}
+      />
+    </button>
+  )
+}
+
 export function Chip({ children, active, onClick, icon: Icon }) {
   return (
     <button
       type="button"
       onClick={onClick}
-      className={`flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-2 text-sm font-semibold transition-colors ${
-        active ? 'bg-primary text-primary-foreground' : 'border border-border bg-card text-foreground hover:bg-muted'
+      className={`flex shrink-0 items-center gap-1.5 rounded-full px-3.5 py-2 text-sm font-semibold transition-all duration-150 active:scale-95 ${
+        active ? 'bg-primary text-primary-foreground shadow-sm' : 'border border-border bg-card text-foreground hover:bg-muted'
       }`}
     >
       {Icon && <Icon className="h-3.5 w-3.5" />}

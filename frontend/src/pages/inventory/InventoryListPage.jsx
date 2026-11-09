@@ -1,10 +1,17 @@
 import { useMemo, useState } from 'react'
-import { AlertCircle, BookOpen, Disc3, Loader2, Package, Plus, Search, Shirt } from 'lucide-react'
-import { Chip, EmptyState } from '@/components/lumen/primitives'
+import { AlertCircle, BookOpen, Disc3, ListFilter, Loader2, Package, Plus, Search, Shirt } from 'lucide-react'
+import { EmptyState } from '@/components/lumen/primitives'
 import { ScreenHeader } from '@/components/lumen/ScreenHeader'
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { photoUrl } from '@/lib/api'
 
 const TYPE_ICON = { vetement: Shirt, livre: BookOpen, vinyle: Disc3, autre: Package }
+const TYPE_TONE = {
+  vetement: 'bg-secondary text-primary',
+  livre: 'bg-amber-100 text-amber-700',
+  vinyle: 'bg-violet-100 text-violet-700',
+  autre: 'bg-sky-100 text-sky-700',
+}
 
 export function InventoryListPage({ objets, categories, loading, error, onOpenObjet, onAddObjet, onOpenDressing }) {
   const [search, setSearch] = useState('')
@@ -54,16 +61,27 @@ export function InventoryListPage({ objets, categories, loading, error, onOpenOb
         </button>
 
         {categories.length > 0 && (
-          <div className="flex gap-2 overflow-x-auto">
-            <Chip active={categorieFilter === null} onClick={() => setCategorieFilter(null)}>
-              Tout
-            </Chip>
-            {categories.map((c) => (
-              <Chip key={c.id} active={categorieFilter === c.id} onClick={() => setCategorieFilter(c.id)}>
-                {c.nom}
-              </Chip>
-            ))}
-          </div>
+          <Select
+            value={categorieFilter ?? 'tout'}
+            onValueChange={(v) => setCategorieFilter(v === 'tout' ? null : v)}
+          >
+            <SelectTrigger className="h-12 w-full justify-between gap-2.5 rounded-2xl border-2 border-primary/20 bg-secondary px-4 text-sm font-semibold text-primary [&>svg]:text-primary">
+              <span className="flex items-center gap-2.5">
+                <ListFilter className="h-[18px] w-[18px] shrink-0" />
+                <SelectValue placeholder="Catégorie">
+                  {(value) => (value === 'tout' || !value ? 'Tout' : (categories.find((c) => c.id === value)?.nom ?? 'Catégorie'))}
+                </SelectValue>
+              </span>
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="tout">Tout</SelectItem>
+              {categories.map((c) => (
+                <SelectItem key={c.id} value={c.id}>
+                  {c.nom}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         )}
 
         {loading && (
@@ -87,15 +105,16 @@ export function InventoryListPage({ objets, categories, loading, error, onOpenOb
         )}
 
         {!loading && !error && filtered.length > 0 && (
-          <div className="grid grid-cols-2 gap-3">
+          <div className="grid grid-cols-2 gap-3 animate-in fade-in-0 slide-in-from-bottom-2 duration-300">
             {filtered.map((o) => {
               const Icon = TYPE_ICON[o.type] ?? Package
+              const tone = TYPE_TONE[o.type] ?? TYPE_TONE.autre
               return (
                 <button
                   key={o.id}
                   type="button"
                   onClick={() => onOpenObjet(o.id)}
-                  className="flex flex-col gap-2 rounded-2xl bg-card p-3 text-left transition-colors hover:bg-muted"
+                  className="flex flex-col gap-2 rounded-2xl bg-card p-3 text-left transition-all duration-150 hover:bg-muted active:scale-[0.97]"
                 >
                   {o.photo ? (
                     <img
@@ -104,7 +123,7 @@ export function InventoryListPage({ objets, categories, loading, error, onOpenOb
                       className="aspect-square w-full rounded-[14px] object-cover"
                     />
                   ) : (
-                    <span className="flex aspect-square w-full items-center justify-center rounded-[14px] bg-secondary text-primary">
+                    <span className={`flex aspect-square w-full items-center justify-center rounded-[14px] ${tone}`}>
                       <Icon className="h-9 w-9" />
                     </span>
                   )}

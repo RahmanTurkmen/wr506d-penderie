@@ -23,12 +23,12 @@ import { listObjets, listPrets, listValidations, photoUrl } from '@/lib/api'
 
 const TYPE_ICON = { vetement: Shirt, livre: BookOpen, vinyle: Disc3, autre: Package }
 
-function StatCard({ value, label, icon: Icon }) {
+function StatCard({ value, label, icon: Icon, tone }) {
   return (
-    <div className="rounded-2xl border border-border bg-card px-4 py-3.5">
+    <div className="rounded-2xl border border-border bg-card px-4 py-3.5 transition-transform duration-150 active:scale-[0.98]">
       <div className="flex items-center justify-between">
         <span className="text-2xl font-bold text-primary">{value}</span>
-        <Icon className="h-5 w-5 text-muted-foreground" />
+        <IconTile icon={Icon} size={32} tone={tone} />
       </div>
       <p className="mt-1 text-xs font-medium text-muted-foreground">{label}</p>
     </div>
@@ -43,8 +43,8 @@ function QuickAction({ icon: Icon, label, primary, onClick, disabled, 'data-cy':
       onClick={onClick}
       title={disabled ? 'Bientôt disponible' : undefined}
       data-cy={dataCy}
-      className={`flex h-9 shrink-0 items-center gap-2 rounded-full px-4 text-sm font-semibold transition-opacity ${
-        disabled ? 'cursor-not-allowed opacity-60' : ''
+      className={`flex h-9 shrink-0 items-center gap-2 rounded-full px-4 text-sm font-semibold transition-all duration-150 ${
+        disabled ? 'cursor-not-allowed opacity-60' : 'active:scale-95'
       } ${primary ? 'bg-primary text-primary-foreground' : 'bg-secondary text-primary'}`}
     >
       <Icon className="h-[15px] w-[15px]" />
@@ -167,10 +167,10 @@ export function HomePage({ token, profils, activeProfil, onSwitchProfil, onAddOb
 
         {!loading && !error && (
           <>
-            <div className="grid grid-cols-3 gap-3">
-              <StatCard value={list.length} label="Objets" icon={Boxes} />
-              <StatCard value={enCours.length} label="Prêts en cours" icon={RefreshCw} />
-              <StatCard value={enVente.length} label="En vente" icon={ShoppingBag} />
+            <div className="grid grid-cols-3 gap-3 animate-in fade-in-0 slide-in-from-bottom-2 duration-300">
+              <StatCard value={list.length} label="Objets" icon={Boxes} tone="pink" />
+              <StatCard value={enCours.length} label="Prêts en cours" icon={RefreshCw} tone="sky" />
+              <StatCard value={enVente.length} label="En vente" icon={ShoppingBag} tone="amber" />
             </div>
 
             <div className="-mx-6 flex gap-2.5 overflow-x-auto px-6">
