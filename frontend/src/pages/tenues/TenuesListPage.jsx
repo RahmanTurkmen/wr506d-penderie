@@ -1,5 +1,5 @@
-import { Loader2, Plus, Shirt, X } from 'lucide-react'
-import { EmptyState, IconTile, Row, SectionHeader } from '@/components/lumen/primitives'
+import { Plus, Shirt, X } from 'lucide-react'
+import { EmptyState, IconTile, Row, SectionHeader, Skeleton } from '@/components/lumen/primitives'
 import { ScreenHeader } from '@/components/lumen/ScreenHeader'
 import { photoUrl } from '@/lib/api'
 
@@ -10,9 +10,17 @@ export function TenuesListPage({ tenues, refus, loading, error, onNewTenue, onNe
 
       <div className="space-y-6 px-6 py-5 md:px-10">
         {loading && (
-          <div className="flex items-center justify-center gap-2 py-16 text-sm text-muted-foreground">
-            <Loader2 className="h-4 w-4 animate-spin" />
-            Chargement…
+          <div className="grid grid-cols-2 gap-3">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="space-y-2 rounded-2xl bg-card p-3">
+                <Skeleton className="h-3.5 w-2/3" />
+                <Skeleton className="h-3 w-1/2" />
+                <div className="flex gap-1.5">
+                  <Skeleton className="h-9 w-9 rounded-[10px]" />
+                  <Skeleton className="h-9 w-9 rounded-[10px]" />
+                </div>
+              </div>
+            ))}
           </div>
         )}
 

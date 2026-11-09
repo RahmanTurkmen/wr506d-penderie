@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import { AlertCircle, Check, Loader2, Plus, RefreshCw } from 'lucide-react'
-import { Badge, Chip, EmptyState, IconTile, Row } from '@/components/lumen/primitives'
+import { Badge, Chip, EmptyState, IconTile, Row, Skeleton } from '@/components/lumen/primitives'
+import { PullToRefresh } from '@/components/lumen/PullToRefresh'
 import { ScreenHeader } from '@/components/lumen/ScreenHeader'
 import { photoUrl } from '@/lib/api'
 
@@ -8,7 +9,7 @@ function dateLabel(iso) {
   return iso ? new Date(iso).toLocaleDateString('fr-FR') : null
 }
 
-export function PretsListPage({ loans, loading, error, onOpenObjet, onNewPret, onCloturer, busyId, onBack }) {
+export function PretsListPage({ loans, loading, error, onOpenObjet, onNewPret, onCloturer, busyId, onBack, onRefresh }) {
   const [tab, setTab] = useState('encours')
 
   const enCours = loans.filter((l) => l.pret.actif)
@@ -23,6 +24,7 @@ export function PretsListPage({ loans, loading, error, onOpenObjet, onNewPret, o
         onBack={onBack}
       />
 
+      <PullToRefresh onRefresh={onRefresh}>
       <div className="space-y-4 px-6 py-5 md:px-10">
         <div className="flex gap-2">
           <Chip active={tab === 'encours'} onClick={() => setTab('encours')}>
@@ -34,9 +36,16 @@ export function PretsListPage({ loans, loading, error, onOpenObjet, onNewPret, o
         </div>
 
         {loading && (
-          <div className="flex items-center justify-center gap-2 py-16 text-sm text-muted-foreground">
-            <Loader2 className="h-4 w-4 animate-spin" />
-            Chargement…
+          <div className="space-y-2.5">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="flex items-center gap-3.5 rounded-2xl bg-card px-3.5 py-3">
+                <Skeleton className="h-11 w-11 shrink-0 rounded-[14px]" />
+                <div className="min-w-0 flex-1 space-y-1.5">
+                  <Skeleton className="h-3.5 w-1/2" />
+                  <Skeleton className="h-3 w-1/3" />
+                </div>
+              </div>
+            ))}
           </div>
         )}
 
@@ -90,6 +99,7 @@ export function PretsListPage({ loans, loading, error, onOpenObjet, onNewPret, o
             )
           })}
       </div>
+      </PullToRefresh>
 
       <button
         type="button"

@@ -1,6 +1,8 @@
-import { Lock, LogOut, Users } from 'lucide-react'
-import { IconTile, Row } from '@/components/lumen/primitives'
+import { useState } from 'react'
+import { Lock, LogOut, Moon, Users } from 'lucide-react'
+import { IconTile, Row, Toggle } from '@/components/lumen/primitives'
 import { ScreenHeader } from '@/components/lumen/ScreenHeader'
+import { getTheme, setTheme } from '@/lib/theme'
 
 export function ProfilHomePage({
   activeProfil,
@@ -12,6 +14,13 @@ export function ProfilHomePage({
   onOpenConfidentialite,
   onLogout,
 }) {
+  const [dark, setDark] = useState(() => getTheme() === 'dark')
+
+  function handleToggleDark(checked) {
+    setDark(checked)
+    setTheme(checked ? 'dark' : 'light')
+  }
+
   return (
     <div className="flex flex-1 flex-col pb-10">
       <ScreenHeader
@@ -31,6 +40,11 @@ export function ProfilHomePage({
           title="Confidentialité"
           subtitle={loadingBlocages ? '…' : `${blocagesCount} utilisateur${blocagesCount > 1 ? 's' : ''} bloqué${blocagesCount > 1 ? 's' : ''}`}
           onClick={onOpenConfidentialite}
+        />
+        <Row
+          lead={<IconTile icon={Moon} size={44} />}
+          title="Mode sombre"
+          trailing={<Toggle checked={dark} onChange={handleToggleDark} label="Mode sombre" />}
         />
         <Row lead={<IconTile icon={LogOut} size={44} />} title="Se déconnecter" onClick={onLogout} />
       </div>

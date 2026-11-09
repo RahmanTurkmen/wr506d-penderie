@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { Check, Loader2, Lock, X } from 'lucide-react'
-import { EmptyState, IconTile, Row } from '@/components/lumen/primitives'
+import { EmptyState, IconTile, Row, Skeleton } from '@/components/lumen/primitives'
 import { ScreenHeader } from '@/components/lumen/ScreenHeader'
 
 export function ConfidentialitePage({ blocages, loading, onBack, onBlock, onUnblock }) {
@@ -37,9 +37,16 @@ export function ConfidentialitePage({ blocages, loading, onBack, onBlock, onUnbl
 
       <div className="space-y-4 px-6 py-5 md:px-10">
         {loading && (
-          <div className="flex items-center justify-center gap-2 py-16 text-sm text-muted-foreground">
-            <Loader2 className="h-4 w-4 animate-spin" />
-            Chargement…
+          <div className="space-y-2.5">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="flex items-center gap-3.5 rounded-2xl bg-card px-3.5 py-3">
+                <Skeleton className="h-11 w-11 shrink-0 rounded-[14px]" />
+                <div className="min-w-0 flex-1 space-y-1.5">
+                  <Skeleton className="h-3.5 w-1/2" />
+                  <Skeleton className="h-3 w-1/3" />
+                </div>
+              </div>
+            ))}
           </div>
         )}
 

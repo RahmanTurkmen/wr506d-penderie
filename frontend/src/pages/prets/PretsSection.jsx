@@ -76,6 +76,7 @@ export function PretsSection({ token, activeProfil, onOpenObjet, onBack }) {
       onNewPret={() => setView('new')}
       onCloturer={handleCloturer}
       onBack={onBack}
+      onRefresh={refresh}
     />
   )
 }

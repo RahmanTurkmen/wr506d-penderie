@@ -96,6 +96,10 @@ export function Toggle({ checked, onChange, label }) {
   )
 }
 
+export function Skeleton({ className = '' }) {
+  return <div className={`animate-pulse rounded-2xl bg-muted ${className}`} />
+}
+
 export function Chip({ children, active, onClick, icon: Icon }) {
   return (
     <button
