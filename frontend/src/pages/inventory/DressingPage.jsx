@@ -73,7 +73,7 @@ export function DressingPage({ objets, tags, onBack, onOpenObjet }) {
         {vetements.length > 0 && filtered.length === 0 && <EmptyState>Aucun vêtement ne correspond à ces filtres.</EmptyState>}
 
         {filtered.length > 0 && (
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3">
             {filtered.map((o) => (
               <button
                 key={o.id}

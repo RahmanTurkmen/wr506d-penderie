@@ -25,16 +25,6 @@ export function InventoryListPage({ objets, categories, loading, error, onOpenOb
       <ScreenHeader
         title="Inventaire"
         subtitle={loading ? '…' : `${objets.length} objet${objets.length > 1 ? 's' : ''}`}
-        action={
-          <button
-            type="button"
-            onClick={onAddObjet}
-            className="hidden h-10 shrink-0 items-center gap-2 rounded-full bg-primary px-4 text-sm font-semibold text-primary-foreground md:flex"
-          >
-            <Plus className="h-4 w-4" />
-            Ajouter un objet
-          </button>
-        }
       />
 
       <div className="space-y-4 px-6 py-5 md:px-10">
@@ -97,7 +87,7 @@ export function InventoryListPage({ objets, categories, loading, error, onOpenOb
         )}
 
         {!loading && !error && filtered.length > 0 && (
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+          <div className="grid grid-cols-2 gap-3">
             {filtered.map((o) => {
               const Icon = TYPE_ICON[o.type] ?? Package
               return (
@@ -132,7 +122,7 @@ export function InventoryListPage({ objets, categories, loading, error, onOpenOb
         type="button"
         onClick={onAddObjet}
         aria-label="Ajouter un objet"
-        className="fixed bottom-24 right-5 z-10 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg md:hidden"
+        className="fixed bottom-24 right-5 z-10 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg"
       >
         <Plus className="h-6 w-6" />
       </button>

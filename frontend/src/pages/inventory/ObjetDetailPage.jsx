@@ -255,7 +255,7 @@ export function ObjetDetailPage({ token, activeProfil, objet, onBack, onRefresh 
       </div>
 
       {!lending && (
-        <div className="fixed inset-x-0 bottom-20 mx-auto flex w-full max-w-xl gap-2.5 bg-background/95 px-6 py-3 backdrop-blur md:static md:mt-0 md:max-w-xl md:px-10 md:py-0">
+        <div className="fixed inset-x-0 bottom-20 mx-auto flex w-full max-w-xl gap-2.5 bg-background/95 px-6 py-3 backdrop-blur">
           {objet.statut !== 'prete' && (
             <button
               type="button"

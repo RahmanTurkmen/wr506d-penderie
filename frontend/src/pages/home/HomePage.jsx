@@ -12,14 +12,14 @@ import {
   RefreshCw,
   ScanLine,
   Search,
+  Shield,
   Shirt,
   ShoppingBag,
   Sun,
-  Users,
 } from 'lucide-react'
 import { Badge, EmptyState, IconButton, IconTile, Row, SectionHeader } from '@/components/lumen/primitives'
 import { ProfilMenu } from '@/components/shell/ProfilMenu'
-import { listObjets, listPrets, photoUrl } from '@/lib/api'
+import { listObjets, listPrets, listValidations, photoUrl } from '@/lib/api'
 
 const TYPE_ICON = { vetement: Shirt, livre: BookOpen, vinyle: Disc3, autre: Package }
 
@@ -35,13 +35,14 @@ function StatCard({ value, label, icon: Icon }) {
   )
 }
 
-function QuickAction({ icon: Icon, label, primary, onClick, disabled }) {
+function QuickAction({ icon: Icon, label, primary, onClick, disabled, 'data-cy': dataCy }) {
   return (
     <button
       type="button"
       disabled={disabled}
       onClick={onClick}
       title={disabled ? 'Bientôt disponible' : undefined}
+      data-cy={dataCy}
       className={`flex h-9 shrink-0 items-center gap-2 rounded-full px-4 text-sm font-semibold transition-opacity ${
         disabled ? 'cursor-not-allowed opacity-60' : ''
       } ${primary ? 'bg-primary text-primary-foreground' : 'bg-secondary text-primary'}`}
@@ -52,11 +53,12 @@ function QuickAction({ icon: Icon, label, primary, onClick, disabled }) {
   )
 }
 
-export function HomePage({ token, profils, activeProfil, onSwitchProfil, onAddObjet, onOpenObjet }) {
+export function HomePage({ token, profils, activeProfil, onSwitchProfil, onAddObjet, onOpenObjet, onOpenPrets, onOpenValidations, onLogout }) {
   const [objets, setObjets] = useState(null)
   const [prets, setPrets] = useState({})
   const [error, setError] = useState('')
   const [menuOpen, setMenuOpen] = useState(false)
+  const [validationsCount, setValidationsCount] = useState(0)
 
   useEffect(() => {
     let cancelled = false
@@ -92,6 +94,18 @@ export function HomePage({ token, profils, activeProfil, onSwitchProfil, onAddOb
     }
   }, [token, activeProfil?.id])
 
+  useEffect(() => {
+    let cancelled = false
+    if (token) {
+      listValidations(token).then(({ ok, data }) => {
+        if (!cancelled && ok) setValidationsCount((data ?? []).length)
+      })
+    }
+    return () => {
+      cancelled = true
+    }
+  }, [token])
+
   const loading = objets === null
   const list = objets ?? []
   const enCours = list.filter((o) => o.statut === 'prete')
@@ -100,10 +114,9 @@ export function HomePage({ token, profils, activeProfil, onSwitchProfil, onAddOb
 
   return (
     <div className="flex flex-1 flex-col">
-      {/* En-tête mobile */}
-      <header className="relative rounded-b-[28px] bg-primary px-6 pb-6 pt-8 text-primary-foreground md:hidden">
+      <header className="relative rounded-b-[28px] bg-primary px-6 pb-6 pt-8 text-primary-foreground">
         <div className="flex items-start justify-between gap-3">
-          <button type="button" onClick={() => setMenuOpen((v) => !v)} className="min-w-0 text-left">
+          <button type="button" onClick={() => setMenuOpen((v) => !v)} data-cy="profil-menu-toggle" className="min-w-0 text-left">
             <span className="flex items-center gap-1">
               <h1 className="truncate text-2xl font-bold">Bonjour {activeProfil?.nom ?? '...'}</h1>
               <ChevronDown className="h-4 w-4 shrink-0 opacity-80" />
@@ -116,39 +129,11 @@ export function HomePage({ token, profils, activeProfil, onSwitchProfil, onAddOb
           </div>
         </div>
         {menuOpen && (
-          <ProfilMenu profils={profils} activeId={activeProfil?.id} onSwitch={onSwitchProfil} onClose={() => setMenuOpen(false)} />
+          <ProfilMenu profils={profils} activeId={activeProfil?.id} onSwitch={onSwitchProfil} onClose={() => setMenuOpen(false)} onLogout={onLogout} />
         )}
       </header>
 
-      {/* En-tête desktop */}
-      <header className="relative hidden items-center justify-between px-10 pb-2 pt-9 md:flex">
-        <div>
-          <h1 className="text-[28px] font-bold text-foreground">Bonjour {activeProfil?.nom ?? '...'}</h1>
-          <p className="mt-1 text-sm text-muted-foreground">Voici l'état de ton foyer</p>
-        </div>
-        <button
-          type="button"
-          onClick={() => setMenuOpen((v) => !v)}
-          className="flex items-center gap-2 rounded-full border border-border bg-card py-1.5 pl-1.5 pr-3.5 text-sm font-semibold text-foreground hover:bg-muted"
-        >
-          <span className="flex h-8 w-8 items-center justify-center rounded-full bg-secondary text-primary">
-            <Users className="h-4 w-4" />
-          </span>
-          {activeProfil?.nom ?? '...'}
-          <ChevronDown className="h-4 w-4 text-muted-foreground" />
-        </button>
-        {menuOpen && (
-          <ProfilMenu
-            profils={profils}
-            activeId={activeProfil?.id}
-            onSwitch={onSwitchProfil}
-            onClose={() => setMenuOpen(false)}
-            align="right"
-          />
-        )}
-      </header>
-
-      <div className="flex-1 space-y-6 px-6 py-6 md:px-10">
+      <div className="flex-1 space-y-6 px-6 py-6">
         {loading && (
           <div className="flex items-center justify-center gap-2 py-16 text-sm text-muted-foreground">
             <Loader2 className="h-4 w-4 animate-spin" />
@@ -163,6 +148,23 @@ export function HomePage({ token, profils, activeProfil, onSwitchProfil, onAddOb
           </div>
         )}
 
+        {!loading && !error && validationsCount > 0 && (
+          <button
+            type="button"
+            onClick={onOpenValidations}
+            data-cy="home-validations-banner"
+            className="flex w-full items-start gap-2.5 rounded-2xl bg-secondary px-4 py-3 text-left text-xs font-medium text-primary"
+          >
+            <Shield className="mt-0.5 h-[18px] w-[18px] shrink-0" />
+            <span>
+              <span className="block text-sm font-semibold">
+                {validationsCount} demande{validationsCount > 1 ? 's' : ''} à valider
+              </span>
+              Un profil géré attend ton approbation pour partager ou vendre.
+            </span>
+          </button>
+        )}
+
         {!loading && !error && (
           <>
             <div className="grid grid-cols-3 gap-3">
@@ -171,14 +173,23 @@ export function HomePage({ token, profils, activeProfil, onSwitchProfil, onAddOb
               <StatCard value={enVente.length} label="En vente" icon={ShoppingBag} />
             </div>
 
-            <div className="-mx-6 flex gap-2.5 overflow-x-auto px-6 md:mx-0 md:px-0">
-              <QuickAction icon={Plus} label="Ajouter" primary onClick={onAddObjet} />
+            <div className="-mx-6 flex gap-2.5 overflow-x-auto px-6">
+              <QuickAction icon={Plus} label="Ajouter" primary onClick={onAddObjet} data-cy="home-ajouter" />
               <QuickAction icon={ScanLine} label="Scanner" disabled />
               <QuickAction icon={Sun} label="Tenue" disabled />
             </div>
 
             <section className="space-y-2.5">
-              <SectionHeader title="Prêts à suivre" />
+              <SectionHeader
+                title="Prêts à suivre"
+                action={
+                  enCours.length > 0 && (
+                    <button type="button" onClick={onOpenPrets} className="text-sm font-semibold text-primary">
+                      Voir tout
+                    </button>
+                  )
+                }
+              />
               {enCours.length === 0 && <EmptyState>Aucun objet prêté pour le moment.</EmptyState>}
               {enCours.slice(0, 3).map((o) => {
                 const pret = prets[o.id]
