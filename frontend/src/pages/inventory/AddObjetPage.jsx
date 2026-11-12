@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { BookOpen, Check, Disc3, Loader2, Package, Shirt } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Chip } from '@/components/lumen/primitives'
 import { ScreenHeader } from '@/components/lumen/ScreenHeader'
 import { MultiPickOrCreate } from '@/components/inventory/MultiPickOrCreate'
@@ -16,17 +17,20 @@ import {
   listTags,
 } from '@/lib/api'
 
-const TYPES = [
-  { value: 'vetement', label: 'Vêtement', icon: Shirt },
-  { value: 'livre', label: 'Livre', icon: BookOpen },
-  { value: 'vinyle', label: 'Vinyle', icon: Disc3 },
-  { value: 'autre', label: 'Autre', icon: Package },
-]
+const TYPE_ICONS = {
+  vetement: Shirt,
+  livre: BookOpen,
+  vinyle: Disc3,
+  autre: Package,
+}
+const TYPE_ORDER = ['vetement', 'livre', 'vinyle', 'autre']
 
 const TOTAL_STEPS = 3
-const STEP_LABEL = { 1: 'Photo', 2: 'Infos', 3: 'Emplacement' }
+const STEP_KEY = { 1: 'photo', 2: 'infos', 3: 'emplacement' }
 
 export function AddObjetPage({ token, activeProfil, onCreated, onCancel }) {
+  const { t } = useTranslation('inventory')
+  const TYPES = TYPE_ORDER.map((value) => ({ value, label: t(`addObjet.types.${value}`), icon: TYPE_ICONS[value] }))
   const [step, setStep] = useState(1)
   const [loading, setLoading] = useState(true)
   const [categories, setCategories] = useState([])
@@ -74,7 +78,7 @@ export function AddObjetPage({ token, activeProfil, onCreated, onCancel }) {
   async function handleCreateCategorie(nomCat) {
     const res = await createCategorie(token, activeProfil?.id, nomCat)
     if (!res.ok) {
-      setError(res.data?.error ?? 'Impossible de créer la catégorie.')
+      setError(res.data?.error ?? t('addObjet.errors.categorie'))
       return null
     }
     setCategories((prev) => [...prev, res.data])
@@ -85,7 +89,7 @@ export function AddObjetPage({ token, activeProfil, onCreated, onCancel }) {
   async function handleCreateTag(nomTag) {
     const res = await createTag(token, activeProfil?.id, nomTag)
     if (!res.ok) {
-      setError(res.data?.error ?? 'Impossible de créer le tag.')
+      setError(res.data?.error ?? t('addObjet.errors.tag'))
       return null
     }
     setTags((prev) => [...prev, res.data])
@@ -96,7 +100,7 @@ export function AddObjetPage({ token, activeProfil, onCreated, onCancel }) {
   async function handleCreateLogement(nomLog) {
     const res = await createLogement(token, activeProfil?.id, nomLog)
     if (!res.ok) {
-      setError(res.data?.error ?? 'Impossible de créer le logement.')
+      setError(res.data?.error ?? t('addObjet.errors.logement'))
       return null
     }
     setLogements((prev) => [...prev, { ...res.data, pieces: [] }])
@@ -109,7 +113,7 @@ export function AddObjetPage({ token, activeProfil, onCreated, onCancel }) {
     if (!logementId) return null
     const res = await createPiece(token, activeProfil?.id, logementId, nomPiece)
     if (!res.ok) {
-      setError(res.data?.error ?? 'Impossible de créer la pièce.')
+      setError(res.data?.error ?? t('addObjet.errors.piece'))
       return null
     }
     setLogements((prev) => prev.map((l) => (l.id === logementId ? { ...l, pieces: [...l.pieces, res.data] } : l)))
@@ -160,7 +164,7 @@ export function AddObjetPage({ token, activeProfil, onCreated, onCancel }) {
     )
     setSaving(false)
     if (!res.ok) {
-      setError(res.data?.error ?? "Impossible de créer l'objet.")
+      setError(res.data?.error ?? t('addObjet.errors.objet'))
       return
     }
     onCreated(res.data)
@@ -169,7 +173,7 @@ export function AddObjetPage({ token, activeProfil, onCreated, onCancel }) {
   if (loading) {
     return (
       <div className="flex flex-1 flex-col">
-        <ScreenHeader title="Ajouter un objet" onBack={onCancel} close />
+        <ScreenHeader title={t('addObjet.title')} onBack={onCancel} close />
         <div className="flex flex-1 items-center justify-center text-muted-foreground">
           <Loader2 className="h-5 w-5 animate-spin" />
         </div>
@@ -180,8 +184,8 @@ export function AddObjetPage({ token, activeProfil, onCreated, onCancel }) {
   return (
     <div className="flex flex-1 flex-col pb-28 md:pb-10">
       <ScreenHeader
-        title="Ajouter un objet"
-        subtitle={`Étape ${step} sur ${TOTAL_STEPS} · ${STEP_LABEL[step]}`}
+        title={t('addObjet.title')}
+        subtitle={t('addObjet.stepSubtitle', { step, total: TOTAL_STEPS, label: t(`addObjet.stepLabels.${STEP_KEY[step]}`) })}
         onBack={onCancel}
         close
         step={[step, TOTAL_STEPS]}
@@ -195,18 +199,19 @@ export function AddObjetPage({ token, activeProfil, onCreated, onCancel }) {
         {step === 2 && (
           <>
             <label className="block space-y-1.5 text-left">
-              <span className="text-sm font-medium text-foreground">Nom</span>
+              <span className="text-sm font-medium text-foreground">{t('addObjet.fields.nomLabel')}</span>
               <input
                 autoFocus
                 value={nom}
                 onChange={(e) => setNom(e.target.value)}
-                placeholder="Veste en jean"
+                placeholder={t('addObjet.fields.nomPlaceholder')}
+                data-cy="objet-nom"
                 className="h-[52px] w-full rounded-[14px] border border-border bg-card px-4 text-sm text-foreground outline-none focus:border-primary"
               />
             </label>
 
             <div className="space-y-2 text-left">
-              <span className="block text-sm font-medium text-foreground">Type</span>
+              <span className="block text-sm font-medium text-foreground">{t('addObjet.fields.typeLabel')}</span>
               <div className="flex flex-wrap gap-2">
                 {TYPES.map((t) => (
                   <Chip key={t.value} active={type === t.value} onClick={() => setType(t.value)} icon={t.icon}>
@@ -218,51 +223,51 @@ export function AddObjetPage({ token, activeProfil, onCreated, onCancel }) {
 
             <div className="grid grid-cols-3 gap-2.5">
               <label className="block space-y-1.5 text-left">
-                <span className="text-sm font-medium text-foreground">Marque</span>
+                <span className="text-sm font-medium text-foreground">{t('addObjet.fields.marqueLabel')}</span>
                 <input
                   value={marque}
                   onChange={(e) => setMarque(e.target.value)}
-                  placeholder="Facultatif"
+                  placeholder={t('addObjet.fields.marquePlaceholder')}
                   className="h-11 w-full rounded-[14px] border border-border bg-card px-3 text-sm text-foreground outline-none focus:border-primary"
                 />
               </label>
               <label className="block space-y-1.5 text-left">
-                <span className="text-sm font-medium text-foreground">Taille</span>
+                <span className="text-sm font-medium text-foreground">{t('addObjet.fields.tailleLabel')}</span>
                 <input
                   value={taille}
                   onChange={(e) => setTaille(e.target.value)}
-                  placeholder="M, 42…"
+                  placeholder={t('addObjet.fields.taillePlaceholder')}
                   className="h-11 w-full rounded-[14px] border border-border bg-card px-3 text-sm text-foreground outline-none focus:border-primary"
                 />
               </label>
               <label className="block space-y-1.5 text-left">
-                <span className="text-sm font-medium text-foreground">Couleur</span>
+                <span className="text-sm font-medium text-foreground">{t('addObjet.fields.couleurLabel')}</span>
                 <input
                   value={couleur}
                   onChange={(e) => setCouleur(e.target.value)}
-                  placeholder="Facultatif"
+                  placeholder={t('addObjet.fields.couleurPlaceholder')}
                   className="h-11 w-full rounded-[14px] border border-border bg-card px-3 text-sm text-foreground outline-none focus:border-primary"
                 />
               </label>
             </div>
 
             <PickOrCreate
-              label="Catégorie"
+              label={t('addObjet.categorie.label')}
               items={categories}
               valueId={categorieId}
               onChange={setCategorieId}
               onCreate={handleCreateCategorie}
-              placeholder="Nom de la catégorie"
+              placeholder={t('addObjet.categorie.placeholder')}
               suggestion={categorieSuggestion}
             />
 
             <MultiPickOrCreate
-              label="Tags (facultatif)"
+              label={t('addObjet.tags.label')}
               items={tags}
               valueIds={tagIds}
               onToggle={toggleTag}
               onCreate={handleCreateTag}
-              placeholder="Nom du tag"
+              placeholder={t('addObjet.tags.placeholder')}
             />
           </>
         )}
@@ -270,7 +275,7 @@ export function AddObjetPage({ token, activeProfil, onCreated, onCancel }) {
         {step === 3 && (
           <>
             <PickOrCreate
-              label="Logement"
+              label={t('addObjet.logement.label')}
               items={logements}
               valueId={logementId}
               onChange={(id) => {
@@ -278,17 +283,17 @@ export function AddObjetPage({ token, activeProfil, onCreated, onCancel }) {
                 setPieceId(null)
               }}
               onCreate={handleCreateLogement}
-              placeholder="Nom du logement"
+              placeholder={t('addObjet.logement.placeholder')}
             />
 
             {logementId && (
               <PickOrCreate
-                label="Pièce"
+                label={t('addObjet.piece.label')}
                 items={pieces}
                 valueId={pieceId}
                 onChange={setPieceId}
                 onCreate={handleCreatePiece}
-                placeholder="Nom de la pièce"
+                placeholder={t('addObjet.piece.placeholder')}
               />
             )}
           </>
@@ -296,22 +301,23 @@ export function AddObjetPage({ token, activeProfil, onCreated, onCancel }) {
       </div>
 
       {step > 1 && (
-        <div className="fixed inset-x-0 bottom-20 mx-auto flex w-full max-w-xl gap-2.5 bg-background/95 px-6 py-3 backdrop-blur md:static md:mt-0 md:max-w-xl md:px-10 md:py-0">
+        <div className="fixed inset-x-0 bottom-20 mx-auto flex w-full max-w-xl gap-2.5 bg-background/95 px-6 py-3 backdrop-blur">
           <button
             type="button"
             onClick={() => setStep(step - 1)}
             className="h-[52px] flex-1 rounded-full border border-border text-[15px] font-semibold text-foreground"
           >
-            Retour
+            {t('addObjet.actions.back')}
           </button>
           {step === 2 && (
             <button
               type="button"
               disabled={!step2Valid}
               onClick={() => setStep(3)}
+              data-cy="objet-continuer"
               className="h-[52px] flex-1 rounded-full bg-primary text-[15px] font-semibold text-primary-foreground disabled:opacity-50"
             >
-              Continuer
+              {t('addObjet.actions.continue')}
             </button>
           )}
           {step === 3 && (
@@ -319,10 +325,11 @@ export function AddObjetPage({ token, activeProfil, onCreated, onCancel }) {
               type="button"
               disabled={!step3Valid || saving}
               onClick={handleSubmit}
+              data-cy="objet-ajouter"
               className="flex h-[52px] flex-1 items-center justify-center gap-2 rounded-full bg-primary text-[15px] font-semibold text-primary-foreground disabled:opacity-50"
             >
               {saving ? <Loader2 className="h-[18px] w-[18px] animate-spin" /> : <Check className="h-[18px] w-[18px]" />}
-              Ajouter
+              {t('addObjet.actions.add')}
             </button>
           )}
         </div>

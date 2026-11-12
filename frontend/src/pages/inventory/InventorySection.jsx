@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { listCategories, listObjets, listTags } from '@/lib/api'
 import { AddObjetPage } from './AddObjetPage'
 import { DressingPage } from './DressingPage'
@@ -6,6 +7,7 @@ import { InventoryListPage } from './InventoryListPage'
 import { ObjetDetailPage } from './ObjetDetailPage'
 
 export function InventorySection({ token, activeProfil, initialView = 'list', initialObjetId = null, onConsumeInitialView }) {
+  const { t } = useTranslation('inventory')
   const [view, setView] = useState(initialView)
   const [selectedId, setSelectedId] = useState(initialObjetId)
   const [returnView, setReturnView] = useState('list')
@@ -23,7 +25,7 @@ export function InventorySection({ token, activeProfil, initialView = 'list', in
       listTags(token, activeProfil?.id),
     ])
     if (!objetsRes.ok) {
-      setError(objetsRes.data?.error ?? 'Impossible de charger tes objets.')
+      setError(objetsRes.data?.error ?? t('section.loadError'))
       setObjets([])
     } else {
       setError('')
@@ -107,6 +109,7 @@ export function InventorySection({ token, activeProfil, initialView = 'list', in
       }}
       onAddObjet={() => setView('add')}
       onOpenDressing={() => setView('dressing')}
+      onRefresh={refresh}
     />
   )
 }

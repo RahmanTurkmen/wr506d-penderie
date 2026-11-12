@@ -1,4 +1,5 @@
 import { Archive, BookOpen, Disc3, Package, Shirt } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { EmptyState, IconTile, Row, SectionHeader } from '@/components/lumen/primitives'
 import { InlineCreate } from '@/components/lumen/InlineCreate'
 import { ScreenHeader } from '@/components/lumen/ScreenHeader'
@@ -7,10 +8,12 @@ import { photoUrl } from '@/lib/api'
 const TYPE_ICON = { vetement: Shirt, livre: BookOpen, vinyle: Disc3, autre: Package }
 
 export function PieceDetailPage({ piece, logementNom, objets, onBack, onCreateConteneur, onOpenObjet }) {
+  const { t } = useTranslation('logements')
+
   if (!piece) {
     return (
       <div className="flex flex-1 flex-col">
-        <ScreenHeader title="Pièce introuvable" onBack={onBack} />
+        <ScreenHeader title={t('piece.notFoundTitle')} onBack={onBack} />
       </div>
     )
   }
@@ -24,19 +27,21 @@ export function PieceDetailPage({ piece, logementNom, objets, onBack, onCreateCo
 
       <div className="space-y-6 px-6 py-5 md:px-10">
         <section className="space-y-3">
-          <SectionHeader title="Rangements" />
-          {conteneurs.length === 0 && <EmptyState>Aucun rangement — étagère, armoire, tiroir…</EmptyState>}
+          <SectionHeader title={t('piece.rangementsTitle')} />
+          {conteneurs.length === 0 && <EmptyState>{t('piece.emptyNoRangements')}</EmptyState>}
           {conteneurs.map((c) => (
             <Row key={c.id} lead={<IconTile icon={Archive} size={44} />} title={c.nom} />
           ))}
-          <InlineCreate label="Ajouter un rangement" placeholder="Étagère, armoire, tiroir…" onCreate={onCreateConteneur} />
+          <InlineCreate
+            label={t('piece.addRangement.label')}
+            placeholder={t('piece.addRangement.placeholder')}
+            onCreate={onCreateConteneur}
+          />
         </section>
 
         <section className="space-y-3">
-          <SectionHeader title="Objets rangés directement ici" />
-          {objetsDansLaPiece.length === 0 && (
-            <EmptyState>Aucun objet rangé directement dans cette pièce (ils peuvent être dans un rangement ci-dessus).</EmptyState>
-          )}
+          <SectionHeader title={t('piece.objetsTitle')} />
+          {objetsDansLaPiece.length === 0 && <EmptyState>{t('piece.emptyNoObjetsHere')}</EmptyState>}
           {objetsDansLaPiece.map((o) => (
             <Row
               key={o.id}

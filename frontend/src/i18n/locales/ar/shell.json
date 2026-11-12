@@ -1,0 +1,16 @@
+{
+  "nav": {
+    "accueil": "الرئيسية",
+    "inventaire": "المخزون",
+    "logements": "المساكن",
+    "tenues": "الملابس",
+    "profil": "الملف الشخصي"
+  },
+  "profilMenu": {
+    "householdProfiles": "ملفات الأسرة",
+    "mainAccount": "الحساب الرئيسي",
+    "childProfile": "ملف طفل",
+    "managedProfile": "ملف مُدار",
+    "logout": "تسجيل الخروج"
+  }
+}

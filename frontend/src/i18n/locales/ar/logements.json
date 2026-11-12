@@ -1,0 +1,46 @@
+{
+  "list": {
+    "title": "المساكن",
+    "loadingEllipsis": "…",
+    "logementCount_one": "{{count}} مسكن",
+    "logementCount_other": "{{count}} مساكن",
+    "pieceCount_one": "{{count}} غرفة",
+    "pieceCount_other": "{{count}} غرف",
+    "objetCount_one": "{{count}} عنصر",
+    "objetCount_other": "{{count}} عناصر",
+    "emptyNoLogements": "لا توجد مساكن حتى الآن — أضف منزلك أو شقتك...",
+    "addLogement": {
+      "label": "إضافة مسكن",
+      "placeholder": "منزل، شقة…"
+    }
+  },
+  "detail": {
+    "notFoundTitle": "المسكن غير موجود",
+    "pieceCount_one": "{{count}} غرفة",
+    "pieceCount_other": "{{count}} غرف",
+    "objetCount_one": "{{count}} عنصر",
+    "objetCount_other": "{{count}} عناصر",
+    "emptyNoPieces": "لا توجد غرف حتى الآن — أضف غرفتك الأولى.",
+    "addPiece": {
+      "label": "إضافة غرفة",
+      "placeholder": "غرفة نوم، مطبخ، قبو…"
+    }
+  },
+  "piece": {
+    "notFoundTitle": "الغرفة غير موجودة",
+    "rangementsTitle": "أماكن التخزين",
+    "emptyNoRangements": "لا يوجد مكان تخزين — رف، خزانة، درج…",
+    "addRangement": {
+      "label": "إضافة مكان تخزين",
+      "placeholder": "رف، خزانة، درج…"
+    },
+    "objetsTitle": "العناصر المخزنة هنا مباشرة",
+    "emptyNoObjetsHere": "لا توجد عناصر مخزّنة مباشرة في هذه الغرفة (قد تكون في أحد أماكن التخزين أعلاه)."
+  },
+  "section": {
+    "loadError": "تعذّر تحميل مساكنك."
+  },
+  "inlineCreate": {
+    "confirmAria": "تأكيد"
+  }
+}

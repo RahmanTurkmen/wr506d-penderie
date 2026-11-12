@@ -103,6 +103,10 @@ export function listPrets(token, profilId, objetId) {
   return request('GET', `/api/objets/${objetId}/prets`, { token, profilId })
 }
 
+export function listValidations(token) {
+  return request('GET', '/api/validations', { token })
+}
+
 export function createPret(token, profilId, objetId, emprunteurNom, dateFinPrevue) {
   return request('POST', `/api/objets/${objetId}/prets`, { token, profilId, body: { emprunteurNom, dateFinPrevue } })
 }

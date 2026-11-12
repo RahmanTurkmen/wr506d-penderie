@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { createConteneur, createLogement, createPiece, listLogements, listObjets, listPieces } from '@/lib/api'
 import { LogementDetailPage } from './LogementDetailPage'
 import { LogementsListPage } from './LogementsListPage'
 import { PieceDetailPage } from './PieceDetailPage'
 
 export function LogementsSection({ token, activeProfil, onOpenObjet }) {
+  const { t } = useTranslation('logements')
   const [view, setView] = useState('list') // 'list' | 'logement' | 'piece'
   const [logementId, setLogementId] = useState(null)
   const [pieceId, setPieceId] = useState(null)
@@ -20,7 +22,7 @@ export function LogementsSection({ token, activeProfil, onOpenObjet }) {
   async function refresh() {
     const [logRes, objRes] = await Promise.all([listLogements(token, activeProfil?.id), listObjets(token, activeProfil?.id)])
     if (!logRes.ok) {
-      setError(logRes.data?.error ?? 'Impossible de charger tes logements.')
+      setError(logRes.data?.error ?? t('section.loadError'))
       setLogements([])
     } else {
       setError('')

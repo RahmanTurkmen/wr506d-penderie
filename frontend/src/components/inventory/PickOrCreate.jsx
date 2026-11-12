@@ -1,11 +1,24 @@
 import { useState } from 'react'
 import { Check, Loader2, Plus, Sparkles } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Chip } from '@/components/lumen/primitives'
 
 // Sélection simple (catégorie, logement, pièce...) parmi une liste existante,
 // avec un bouton « + » qui permet d'en créer une nouvelle à la volée quand
 // celle qu'on veut n'existe pas encore.
-export function PickOrCreate({ label, items, valueId, onChange, onCreate, placeholder = 'Nouveau nom', error, suggestion }) {
+export function PickOrCreate({
+  label,
+  items,
+  valueId,
+  onChange,
+  onCreate,
+  placeholder,
+  error,
+  suggestion,
+  allowCreate = true,
+  'data-cy': dataCy,
+}) {
+  const { t } = useTranslation('inventory')
   const [creating, setCreating] = useState(false)
   const [draft, setDraft] = useState('')
   const [saving, setSaving] = useState(false)
@@ -23,7 +36,7 @@ export function PickOrCreate({ label, items, valueId, onChange, onCreate, placeh
   }
 
   return (
-    <div className="space-y-2 text-left">
+    <div className="space-y-2 text-left" data-cy={dataCy}>
       {label && <span className="block text-sm font-medium text-foreground">{label}</span>}
       <div className="flex flex-wrap gap-2">
         {items.map((item) => (
@@ -31,9 +44,9 @@ export function PickOrCreate({ label, items, valueId, onChange, onCreate, placeh
             {item.nom}
           </Chip>
         ))}
-        {!creating && (
+        {allowCreate && !creating && (
           <Chip onClick={() => setCreating(true)} icon={Plus}>
-            Nouveau
+            {t('pickOrCreate.newChip')}
           </Chip>
         )}
       </div>
@@ -62,7 +75,7 @@ export function PickOrCreate({ label, items, valueId, onChange, onCreate, placeh
           className="flex items-center gap-1.5 text-xs font-semibold text-primary"
         >
           <Sparkles className="h-3.5 w-3.5" />
-          Suggestion de la photo : « {suggestion} » — utiliser
+          {t('pickOrCreate.suggestionUse', { suggestion })}
         </button>
       )}
       {error && <p className="text-xs text-destructive">{error}</p>}

@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { Check, Loader2, Plus } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 // Bouton « + Ajouter un X » qui se transforme en champ texte pour créer
 // l'élément à la volée (logement, pièce, rangement...).
 export function InlineCreate({ label, placeholder, onCreate }) {
+  const { t } = useTranslation('logements')
   const [creating, setCreating] = useState(false)
   const [draft, setDraft] = useState('')
   const [saving, setSaving] = useState(false)
@@ -46,7 +48,7 @@ export function InlineCreate({ label, placeholder, onCreate }) {
       <button
         type="submit"
         disabled={saving || !draft.trim()}
-        aria-label="Confirmer"
+        aria-label={t('inlineCreate.confirmAria')}
         className="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-primary text-primary-foreground disabled:opacity-50"
       >
         {saving ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}

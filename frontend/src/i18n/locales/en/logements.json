@@ -1,0 +1,46 @@
+{
+  "list": {
+    "title": "Homes",
+    "loadingEllipsis": "…",
+    "logementCount_one": "{{count}} home",
+    "logementCount_other": "{{count}} homes",
+    "pieceCount_one": "{{count}} room",
+    "pieceCount_other": "{{count}} rooms",
+    "objetCount_one": "{{count}} item",
+    "objetCount_other": "{{count}} items",
+    "emptyNoLogements": "No homes yet — add your house, your apartment...",
+    "addLogement": {
+      "label": "Add a home",
+      "placeholder": "House, apartment…"
+    }
+  },
+  "detail": {
+    "notFoundTitle": "Home not found",
+    "pieceCount_one": "{{count}} room",
+    "pieceCount_other": "{{count}} rooms",
+    "objetCount_one": "{{count}} item",
+    "objetCount_other": "{{count}} items",
+    "emptyNoPieces": "No rooms yet — add your first room.",
+    "addPiece": {
+      "label": "Add a room",
+      "placeholder": "Bedroom, kitchen, cellar…"
+    }
+  },
+  "piece": {
+    "notFoundTitle": "Room not found",
+    "rangementsTitle": "Storage",
+    "emptyNoRangements": "No storage yet — shelf, closet, drawer…",
+    "addRangement": {
+      "label": "Add storage",
+      "placeholder": "Shelf, closet, drawer…"
+    },
+    "objetsTitle": "Items stored directly here",
+    "emptyNoObjetsHere": "No items are stored directly in this room (they may be in a storage unit above)."
+  },
+  "section": {
+    "loadError": "Could not load your homes."
+  },
+  "inlineCreate": {
+    "confirmAria": "Confirm"
+  }
+}

@@ -14,13 +14,12 @@ import {
   ShoppingBag,
   Tag,
 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Badge } from '@/components/lumen/primitives'
 import { ScreenHeader } from '@/components/lumen/ScreenHeader'
 import { createPret, photoUrl, updateObjet, updateObjetStatut } from '@/lib/api'
 
 const TYPE_ICON = { vetement: Shirt, livre: BookOpen, vinyle: Disc3, autre: Package }
-const TYPE_LABEL = { vetement: 'Vêtement', livre: 'Livre', vinyle: 'Vinyle', autre: 'Autre' }
-const STATUT_LABEL = { disponible: 'Disponible', prete: 'Prêté', en_vente: 'En vente' }
 const STATUT_TONE = { disponible: 'pink', prete: 'gray', en_vente: 'solid' }
 
 function InfoRow({ icon: Icon, label, value }) {
@@ -34,6 +33,7 @@ function InfoRow({ icon: Icon, label, value }) {
 }
 
 export function ObjetDetailPage({ token, activeProfil, objet, onBack, onRefresh }) {
+  const { t } = useTranslation('inventory')
   const [busy, setBusy] = useState(false)
   const [message, setMessage] = useState(null)
   const [lending, setLending] = useState(false)
@@ -47,10 +47,8 @@ export function ObjetDetailPage({ token, activeProfil, objet, onBack, onRefresh 
   if (!objet) {
     return (
       <div className="flex flex-1 flex-col">
-        <ScreenHeader title="Objet introuvable" onBack={onBack} />
-        <p className="px-6 py-10 text-center text-sm text-muted-foreground">
-          Cet objet n'existe plus ou a été supprimé.
-        </p>
+        <ScreenHeader title={t('detail.notFoundTitle')} onBack={onBack} />
+        <p className="px-6 py-10 text-center text-sm text-muted-foreground">{t('detail.notFoundBody')}</p>
       </div>
     )
   }
@@ -75,7 +73,7 @@ export function ObjetDetailPage({ token, activeProfil, objet, onBack, onRefresh 
     })
     setBusy(false)
     if (!res.ok) {
-      setMessage({ tone: 'error', text: res.data?.error ?? 'Impossible de mettre à jour.' })
+      setMessage({ tone: 'error', text: res.data?.error ?? t('detail.errors.update') })
       return
     }
     setEditing(false)
@@ -88,11 +86,11 @@ export function ObjetDetailPage({ token, activeProfil, objet, onBack, onRefresh 
     const res = await updateObjetStatut(token, activeProfil?.id, objet.id, statut)
     setBusy(false)
     if (res.status === 202) {
-      setMessage({ tone: 'info', text: res.data?.message ?? 'Soumis au compte principal pour validation.' })
+      setMessage({ tone: 'info', text: res.data?.message ?? t('detail.errors.pendingValidation') })
       return
     }
     if (!res.ok) {
-      setMessage({ tone: 'error', text: res.data?.error ?? 'Action impossible.' })
+      setMessage({ tone: 'error', text: res.data?.error ?? t('detail.errors.statut') })
       return
     }
     await onRefresh()
@@ -106,7 +104,7 @@ export function ObjetDetailPage({ token, activeProfil, objet, onBack, onRefresh 
     const res = await createPret(token, activeProfil?.id, objet.id, emprunteurNom.trim(), dateFinPrevue || undefined)
     setBusy(false)
     if (!res.ok) {
-      setMessage({ tone: 'error', text: res.data?.error ?? 'Impossible de créer le prêt.' })
+      setMessage({ tone: 'error', text: res.data?.error ?? t('detail.errors.pret') })
       return
     }
     setLending(false)
@@ -125,7 +123,7 @@ export function ObjetDetailPage({ token, activeProfil, objet, onBack, onRefresh 
           <button
             type="button"
             onClick={openEdit}
-            aria-label="Modifier marque, taille, couleur"
+            aria-label={t('detail.editAriaLabel')}
             className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border bg-card text-foreground hover:bg-muted"
           >
             <Pencil className="h-[18px] w-[18px]" />
@@ -143,47 +141,53 @@ export function ObjetDetailPage({ token, activeProfil, objet, onBack, onRefresh 
         )}
 
         <div className="flex flex-wrap gap-2">
-          <Badge tone={STATUT_TONE[objet.statut]}>{STATUT_LABEL[objet.statut] ?? objet.statut}</Badge>
-          <Badge tone="gray">{TYPE_LABEL[objet.type] ?? objet.type}</Badge>
+          <Badge tone={STATUT_TONE[objet.statut]}>{t(`detail.statuts.${objet.statut}`, { defaultValue: objet.statut })}</Badge>
+          <Badge tone="gray">{t(`detail.types.${objet.type}`, { defaultValue: objet.type })}</Badge>
           {objet.categorie && <Badge tone="gray">{objet.categorie.nom}</Badge>}
         </div>
 
         <div className="divide-y divide-border rounded-2xl bg-card px-4">
-          {objet.marque && <InfoRow icon={Tag} label="Marque" value={objet.marque} />}
-          {objet.taille && <InfoRow icon={Tag} label="Taille" value={objet.taille} />}
-          {objet.couleur && <InfoRow icon={Tag} label="Couleur" value={objet.couleur} />}
-          <InfoRow icon={MapPin} label="Emplacement" value={objet.piece?.nom ?? objet.conteneur?.nom ?? '—'} />
-          <InfoRow icon={QrCode} label="QR code" value={objet.qrCodeInterne} />
-          {objet.tags?.length > 0 && <InfoRow icon={Tag} label="Tags" value={objet.tags.map((t) => t.nom).join(', ')} />}
+          {objet.marque && <InfoRow icon={Tag} label={t('detail.fields.marque')} value={objet.marque} />}
+          {objet.taille && <InfoRow icon={Tag} label={t('detail.fields.taille')} value={objet.taille} />}
+          {objet.couleur && <InfoRow icon={Tag} label={t('detail.fields.couleur')} value={objet.couleur} />}
+          <InfoRow
+            icon={MapPin}
+            label={t('detail.fields.emplacement')}
+            value={objet.piece?.nom ?? objet.conteneur?.nom ?? t('detail.emptyValue')}
+          />
+          <InfoRow icon={QrCode} label={t('detail.fields.qrCode')} value={objet.qrCodeInterne} />
+          {objet.tags?.length > 0 && (
+            <InfoRow icon={Tag} label={t('detail.fields.tags')} value={objet.tags.map((tag) => tag.nom).join(', ')} />
+          )}
         </div>
 
         {!objet.marque && !objet.taille && !objet.couleur && !editing && (
           <button type="button" onClick={openEdit} className="text-left text-sm font-semibold text-primary">
-            + Ajouter marque, taille, couleur
+            {t('detail.addDetails')}
           </button>
         )}
 
         {editing && (
           <form onSubmit={handleSaveEdit} className="space-y-3 rounded-2xl bg-card p-4">
-            <p className="text-sm font-semibold text-foreground">Marque, taille, couleur</p>
+            <p className="text-sm font-semibold text-foreground">{t('detail.editForm.title')}</p>
             <div className="grid grid-cols-3 gap-2.5">
               <input
                 autoFocus
                 value={editMarque}
                 onChange={(e) => setEditMarque(e.target.value)}
-                placeholder="Marque"
+                placeholder={t('detail.editForm.marquePlaceholder')}
                 className="h-11 w-full min-w-0 rounded-[14px] border border-border bg-background px-3 text-sm text-foreground outline-none focus:border-primary"
               />
               <input
                 value={editTaille}
                 onChange={(e) => setEditTaille(e.target.value)}
-                placeholder="Taille"
+                placeholder={t('detail.editForm.taillePlaceholder')}
                 className="h-11 w-full min-w-0 rounded-[14px] border border-border bg-background px-3 text-sm text-foreground outline-none focus:border-primary"
               />
               <input
                 value={editCouleur}
                 onChange={(e) => setEditCouleur(e.target.value)}
-                placeholder="Couleur"
+                placeholder={t('detail.editForm.couleurPlaceholder')}
                 className="h-11 w-full min-w-0 rounded-[14px] border border-border bg-background px-3 text-sm text-foreground outline-none focus:border-primary"
               />
             </div>
@@ -193,7 +197,7 @@ export function ObjetDetailPage({ token, activeProfil, objet, onBack, onRefresh 
                 onClick={() => setEditing(false)}
                 className="h-11 flex-1 rounded-full border border-border text-sm font-semibold text-foreground"
               >
-                Annuler
+                {t('detail.editForm.cancel')}
               </button>
               <button
                 type="submit"
@@ -201,7 +205,7 @@ export function ObjetDetailPage({ token, activeProfil, objet, onBack, onRefresh 
                 className="flex h-11 flex-1 items-center justify-center gap-2 rounded-full bg-primary text-sm font-semibold text-primary-foreground disabled:opacity-60"
               >
                 {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
-                Enregistrer
+                {t('detail.editForm.save')}
               </button>
             </div>
           </form>
@@ -219,12 +223,12 @@ export function ObjetDetailPage({ token, activeProfil, objet, onBack, onRefresh 
 
         {lending && (
           <form onSubmit={handleLend} className="space-y-3 rounded-2xl bg-card p-4">
-            <p className="text-sm font-semibold text-foreground">Prêter cet objet</p>
+            <p className="text-sm font-semibold text-foreground">{t('detail.lendForm.title')}</p>
             <input
               autoFocus
               value={emprunteurNom}
               onChange={(e) => setEmprunteurNom(e.target.value)}
-              placeholder="Nom de l'emprunteur"
+              placeholder={t('detail.lendForm.borrowerPlaceholder')}
               className="h-11 w-full rounded-[14px] border border-border bg-background px-3.5 text-sm text-foreground outline-none focus:border-primary"
             />
             <input
@@ -239,7 +243,7 @@ export function ObjetDetailPage({ token, activeProfil, objet, onBack, onRefresh 
                 onClick={() => setLending(false)}
                 className="h-11 flex-1 rounded-full border border-border text-sm font-semibold text-foreground"
               >
-                Annuler
+                {t('detail.lendForm.cancel')}
               </button>
               <button
                 type="submit"
@@ -247,7 +251,7 @@ export function ObjetDetailPage({ token, activeProfil, objet, onBack, onRefresh 
                 className="flex h-11 flex-1 items-center justify-center gap-2 rounded-full bg-primary text-sm font-semibold text-primary-foreground disabled:opacity-60"
               >
                 {busy ? <Loader2 className="h-4 w-4 animate-spin" /> : <Check className="h-4 w-4" />}
-                Confirmer
+                {t('detail.lendForm.confirm')}
               </button>
             </div>
           </form>
@@ -255,7 +259,7 @@ export function ObjetDetailPage({ token, activeProfil, objet, onBack, onRefresh 
       </div>
 
       {!lending && (
-        <div className="fixed inset-x-0 bottom-20 mx-auto flex w-full max-w-xl gap-2.5 bg-background/95 px-6 py-3 backdrop-blur md:static md:mt-0 md:max-w-xl md:px-10 md:py-0">
+        <div className="fixed inset-x-0 bottom-20 mx-auto flex w-full max-w-xl gap-2.5 bg-background/95 px-6 py-3 backdrop-blur">
           {objet.statut !== 'prete' && (
             <button
               type="button"
@@ -264,7 +268,7 @@ export function ObjetDetailPage({ token, activeProfil, objet, onBack, onRefresh 
               className="flex h-[52px] flex-1 items-center justify-center gap-2 rounded-full bg-primary text-[15px] font-semibold text-primary-foreground disabled:opacity-60"
             >
               <RefreshCw className="h-[18px] w-[18px]" />
-              Prêter
+              {t('detail.actions.lend')}
             </button>
           )}
           {objet.statut === 'prete' && (
@@ -275,7 +279,7 @@ export function ObjetDetailPage({ token, activeProfil, objet, onBack, onRefresh 
               className="flex h-[52px] flex-1 items-center justify-center gap-2 rounded-full bg-primary text-[15px] font-semibold text-primary-foreground disabled:opacity-60"
             >
               {busy ? <Loader2 className="h-[18px] w-[18px] animate-spin" /> : <Check className="h-[18px] w-[18px]" />}
-              Marquer disponible
+              {t('detail.actions.markAvailable')}
             </button>
           )}
           {objet.statut !== 'en_vente' && (
@@ -286,7 +290,7 @@ export function ObjetDetailPage({ token, activeProfil, objet, onBack, onRefresh 
               className="flex h-[52px] flex-1 items-center justify-center gap-2 rounded-full border border-border bg-card text-[15px] font-semibold text-foreground disabled:opacity-60"
             >
               <ShoppingBag className="h-[18px] w-[18px]" />
-              Vendre
+              {t('detail.actions.sell')}
             </button>
           )}
           {objet.statut === 'en_vente' && (
@@ -297,7 +301,7 @@ export function ObjetDetailPage({ token, activeProfil, objet, onBack, onRefresh 
               className="flex h-[52px] flex-1 items-center justify-center gap-2 rounded-full border border-border bg-card text-[15px] font-semibold text-foreground disabled:opacity-60"
             >
               <Clock className="h-[18px] w-[18px]" />
-              Retirer de la vente
+              {t('detail.actions.removeFromSale')}
             </button>
           )}
         </div>

@@ -1,9 +1,11 @@
-import { AlertCircle, Building2, Loader2 } from 'lucide-react'
-import { EmptyState, IconTile, Row } from '@/components/lumen/primitives'
+import { AlertCircle, Building2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
+import { EmptyState, IconTile, Row, Skeleton } from '@/components/lumen/primitives'
 import { InlineCreate } from '@/components/lumen/InlineCreate'
 import { ScreenHeader } from '@/components/lumen/ScreenHeader'
 
 export function LogementsListPage({ logements, objets, loading, error, onOpenLogement, onCreateLogement }) {
+  const { t } = useTranslation('logements')
   const totalPieces = logements.reduce((sum, l) => sum + (l.pieces?.length ?? 0), 0)
 
   // Note : l'API ne renvoie pas le pieceId parent d'un conteneur sur un
@@ -18,15 +20,26 @@ export function LogementsListPage({ logements, objets, loading, error, onOpenLog
   return (
     <div className="flex flex-1 flex-col pb-24 md:pb-10">
       <ScreenHeader
-        title="Logements"
-        subtitle={loading ? '…' : `${logements.length} logement${logements.length > 1 ? 's' : ''} · ${totalPieces} pièce${totalPieces > 1 ? 's' : ''}`}
+        title={t('list.title')}
+        subtitle={
+          loading
+            ? t('list.loadingEllipsis')
+            : `${t('list.logementCount', { count: logements.length })} · ${t('list.pieceCount', { count: totalPieces })}`
+        }
       />
 
       <div className="space-y-3 px-6 py-5 md:px-10">
         {loading && (
-          <div className="flex items-center justify-center gap-2 py-16 text-sm text-muted-foreground">
-            <Loader2 className="h-4 w-4 animate-spin" />
-            Chargement…
+          <div className="space-y-3">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <div key={i} className="flex items-center gap-3.5 rounded-2xl bg-card px-3.5 py-3">
+                <Skeleton className="h-12 w-12 shrink-0 rounded-[14px]" />
+                <div className="min-w-0 flex-1 space-y-1.5">
+                  <Skeleton className="h-3.5 w-1/2" />
+                  <Skeleton className="h-3 w-1/3" />
+                </div>
+              </div>
+            ))}
           </div>
         )}
 
@@ -37,9 +50,7 @@ export function LogementsListPage({ logements, objets, loading, error, onOpenLog
           </div>
         )}
 
-        {!loading && !error && logements.length === 0 && (
-          <EmptyState>Aucun logement pour le moment — ajoute ta maison, ton appartement...</EmptyState>
-        )}
+        {!loading && !error && logements.length === 0 && <EmptyState>{t('list.emptyNoLogements')}</EmptyState>}
 
         {!loading &&
           !error &&
@@ -49,13 +60,13 @@ export function LogementsListPage({ logements, objets, loading, error, onOpenLog
               onClick={() => onOpenLogement(l.id)}
               lead={<IconTile icon={Building2} size={48} />}
               title={l.nom}
-              subtitle={`${(l.pieces ?? []).length} pièce${(l.pieces ?? []).length > 1 ? 's' : ''} · ${countObjets(l)} objet${countObjets(l) > 1 ? 's' : ''}`}
+              subtitle={`${t('list.pieceCount', { count: (l.pieces ?? []).length })} · ${t('list.objetCount', { count: countObjets(l) })}`}
               trailing={<span className="text-sm text-muted-foreground">›</span>}
             />
           ))}
 
         {!loading && !error && (
-          <InlineCreate label="Ajouter un logement" placeholder="Maison, appartement…" onCreate={onCreateLogement} />
+          <InlineCreate label={t('list.addLogement.label')} placeholder={t('list.addLogement.placeholder')} onCreate={onCreateLogement} />
         )}
       </div>
     </div>
