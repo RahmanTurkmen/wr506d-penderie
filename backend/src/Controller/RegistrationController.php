@@ -10,12 +10,14 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RegistrationController
 {
     public function __construct(
         private readonly EntityManagerInterface $em,
         private readonly UserPasswordHasherInterface $passwordHasher,
+        private readonly TranslatorInterface $translator,
     ) {
     }
 
@@ -28,17 +30,17 @@ class RegistrationController
         $nom = $data['nom'] ?? null;
 
         if (!\is_string($email) || !\is_string($password) || !\is_string($nom) || '' === $nom) {
-            return new JsonResponse(['error' => 'email, password et nom sont requis.'], 400);
+            return new JsonResponse(['error' => $this->translator->trans('registration.champs_requis')], 400);
         }
 
         $existing = $this->em->getRepository(User::class)->findOneBy(['email' => $email]);
         if (null !== $existing) {
-            return new JsonResponse(['error' => 'Un compte existe déjà avec cet email.'], 409);
+            return new JsonResponse(['error' => $this->translator->trans('registration.compte_existe')], 409);
         }
 
         $user = new User($email);
         if (\strlen($password) < 8) {
-            return new JsonResponse(['error' => 'Le mot de passe doit contenir au moins 8 caractères.'], 400);
+            return new JsonResponse(['error' => $this->translator->trans('registration.password_trop_court')], 400);
         }
 
         $user->setPassword($this->passwordHasher->hashPassword($user, $password));

@@ -22,6 +22,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ObjetController
 {
@@ -33,6 +34,7 @@ class ObjetController
     public function __construct(
         private readonly EntityManagerInterface $em,
         #[Autowire('%kernel.project_dir%')] private readonly string $projectDir,
+        private readonly TranslatorInterface $translator,
     ) {
     }
 
@@ -95,7 +97,7 @@ class ObjetController
     {
         $profil = $this->resolveProfil($request, $user);
         if (null === $profil) {
-            return new JsonResponse(['error' => 'Aucun profil pour cet utilisateur.'], 404);
+            return new JsonResponse(['error' => $this->translator->trans('profil.not_found')], 404);
         }
 
         return new JsonResponse(array_map($this->serialize(...), $profil->getObjets()->toArray()));
@@ -106,7 +108,7 @@ class ObjetController
     {
         $profil = $this->resolveProfil($request, $user);
         if (null === $profil) {
-            return new JsonResponse(['error' => 'Aucun profil pour cet utilisateur.'], 404);
+            return new JsonResponse(['error' => $this->translator->trans('profil.not_found')], 404);
         }
 
         // Multipart (avec photo éventuelle) ou JSON classique (compatibilité) :
@@ -125,33 +127,33 @@ class ObjetController
         $couleur = $data['couleur'] ?? null;
 
         if (!\is_string($nom) || '' === $nom) {
-            return new JsonResponse(['error' => 'nom est requis.'], 400);
+            return new JsonResponse(['error' => $this->translator->trans('common.nom_requis')], 400);
         }
 
         $type = TypeObjet::tryFrom((string) $typeValue);
         if (null === $type) {
-            return new JsonResponse(['error' => 'type invalide. Valeurs possibles : '.implode(', ', array_column(TypeObjet::cases(), 'value'))], 400);
+            return new JsonResponse(['error' => $this->translator->trans('objet.type_invalide', ['%types%' => implode(', ', array_column(TypeObjet::cases(), 'value'))])], 400);
         }
 
         $categorie = null !== $categorieId ? $this->em->getRepository(Categorie::class)->find($categorieId) : null;
         if (null === $categorie) {
-            return new JsonResponse(['error' => 'categorieId invalide.'], 400);
+            return new JsonResponse(['error' => $this->translator->trans('objet.categorie_invalide')], 400);
         }
 
         if ((null === $pieceId) === (null === $conteneurId)) {
-            return new JsonResponse(['error' => 'Il faut fournir exactement un pieceId OU un conteneurId, jamais les deux.'], 400);
+            return new JsonResponse(['error' => $this->translator->trans('objet.piece_xor_conteneur')], 400);
         }
 
         if (null !== $pieceId) {
             $piece = $this->em->getRepository(Piece::class)->find($pieceId);
             if (null === $piece || $piece->getLogement()->getProfil() !== $profil) {
-                return new JsonResponse(['error' => 'pieceId introuvable.'], 404);
+                return new JsonResponse(['error' => $this->translator->trans('objet.piece_introuvable')], 404);
             }
             $emplacement = $piece;
         } else {
             $conteneur = $this->em->getRepository(Conteneur::class)->find($conteneurId);
             if (null === $conteneur || $conteneur->getPiece()->getLogement()->getProfil() !== $profil) {
-                return new JsonResponse(['error' => 'conteneurId introuvable.'], 404);
+                return new JsonResponse(['error' => $this->translator->trans('objet.conteneur_introuvable')], 404);
             }
             $emplacement = $conteneur;
         }
@@ -200,14 +202,14 @@ class ObjetController
     {
         $objet = $this->em->getRepository(Objet::class)->find($id);
         if (null === $objet || $objet->getProfil()->getUser() !== $user) {
-            return new JsonResponse(['error' => 'Objet introuvable.'], 404);
+            return new JsonResponse(['error' => $this->translator->trans('objet.not_found')], 404);
         }
 
         $data = json_decode($request->getContent(), true) ?? [];
 
         if (\array_key_exists('nom', $data)) {
             if (!\is_string($data['nom']) || '' === trim($data['nom'])) {
-                return new JsonResponse(['error' => 'nom ne peut pas être vide.'], 400);
+                return new JsonResponse(['error' => $this->translator->trans('objet.nom_non_vide')], 400);
             }
             $objet->setNom(trim($data['nom']));
         }
@@ -228,13 +230,13 @@ class ObjetController
     {
         $objet = $this->em->getRepository(Objet::class)->find($id);
         if (null === $objet || $objet->getProfil()->getUser() !== $user) {
-            return new JsonResponse(['error' => 'Objet introuvable.'], 404);
+            return new JsonResponse(['error' => $this->translator->trans('objet.not_found')], 404);
         }
 
         $data = json_decode($request->getContent(), true) ?? [];
         $statut = StatutObjet::tryFrom((string) ($data['statut'] ?? ''));
         if (null === $statut) {
-            return new JsonResponse(['error' => 'statut invalide. Valeurs possibles : '.implode(', ', array_column(StatutObjet::cases(), 'value'))], 400);
+            return new JsonResponse(['error' => $this->translator->trans('objet.statut_invalide', ['%statuts%' => implode(', ', array_column(StatutObjet::cases(), 'value'))])], 400);
         }
 
         // §7 invariant : un profil "gere" ne met pas un objet en vente sans
@@ -247,7 +249,7 @@ class ObjetController
             return new JsonResponse([
                 'enAttenteDeValidation' => true,
                 'validationId' => (string) $validation->getId(),
-                'message' => 'Mise en vente soumise au compte principal pour validation.',
+                'message' => $this->translator->trans('objet.vente_soumise_validation'),
             ], 202);
         }
 

@@ -11,13 +11,16 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TenueController
 {
     use ResolvesActiveProfilTrait;
 
-    public function __construct(private readonly EntityManagerInterface $em)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly TranslatorInterface $translator,
+    ) {
     }
 
     /** @return array<string, mixed> */
@@ -39,7 +42,7 @@ class TenueController
     {
         $profil = $this->resolveProfil($request, $user);
         if (null === $profil) {
-            return new JsonResponse(['error' => 'Aucun profil pour cet utilisateur.'], 404);
+            return new JsonResponse(['error' => $this->translator->trans('profil.not_found')], 404);
         }
 
         return new JsonResponse(array_map($this->serialize(...), $profil->getTenues()->toArray()));
@@ -50,7 +53,7 @@ class TenueController
     {
         $profil = $this->resolveProfil($request, $user);
         if (null === $profil) {
-            return new JsonResponse(['error' => 'Aucun profil pour cet utilisateur.'], 404);
+            return new JsonResponse(['error' => $this->translator->trans('profil.not_found')], 404);
         }
 
         $data = json_decode($request->getContent(), true) ?? [];
@@ -58,7 +61,7 @@ class TenueController
         $objetIds = $data['objetIds'] ?? [];
 
         if (!\is_string($nom) || '' === $nom) {
-            return new JsonResponse(['error' => 'nom est requis.'], 400);
+            return new JsonResponse(['error' => $this->translator->trans('common.nom_requis')], 400);
         }
 
         $tenue = new Tenue($profil, $nom);

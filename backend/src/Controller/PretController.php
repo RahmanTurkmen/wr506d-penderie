@@ -11,11 +11,14 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PretController
 {
-    public function __construct(private readonly EntityManagerInterface $em)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly TranslatorInterface $translator,
+    ) {
     }
 
     /** @return array<string, mixed> */
@@ -46,7 +49,7 @@ class PretController
     {
         $objet = $this->findOwnedObjet($objetId, $user);
         if (null === $objet) {
-            return new JsonResponse(['error' => 'Objet introuvable.'], 404);
+            return new JsonResponse(['error' => $this->translator->trans('objet.not_found')], 404);
         }
 
         return new JsonResponse(array_map($this->serialize(...), $objet->getPrets()->toArray()));
@@ -57,20 +60,20 @@ class PretController
     {
         $objet = $this->findOwnedObjet($objetId, $user);
         if (null === $objet) {
-            return new JsonResponse(['error' => 'Objet introuvable.'], 404);
+            return new JsonResponse(['error' => $this->translator->trans('objet.not_found')], 404);
         }
 
         // Invariant §7 : un seul prêt actif par objet.
         foreach ($objet->getPrets() as $existing) {
             if ($existing->isActif()) {
-                return new JsonResponse(['error' => 'Cet objet a déjà un prêt actif.'], 409);
+                return new JsonResponse(['error' => $this->translator->trans('pret.deja_actif')], 409);
             }
         }
 
         $data = json_decode($request->getContent(), true) ?? [];
         $emprunteurNom = $data['emprunteurNom'] ?? null;
         if (!\is_string($emprunteurNom) || '' === $emprunteurNom) {
-            return new JsonResponse(['error' => 'emprunteurNom est requis.'], 400);
+            return new JsonResponse(['error' => $this->translator->trans('pret.emprunteur_nom_requis')], 400);
         }
 
         $pret = new Pret($objet, $emprunteurNom);
@@ -78,7 +81,7 @@ class PretController
             try {
                 $pret->setDateFinPrevue(new \DateTimeImmutable($data['dateFinPrevue']));
             } catch (\Exception) {
-                return new JsonResponse(['error' => 'dateFinPrevue invalide.'], 400);
+                return new JsonResponse(['error' => $this->translator->trans('pret.date_fin_prevue_invalide')], 400);
             }
         }
 
@@ -94,7 +97,7 @@ class PretController
     {
         $pret = $this->em->getRepository(Pret::class)->find($id);
         if (null === $pret || $pret->getObjet()->getProfil()->getUser() !== $user) {
-            return new JsonResponse(['error' => 'Prêt introuvable.'], 404);
+            return new JsonResponse(['error' => $this->translator->trans('pret.not_found')], 404);
         }
 
         $pret->cloturer();

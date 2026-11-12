@@ -1,0 +1,79 @@
+common:
+  nom_requis: "nom est requis."
+  acces_refuse: "Accès refusé."
+
+profil:
+  not_found: "Aucun profil pour cet utilisateur."
+
+blocage:
+  user_email_requis: "userEmail est requis."
+  utilisateur_introuvable: "Aucun utilisateur avec cet email."
+  self_block: "Impossible de te bloquer toi-même."
+  deja_bloque: "Cet utilisateur est déjà bloqué."
+  not_found: "Blocage introuvable."
+
+categorie:
+  deja_existe: "Cette catégorie existe déjà."
+
+piece:
+  not_found: "Piece introuvable."
+
+logement:
+  not_found: "Logement introuvable."
+
+objet:
+  not_found: "Objet introuvable."
+  type_invalide: "type invalide. Valeurs possibles : %types%"
+  categorie_invalide: "categorieId invalide."
+  piece_xor_conteneur: "Il faut fournir exactement un pieceId OU un conteneurId, jamais les deux."
+  piece_introuvable: "pieceId introuvable."
+  conteneur_introuvable: "conteneurId introuvable."
+  nom_non_vide: "nom ne peut pas être vide."
+  statut_invalide: "statut invalide. Valeurs possibles : %statuts%"
+  vente_soumise_validation: "Mise en vente soumise au compte principal pour validation."
+
+partage:
+  creation_soumise_validation: "Création du partage soumise au compte principal pour validation."
+  not_found: "Partage introuvable."
+  lien_invalide: "Lien invalide."
+  lien_invalide_ou_revoque: "Lien invalide ou révoqué."
+
+commentaire:
+  contenu_requis: "contenu est requis."
+
+pret:
+  not_found: "Prêt introuvable."
+  deja_actif: "Cet objet a déjà un prêt actif."
+  emprunteur_nom_requis: "emprunteurNom est requis."
+  date_fin_prevue_invalide: "dateFinPrevue invalide."
+
+refus_tenue:
+  objet_xor_categorie: "Il faut fournir exactement un objetId OU un categorieId, jamais les deux."
+  objet_introuvable: "objetId introuvable."
+  categorie_introuvable: "categorieId introuvable."
+
+registration:
+  champs_requis: "email, password et nom sont requis."
+  compte_existe: "Un compte existe déjà avec cet email."
+  password_trop_court: "Le mot de passe doit contenir au moins 8 caractères."
+
+scan:
+  non_configure: "La reconnaissance photo n'est pas configurée (clé OpenRouter manquante)."
+  aucune_photo: "Aucune photo reçue."
+  photo_trop_lourde: "Photo trop lourde (6 Mo maximum)."
+  format_non_supporte: "Format de photo non supporté (JPEG, PNG ou WebP uniquement)."
+  modeles_satures: "Les modèles gratuits de reconnaissance sont saturés pour le moment. Réessaie dans une minute, ou remplis le formulaire manuellement."
+
+tag:
+  deja_existe: "Ce tag existe déjà."
+
+transaction:
+  not_found: "Transaction introuvable."
+  objet_pas_en_vente: "Cet objet n'est pas en vente."
+  montant_requis: "montant est requis (nombre)."
+  statut_invalide: "statut invalide."
+
+validation:
+  not_found: "Validation introuvable."
+  deja_traitee: "Cette validation a déjà été traitée."
+  statut_invalide: "statut doit être \"validee\" ou \"refusee\"."

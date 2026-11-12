@@ -10,11 +10,14 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class ConteneurController
 {
-    public function __construct(private readonly EntityManagerInterface $em)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly TranslatorInterface $translator,
+    ) {
     }
 
     /** @return array<string, mixed> */
@@ -41,7 +44,7 @@ class ConteneurController
     {
         $piece = $this->findOwnedPiece($pieceId, $user);
         if (null === $piece) {
-            return new JsonResponse(['error' => 'Piece introuvable.'], 404);
+            return new JsonResponse(['error' => $this->translator->trans('piece.not_found')], 404);
         }
 
         return new JsonResponse(array_map($this->serialize(...), $piece->getConteneurs()->toArray()));
@@ -52,14 +55,14 @@ class ConteneurController
     {
         $piece = $this->findOwnedPiece($pieceId, $user);
         if (null === $piece) {
-            return new JsonResponse(['error' => 'Piece introuvable.'], 404);
+            return new JsonResponse(['error' => $this->translator->trans('piece.not_found')], 404);
         }
 
         $data = json_decode($request->getContent(), true) ?? [];
         $nom = $data['nom'] ?? null;
 
         if (!\is_string($nom) || '' === $nom) {
-            return new JsonResponse(['error' => 'nom est requis.'], 400);
+            return new JsonResponse(['error' => $this->translator->trans('common.nom_requis')], 400);
         }
 
         $conteneur = new Conteneur($piece, $nom);

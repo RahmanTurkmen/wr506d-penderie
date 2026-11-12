@@ -10,11 +10,14 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PieceController
 {
-    public function __construct(private readonly EntityManagerInterface $em)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly TranslatorInterface $translator,
+    ) {
     }
 
     /** @return array<string, mixed> */
@@ -45,7 +48,7 @@ class PieceController
     {
         $logement = $this->findOwnedLogement($logementId, $user);
         if (null === $logement) {
-            return new JsonResponse(['error' => 'Logement introuvable.'], 404);
+            return new JsonResponse(['error' => $this->translator->trans('logement.not_found')], 404);
         }
 
         return new JsonResponse(array_map($this->serialize(...), $logement->getPieces()->toArray()));
@@ -56,14 +59,14 @@ class PieceController
     {
         $logement = $this->findOwnedLogement($logementId, $user);
         if (null === $logement) {
-            return new JsonResponse(['error' => 'Logement introuvable.'], 404);
+            return new JsonResponse(['error' => $this->translator->trans('logement.not_found')], 404);
         }
 
         $data = json_decode($request->getContent(), true) ?? [];
         $nom = $data['nom'] ?? null;
 
         if (!\is_string($nom) || '' === $nom) {
-            return new JsonResponse(['error' => 'nom est requis.'], 400);
+            return new JsonResponse(['error' => $this->translator->trans('common.nom_requis')], 400);
         }
 
         $piece = new Piece($logement, $nom);
