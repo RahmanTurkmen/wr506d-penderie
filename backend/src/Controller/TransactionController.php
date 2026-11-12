@@ -13,13 +13,16 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class TransactionController
 {
     use ResolvesActiveProfilTrait;
 
-    public function __construct(private readonly EntityManagerInterface $em)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly TranslatorInterface $translator,
+    ) {
     }
 
     /**
@@ -43,7 +46,7 @@ class TransactionController
     {
         $objet = $this->em->getRepository(Objet::class)->find($objetId);
         if (null === $objet) {
-            return new JsonResponse(['error' => 'Objet introuvable.'], 404);
+            return new JsonResponse(['error' => $this->translator->trans('objet.not_found')], 404);
         }
 
         // Vendeur (propriétaire) ou acheteur peuvent voir les transactions.
@@ -64,17 +67,17 @@ class TransactionController
     {
         $objet = $this->em->getRepository(Objet::class)->find($objetId);
         if (null === $objet) {
-            return new JsonResponse(['error' => 'Objet introuvable.'], 404);
+            return new JsonResponse(['error' => $this->translator->trans('objet.not_found')], 404);
         }
 
         if (StatutObjet::EnVente !== $objet->getStatut()) {
-            return new JsonResponse(['error' => "Cet objet n'est pas en vente."], 409);
+            return new JsonResponse(['error' => $this->translator->trans('transaction.objet_pas_en_vente')], 409);
         }
 
         $data = json_decode($request->getContent(), true) ?? [];
         $montant = $data['montant'] ?? null;
         if (!\is_numeric($montant)) {
-            return new JsonResponse(['error' => 'montant est requis (nombre).'], 400);
+            return new JsonResponse(['error' => $this->translator->trans('transaction.montant_requis')], 400);
         }
 
         // §7 : transaction = utilisateur authentifié (garanti par #[CurrentUser]).
@@ -90,19 +93,19 @@ class TransactionController
     {
         $transaction = $this->em->getRepository(Transaction::class)->find($id);
         if (null === $transaction) {
-            return new JsonResponse(['error' => 'Transaction introuvable.'], 404);
+            return new JsonResponse(['error' => $this->translator->trans('transaction.not_found')], 404);
         }
 
         $isOwner = $transaction->getObjet()->getProfil()->getUser() === $user;
         $isAcheteur = $transaction->getAcheteur() === $user;
         if (!$isOwner && !$isAcheteur) {
-            return new JsonResponse(['error' => 'Transaction introuvable.'], 404);
+            return new JsonResponse(['error' => $this->translator->trans('transaction.not_found')], 404);
         }
 
         $data = json_decode($request->getContent(), true) ?? [];
         $statut = StatutTransaction::tryFrom((string) ($data['statut'] ?? ''));
         if (null === $statut) {
-            return new JsonResponse(['error' => 'statut invalide.'], 400);
+            return new JsonResponse(['error' => $this->translator->trans('transaction.statut_invalide')], 400);
         }
 
         $transaction->setStatut($statut);

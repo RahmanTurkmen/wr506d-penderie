@@ -15,6 +15,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Le compte principal (même User que le profil "gere" concerné) approuve ou
@@ -23,8 +24,10 @@ use Symfony\Component\Security\Http\Attribute\CurrentUser;
  */
 class ValidationController
 {
-    public function __construct(private readonly EntityManagerInterface $em)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly TranslatorInterface $translator,
+    ) {
     }
 
     /** @return array<string, mixed> */
@@ -57,17 +60,17 @@ class ValidationController
         $validation = $this->em->getRepository(Validation::class)->find($id);
         // Seul le compte principal (même User que le profil géré demandeur) décide.
         if (null === $validation || $validation->getProfil()->getUser() !== $user) {
-            return new JsonResponse(['error' => 'Validation introuvable.'], 404);
+            return new JsonResponse(['error' => $this->translator->trans('validation.not_found')], 404);
         }
 
         if (ValidationStatut::EnAttente !== $validation->getStatut()) {
-            return new JsonResponse(['error' => 'Cette validation a déjà été traitée.'], 409);
+            return new JsonResponse(['error' => $this->translator->trans('validation.deja_traitee')], 409);
         }
 
         $data = json_decode($request->getContent(), true) ?? [];
         $decision = ValidationStatut::tryFrom((string) ($data['statut'] ?? ''));
         if (!\in_array($decision, [ValidationStatut::Validee, ValidationStatut::Refusee], true)) {
-            return new JsonResponse(['error' => 'statut doit être "validee" ou "refusee".'], 400);
+            return new JsonResponse(['error' => $this->translator->trans('validation.statut_invalide')], 400);
         }
 
         $validation->decider($decision);

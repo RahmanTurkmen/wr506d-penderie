@@ -7,6 +7,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 /**
  * Les tags sont un vocabulaire partagé (comme les catégories), pas rattachés
@@ -14,8 +15,10 @@ use Symfony\Component\Routing\Attribute\Route;
  */
 class TagController
 {
-    public function __construct(private readonly EntityManagerInterface $em)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly TranslatorInterface $translator,
+    ) {
     }
 
     /** @return array<string, mixed> */
@@ -39,12 +42,12 @@ class TagController
         $nom = $data['nom'] ?? null;
 
         if (!\is_string($nom) || '' === $nom) {
-            return new JsonResponse(['error' => 'nom est requis.'], 400);
+            return new JsonResponse(['error' => $this->translator->trans('common.nom_requis')], 400);
         }
 
         $existing = $this->em->getRepository(Tag::class)->findOneBy(['nom' => $nom]);
         if (null !== $existing) {
-            return new JsonResponse(['error' => 'Ce tag existe déjà.'], 409);
+            return new JsonResponse(['error' => $this->translator->trans('tag.deja_existe')], 409);
         }
 
         $tag = new Tag($nom);

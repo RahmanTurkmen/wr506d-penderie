@@ -1,0 +1,79 @@
+common:
+  nom_requis: "الاسم مطلوب."
+  acces_refuse: "الوصول مرفوض."
+
+profil:
+  not_found: "لا يوجد ملف شخصي لهذا المستخدم."
+
+blocage:
+  user_email_requis: "البريد الإلكتروني للمستخدم مطلوب."
+  utilisateur_introuvable: "لا يوجد مستخدم بهذا البريد الإلكتروني."
+  self_block: "لا يمكنك حظر نفسك."
+  deja_bloque: "هذا المستخدم محظور بالفعل."
+  not_found: "الحظر غير موجود."
+
+categorie:
+  deja_existe: "هذه الفئة موجودة بالفعل."
+
+piece:
+  not_found: "الغرفة غير موجودة."
+
+logement:
+  not_found: "المسكن غير موجود."
+
+objet:
+  not_found: "العنصر غير موجود."
+  type_invalide: "نوع غير صالح. القيم الممكنة: %types%"
+  categorie_invalide: "معرّف الفئة غير صالح."
+  piece_xor_conteneur: "يجب تقديم معرّف غرفة واحد أو معرّف حاوية واحد فقط، وليس الاثنين معًا."
+  piece_introuvable: "معرّف الغرفة غير موجود."
+  conteneur_introuvable: "معرّف الحاوية غير موجود."
+  nom_non_vide: "لا يمكن أن يكون الاسم فارغًا."
+  statut_invalide: "حالة غير صالحة. القيم الممكنة: %statuts%"
+  vente_soumise_validation: "تم إرسال طلب البيع إلى الحساب الرئيسي للموافقة عليه."
+
+partage:
+  creation_soumise_validation: "تم إرسال إنشاء المشاركة إلى الحساب الرئيسي للموافقة عليها."
+  not_found: "المشاركة غير موجودة."
+  lien_invalide: "رابط غير صالح."
+  lien_invalide_ou_revoque: "رابط غير صالح أو تم إلغاؤه."
+
+commentaire:
+  contenu_requis: "المحتوى مطلوب."
+
+pret:
+  not_found: "القرض غير موجود."
+  deja_actif: "يوجد بالفعل قرض نشط لهذا العنصر."
+  emprunteur_nom_requis: "اسم المستعير مطلوب."
+  date_fin_prevue_invalide: "تاريخ الانتهاء المتوقع غير صالح."
+
+refus_tenue:
+  objet_xor_categorie: "يجب تقديم معرّف عنصر واحد أو معرّف فئة واحد فقط، وليس الاثنين معًا."
+  objet_introuvable: "معرّف العنصر غير موجود."
+  categorie_introuvable: "معرّف الفئة غير موجود."
+
+registration:
+  champs_requis: "البريد الإلكتروني وكلمة المرور والاسم مطلوبة."
+  compte_existe: "يوجد حساب بهذا البريد الإلكتروني بالفعل."
+  password_trop_court: "يجب أن تحتوي كلمة المرور على 8 أحرف على الأقل."
+
+scan:
+  non_configure: "التعرف على الصور غير مُهيّأ (مفتاح OpenRouter مفقود)."
+  aucune_photo: "لم يتم استلام أي صورة."
+  photo_trop_lourde: "الصورة كبيرة جدًا (الحد الأقصى 6 ميغابايت)."
+  format_non_supporte: "صيغة الصورة غير مدعومة (JPEG أو PNG أو WebP فقط)."
+  modeles_satures: "نماذج التعرف المجانية مشبعة حاليًا. أعد المحاولة بعد دقيقة، أو املأ النموذج يدويًا."
+
+tag:
+  deja_existe: "هذه الوسم موجود بالفعل."
+
+transaction:
+  not_found: "المعاملة غير موجودة."
+  objet_pas_en_vente: "هذا العنصر ليس معروضًا للبيع."
+  montant_requis: "المبلغ مطلوب (رقم)."
+  statut_invalide: "حالة غير صالحة."
+
+validation:
+  not_found: "الموافقة غير موجودة."
+  deja_traitee: "تمت معالجة هذه الموافقة بالفعل."
+  statut_invalide: "يجب أن تكون الحالة \"validee\" أو \"refusee\"."

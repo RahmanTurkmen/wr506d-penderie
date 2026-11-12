@@ -1,0 +1,79 @@
+common:
+  nom_requis: "nom is required."
+  acces_refuse: "Access denied."
+
+profil:
+  not_found: "No profile for this user."
+
+blocage:
+  user_email_requis: "userEmail is required."
+  utilisateur_introuvable: "No user with this email."
+  self_block: "You cannot block yourself."
+  deja_bloque: "This user is already blocked."
+  not_found: "Block not found."
+
+categorie:
+  deja_existe: "This category already exists."
+
+piece:
+  not_found: "Room not found."
+
+logement:
+  not_found: "Housing not found."
+
+objet:
+  not_found: "Item not found."
+  type_invalide: "Invalid type. Possible values: %types%"
+  categorie_invalide: "Invalid categorieId."
+  piece_xor_conteneur: "You must provide exactly one pieceId OR one conteneurId, never both."
+  piece_introuvable: "pieceId not found."
+  conteneur_introuvable: "conteneurId not found."
+  nom_non_vide: "nom cannot be empty."
+  statut_invalide: "Invalid status. Possible values: %statuts%"
+  vente_soumise_validation: "Listing for sale submitted to the main account for approval."
+
+partage:
+  creation_soumise_validation: "Share creation submitted to the main account for approval."
+  not_found: "Share not found."
+  lien_invalide: "Invalid link."
+  lien_invalide_ou_revoque: "Invalid or revoked link."
+
+commentaire:
+  contenu_requis: "contenu is required."
+
+pret:
+  not_found: "Loan not found."
+  deja_actif: "This item already has an active loan."
+  emprunteur_nom_requis: "emprunteurNom is required."
+  date_fin_prevue_invalide: "Invalid dateFinPrevue."
+
+refus_tenue:
+  objet_xor_categorie: "You must provide exactly one objetId OR one categorieId, never both."
+  objet_introuvable: "objetId not found."
+  categorie_introuvable: "categorieId not found."
+
+registration:
+  champs_requis: "email, password and nom are required."
+  compte_existe: "An account already exists with this email."
+  password_trop_court: "The password must be at least 8 characters long."
+
+scan:
+  non_configure: "Photo recognition is not configured (missing OpenRouter key)."
+  aucune_photo: "No photo received."
+  photo_trop_lourde: "Photo too large (6 MB maximum)."
+  format_non_supporte: "Unsupported photo format (JPEG, PNG or WebP only)."
+  modeles_satures: "The free recognition models are currently overloaded. Try again in a minute, or fill in the form manually."
+
+tag:
+  deja_existe: "This tag already exists."
+
+transaction:
+  not_found: "Transaction not found."
+  objet_pas_en_vente: "This item is not for sale."
+  montant_requis: "montant is required (number)."
+  statut_invalide: "Invalid status."
+
+validation:
+  not_found: "Validation not found."
+  deja_traitee: "This validation has already been processed."
+  statut_invalide: "statut must be \"validee\" or \"refusee\"."

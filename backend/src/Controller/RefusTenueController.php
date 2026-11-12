@@ -12,13 +12,16 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class RefusTenueController
 {
     use ResolvesActiveProfilTrait;
 
-    public function __construct(private readonly EntityManagerInterface $em)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly TranslatorInterface $translator,
+    ) {
     }
 
     /** @return array<string, mixed> */
@@ -36,7 +39,7 @@ class RefusTenueController
     {
         $profil = $this->resolveProfil($request, $user);
         if (null === $profil) {
-            return new JsonResponse(['error' => 'Aucun profil pour cet utilisateur.'], 404);
+            return new JsonResponse(['error' => $this->translator->trans('profil.not_found')], 404);
         }
 
         return new JsonResponse(array_map($this->serialize(...), $profil->getRefusTenues()->toArray()));
@@ -47,7 +50,7 @@ class RefusTenueController
     {
         $profil = $this->resolveProfil($request, $user);
         if (null === $profil) {
-            return new JsonResponse(['error' => 'Aucun profil pour cet utilisateur.'], 404);
+            return new JsonResponse(['error' => $this->translator->trans('profil.not_found')], 404);
         }
 
         $data = json_decode($request->getContent(), true) ?? [];
@@ -55,19 +58,19 @@ class RefusTenueController
         $categorieId = $data['categorieId'] ?? null;
 
         if ((null === $objetId) === (null === $categorieId)) {
-            return new JsonResponse(['error' => 'Il faut fournir exactement un objetId OU un categorieId, jamais les deux.'], 400);
+            return new JsonResponse(['error' => $this->translator->trans('refus_tenue.objet_xor_categorie')], 400);
         }
 
         if (null !== $objetId) {
             $objet = $this->em->getRepository(Objet::class)->find($objetId);
             if (null === $objet || $objet->getProfil() !== $profil) {
-                return new JsonResponse(['error' => 'objetId introuvable.'], 404);
+                return new JsonResponse(['error' => $this->translator->trans('refus_tenue.objet_introuvable')], 404);
             }
             $cible = $objet;
         } else {
             $categorie = $this->em->getRepository(Categorie::class)->find($categorieId);
             if (null === $categorie) {
-                return new JsonResponse(['error' => 'categorieId introuvable.'], 404);
+                return new JsonResponse(['error' => $this->translator->trans('refus_tenue.categorie_introuvable')], 404);
             }
             $cible = $categorie;
         }

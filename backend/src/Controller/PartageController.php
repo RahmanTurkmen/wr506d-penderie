@@ -16,13 +16,16 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Security\Http\Attribute\CurrentUser;
 use Symfony\Component\Uid\Uuid;
+use Symfony\Contracts\Translation\TranslatorInterface;
 
 class PartageController
 {
     use ResolvesActiveProfilTrait;
 
-    public function __construct(private readonly EntityManagerInterface $em)
-    {
+    public function __construct(
+        private readonly EntityManagerInterface $em,
+        private readonly TranslatorInterface $translator,
+    ) {
     }
 
     /** @return array<string, mixed> */
@@ -52,7 +55,7 @@ class PartageController
     {
         $profil = $this->resolveProfil($request, $user);
         if (null === $profil) {
-            return new JsonResponse(['error' => 'Aucun profil pour cet utilisateur.'], 404);
+            return new JsonResponse(['error' => $this->translator->trans('profil.not_found')], 404);
         }
 
         return new JsonResponse(array_map($this->serialize(...), $profil->getPartages()->toArray()));
@@ -63,7 +66,7 @@ class PartageController
     {
         $profil = $this->resolveProfil($request, $user);
         if (null === $profil) {
-            return new JsonResponse(['error' => 'Aucun profil pour cet utilisateur.'], 404);
+            return new JsonResponse(['error' => $this->translator->trans('profil.not_found')], 404);
         }
 
         // §7 invariant : un profil "gere" ne crée pas de partage sans
@@ -76,7 +79,7 @@ class PartageController
             return new JsonResponse([
                 'enAttenteDeValidation' => true,
                 'validationId' => (string) $validation->getId(),
-                'message' => 'Création du partage soumise au compte principal pour validation.',
+                'message' => $this->translator->trans('partage.creation_soumise_validation'),
             ], 202);
         }
 
@@ -92,7 +95,7 @@ class PartageController
     {
         $partage = $this->em->getRepository(Partage::class)->find($id);
         if (null === $partage || $partage->getProfil()->getUser() !== $user) {
-            return new JsonResponse(['error' => 'Partage introuvable.'], 404);
+            return new JsonResponse(['error' => $this->translator->trans('partage.not_found')], 404);
         }
 
         $partage->revoquer();
@@ -111,12 +114,12 @@ class PartageController
         try {
             $uuid = Uuid::fromString($token);
         } catch (\InvalidArgumentException) {
-            return new JsonResponse(['error' => 'Lien invalide.'], 404);
+            return new JsonResponse(['error' => $this->translator->trans('partage.lien_invalide')], 404);
         }
 
         $partage = $this->em->getRepository(Partage::class)->findOneBy(['token' => $uuid]);
         if (null === $partage || $partage->isRevoque()) {
-            return new JsonResponse(['error' => 'Lien invalide ou révoqué.'], 404);
+            return new JsonResponse(['error' => $this->translator->trans('partage.lien_invalide_ou_revoque')], 404);
         }
 
         $profil = $partage->getProfil();
@@ -127,7 +130,7 @@ class PartageController
         if (null !== $user) {
             $blocage = $this->em->getRepository(Blocage::class)->findOneBy(['profil' => $profil, 'user' => $user]);
             if (null !== $blocage) {
-                return new JsonResponse(['error' => 'Accès refusé.'], 403);
+                return new JsonResponse(['error' => $this->translator->trans('common.acces_refuse')], 403);
             }
         }
 
@@ -152,7 +155,7 @@ class PartageController
     {
         $partage = $this->em->getRepository(Partage::class)->find($id);
         if (null === $partage) {
-            return new JsonResponse(['error' => 'Partage introuvable.'], 404);
+            return new JsonResponse(['error' => $this->translator->trans('partage.not_found')], 404);
         }
 
         return new JsonResponse(array_map($this->serializeCommentaire(...), $partage->getCommentaires()->toArray()));
@@ -167,18 +170,18 @@ class PartageController
     {
         $partage = $this->em->getRepository(Partage::class)->find($id);
         if (null === $partage || $partage->isRevoque()) {
-            return new JsonResponse(['error' => 'Partage introuvable.'], 404);
+            return new JsonResponse(['error' => $this->translator->trans('partage.not_found')], 404);
         }
 
         $blocage = $this->em->getRepository(Blocage::class)->findOneBy(['profil' => $partage->getProfil(), 'user' => $user]);
         if (null !== $blocage) {
-            return new JsonResponse(['error' => 'Accès refusé.'], 403);
+            return new JsonResponse(['error' => $this->translator->trans('common.acces_refuse')], 403);
         }
 
         $data = json_decode($request->getContent(), true) ?? [];
         $contenu = $data['contenu'] ?? null;
         if (!\is_string($contenu) || '' === $contenu) {
-            return new JsonResponse(['error' => 'contenu est requis.'], 400);
+            return new JsonResponse(['error' => $this->translator->trans('commentaire.contenu_requis')], 400);
         }
 
         $commentaire = new Commentaire($partage, $user, $contenu);
