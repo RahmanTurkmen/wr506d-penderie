@@ -1,15 +1,17 @@
 import { Disc3, Plus } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { ScreenHeader } from '@/components/lumen/ScreenHeader'
 
 // Figma 15.2 — Détail collection. Statique, voir CollectionsPage.jsx.
 export function CollectionDetailPage({ collection, onBack }) {
+  const { t } = useTranslation('collections')
   return (
     <div className="flex flex-1 flex-col pb-10">
       <ScreenHeader title={collection.nom} subtitle={collection.sousTitre} onBack={onBack} />
 
       <div className="px-6 py-5 md:px-10">
         {collection.objets.length === 0 ? (
-          <p className="rounded-2xl bg-card px-4 py-5 text-center text-sm text-muted-foreground">Aucun objet dans cette collection pour le moment.</p>
+          <p className="rounded-2xl bg-card px-4 py-5 text-center text-sm text-muted-foreground">{t('detail.empty')}</p>
         ) : (
           <div className="grid grid-cols-2 gap-3">
             {collection.objets.map((o) => (
@@ -41,7 +43,7 @@ export function CollectionDetailPage({ collection, onBack }) {
           className="flex h-[52px] w-full items-center justify-center gap-2 rounded-full bg-primary text-[15px] font-semibold text-primary-foreground"
         >
           <Plus className="h-[18px] w-[18px]" />
-          Ajouter des objets
+          {t('detail.addObjects')}
         </button>
       </div>
     </div>

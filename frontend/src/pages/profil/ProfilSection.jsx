@@ -131,6 +131,7 @@ export function ProfilSection({ token, activeProfil, onLogout, onProfilsChanged 
 
   return (
     <ProfilHomePage
+      token={token}
       activeProfil={activeProfil}
       profilsCount={profils.length}
       blocagesCount={blocages.length}

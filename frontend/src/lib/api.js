@@ -54,8 +54,20 @@ export function setStoredProfilId(id) {
   writeStorage(PROFIL_KEY, id)
 }
 
+function currentLocale() {
+  try {
+    return localStorage.getItem('lumen.locale') || 'fr'
+  } catch {
+    return 'fr'
+  }
+}
+
 function authHeaders(token, profilId) {
-  const headers = { 'Content-Type': 'application/json', Authorization: `Bearer ${token}` }
+  const headers = {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${token}`,
+    'Accept-Language': currentLocale(),
+  }
   if (profilId) headers['X-Profil-Id'] = profilId
   return headers
 }
@@ -63,7 +75,9 @@ function authHeaders(token, profilId) {
 async function request(method, path, { token, profilId, body, formData } = {}) {
   let res
   try {
-    const headers = token ? authHeaders(token, profilId) : { 'Content-Type': 'application/json' }
+    const headers = token
+      ? authHeaders(token, profilId)
+      : { 'Content-Type': 'application/json', 'Accept-Language': currentLocale() }
     if (formData) delete headers['Content-Type'] // le navigateur fixe le boundary multipart lui-même
     res = await fetch(`${API_URL}${path}`, {
       method,
@@ -93,6 +107,10 @@ export function register(email, password, nom) {
 
 export function listProfils(token) {
   return request('GET', '/api/profils', { token })
+}
+
+export function getProfilStats(token, profilId) {
+  return request('GET', '/api/profils/stats', { token, profilId })
 }
 
 export function listObjets(token, profilId) {

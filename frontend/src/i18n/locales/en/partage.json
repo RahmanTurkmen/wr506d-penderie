@@ -1,0 +1,21 @@
+{
+  "header": {
+    "title": "Share"
+  },
+  "visibility": {
+    "question": "Who can see it?",
+    "onlyMe": "Only me",
+    "chosenFriends": "Chosen friends",
+    "allFriends": "All my friends"
+  },
+  "shareWith": "Share with {{name}}",
+  "hideLocation": {
+    "title": "Hide location",
+    "subtitle": "Hidden from friends"
+  },
+  "expiresLabel": "Expires on",
+  "actions": {
+    "cancel": "Cancel",
+    "share": "Share"
+  }
+}

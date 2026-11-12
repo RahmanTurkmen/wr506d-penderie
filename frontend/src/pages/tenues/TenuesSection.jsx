@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { createRefusTenue, createTenue, listCategories, listObjets, listRefusTenues, listTenues } from '@/lib/api'
 import { NewRefusPage } from './NewRefusPage'
 import { NewTenuePage } from './NewTenuePage'
 import { TenuesListPage } from './TenuesListPage'
 
 export function TenuesSection({ token, activeProfil, onOpenObjet }) {
+  const { t } = useTranslation('tenues')
   const [view, setView] = useState('list') // 'list' | 'new-tenue' | 'new-refus'
 
   const [tenues, setTenues] = useState([])
@@ -22,7 +24,7 @@ export function TenuesSection({ token, activeProfil, onOpenObjet }) {
       listCategories(token, activeProfil?.id),
     ])
     if (!tenuesRes.ok) {
-      setError(tenuesRes.data?.error ?? 'Impossible de charger tes tenues.')
+      setError(tenuesRes.data?.error ?? t('section.loadError'))
     } else {
       setError('')
       setTenues(tenuesRes.data ?? [])

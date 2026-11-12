@@ -1,0 +1,32 @@
+{
+  "header": {
+    "title": "Friends",
+    "subtitle_one": "{{friends}} friends · {{count}} request",
+    "subtitle_other": "{{friends}} friends · {{count}} requests"
+  },
+  "tabs": {
+    "friends": "Friends",
+    "followers": "Followers",
+    "requestsWithCount": "Requests {{count}}"
+  },
+  "friendsList": {
+    "subtitles": {
+      "sharedObjects_one": "{{count}} item shared with you",
+      "sharedObjects_other": "{{count}} items shared with you",
+      "friendSince": "Friends since {{date}}",
+      "activeLoan_one": "{{count}} active loan",
+      "activeLoan_other": "{{count}} active loans"
+    }
+  },
+  "followers": {
+    "empty": "No followers yet."
+  },
+  "requests": {
+    "sectionTitle": "Friend requests",
+    "subtitle": "Wants to be your friend",
+    "decline": "Decline",
+    "accept": "Accept",
+    "empty": "No pending requests."
+  },
+  "addFriend": "Add a friend"
+}

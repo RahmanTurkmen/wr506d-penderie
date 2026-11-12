@@ -1,0 +1,51 @@
+{
+  "dashboard": {
+    "stats": {
+      "users": "Users",
+      "objects": "Items",
+      "salesThisMonth": "Sales this month",
+      "reports": "Reports"
+    },
+    "toProcess": "To review",
+    "seeAll": "See all"
+  },
+  "section": {
+    "tabs": {
+      "dashboard": "Dashboard",
+      "users": "Users",
+      "reports": "Reports",
+      "reportsWithCount": "Reports {{count}}",
+      "sales": "Sales",
+      "categories": "Categories"
+    },
+    "subtitles": {
+      "dashboard": "Overview of Lumen",
+      "users_one": "{{count}} account",
+      "users_other": "{{count}} accounts",
+      "reports": "{{count}} to review"
+    }
+  },
+  "reports": {
+    "empty": "Nothing to review right now.",
+    "ignore": "Ignore",
+    "remove": "Remove",
+    "urgency": {
+      "urgent": "Urgent",
+      "ouvert": "Open"
+    }
+  },
+  "users": {
+    "filters": {
+      "all": "All",
+      "active": "Active",
+      "suspended": "Suspended",
+      "children": "Children"
+    },
+    "export": "Export",
+    "status": {
+      "actif": "Active",
+      "suspendu": "Suspended",
+      "enfant": "Child"
+    }
+  }
+}

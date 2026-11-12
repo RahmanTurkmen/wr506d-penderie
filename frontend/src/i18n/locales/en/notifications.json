@@ -1,0 +1,22 @@
+{
+  "list": {
+    "title": "Notifications",
+    "subtitle_one": "{{count}} new",
+    "subtitle_other": "{{count}} new",
+    "searchAriaLabel": "Search",
+    "newBadge": "New"
+  },
+  "search": {
+    "title": "Search",
+    "subtitle": "Items, friends, listings",
+    "placeholder": "Search…",
+    "clearAriaLabel": "Clear",
+    "empty": "No results.",
+    "filters": {
+      "all": "All",
+      "objects": "Items",
+      "friends": "Friends",
+      "listings": "Listings"
+    }
+  }
+}

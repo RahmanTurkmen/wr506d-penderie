@@ -1,18 +1,20 @@
 import { Loader2, Plus, Shirt, X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { EmptyState, IconTile, Row, SectionHeader } from '@/components/lumen/primitives'
 import { ScreenHeader } from '@/components/lumen/ScreenHeader'
 import { photoUrl } from '@/lib/api'
 
 export function TenuesListPage({ tenues, refus, loading, error, onNewTenue, onNewRefus, onOpenObjet }) {
+  const { t } = useTranslation('tenues')
   return (
     <div className="flex flex-1 flex-col pb-10">
-      <ScreenHeader title="Tenues" subtitle="Compose tes tenues à partir de ton inventaire" />
+      <ScreenHeader title={t('list.title')} subtitle={t('list.subtitle')} />
 
       <div className="space-y-6 px-6 py-5 md:px-10">
         {loading && (
           <div className="flex items-center justify-center gap-2 py-16 text-sm text-muted-foreground">
             <Loader2 className="h-4 w-4 animate-spin" />
-            Chargement…
+            {t('list.loading')}
           </div>
         )}
 
@@ -24,23 +26,23 @@ export function TenuesListPage({ tenues, refus, loading, error, onNewTenue, onNe
           <>
             <section className="space-y-2.5">
               <SectionHeader
-                title="Tes tenues"
+                title={t('list.tenuesSection.title')}
                 action={
                   <button type="button" onClick={onNewTenue} className="text-sm font-semibold text-primary">
-                    + Nouvelle
+                    {t('list.tenuesSection.add')}
                   </button>
                 }
               />
 
-              {tenues.length === 0 && <EmptyState>Aucune tenue composée pour le moment.</EmptyState>}
+              {tenues.length === 0 && <EmptyState>{t('list.tenuesSection.empty')}</EmptyState>}
 
               {tenues.length > 0 && (
-                <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+                <div className="grid grid-cols-2 gap-3">
                   {tenues.map((tenue) => (
                     <div key={tenue.id} className="rounded-2xl bg-card p-3">
                       <p className="truncate text-sm font-semibold text-foreground">{tenue.nom}</p>
                       <p className="mb-2 text-xs text-muted-foreground">
-                        {tenue.objets.length} objet{tenue.objets.length > 1 ? 's' : ''}
+                        {t('list.objetsCount', { count: tenue.objets.length })}
                       </p>
                       <div className="flex flex-wrap gap-1.5">
                         {tenue.objets.slice(0, 4).map((o) => (
@@ -63,22 +65,22 @@ export function TenuesListPage({ tenues, refus, loading, error, onNewTenue, onNe
 
             <section className="space-y-2.5">
               <SectionHeader
-                title="Tu ne veux pas porter"
+                title={t('list.refusSection.title')}
                 action={
                   <button type="button" onClick={onNewRefus} className="text-sm font-semibold text-primary">
-                    + Ajouter
+                    {t('list.refusSection.add')}
                   </button>
                 }
               />
 
-              {refus.length === 0 && <EmptyState>Rien d'exclu pour l'instant.</EmptyState>}
+              {refus.length === 0 && <EmptyState>{t('list.refusSection.empty')}</EmptyState>}
 
               {refus.map((r) => (
                 <Row
                   key={r.id}
                   lead={<IconTile icon={X} photoSrc={r.objet ? photoUrl(r.objet.photo) : null} />}
                   title={r.objet ? r.objet.nom : r.categorie?.nom}
-                  subtitle={r.objet ? 'Objet' : 'Catégorie entière'}
+                  subtitle={r.objet ? t('list.typeObjet') : t('list.typeCategorie')}
                 />
               ))}
             </section>
@@ -89,8 +91,8 @@ export function TenuesListPage({ tenues, refus, loading, error, onNewTenue, onNe
       <button
         type="button"
         onClick={onNewTenue}
-        aria-label="Nouvelle tenue"
-        className="fixed bottom-24 right-5 z-10 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg md:hidden"
+        aria-label={t('list.newTenueAria')}
+        className="fixed bottom-24 right-5 z-10 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg"
       >
         <Plus className="h-6 w-6" />
       </button>

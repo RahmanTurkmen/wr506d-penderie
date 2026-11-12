@@ -1,0 +1,24 @@
+{
+  "header": {
+    "title": "Feed",
+    "subtitle": "What your friends are up to"
+  },
+  "filters": {
+    "all": "All",
+    "loans": "Loans",
+    "sales": "Sales",
+    "collections": "Collections"
+  },
+  "empty": "Nothing to show for this filter.",
+  "share": "Share",
+  "timeAgo": {
+    "hours2": "2 h ago",
+    "yesterday": "yesterday"
+  },
+  "detail": {
+    "title": "Post",
+    "commentsTitle": "Comments",
+    "commentsEmpty": "No comments yet.",
+    "interested": "I'm interested"
+  }
+}

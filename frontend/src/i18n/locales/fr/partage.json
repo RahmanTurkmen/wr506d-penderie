@@ -1,0 +1,21 @@
+{
+  "header": {
+    "title": "Partager"
+  },
+  "visibility": {
+    "question": "Qui peut voir ?",
+    "onlyMe": "Moi seul",
+    "chosenFriends": "Amis choisis",
+    "allFriends": "Tous mes amis"
+  },
+  "shareWith": "Partager avec {{name}}",
+  "hideLocation": {
+    "title": "Masquer l'emplacement",
+    "subtitle": "Caché aux amis"
+  },
+  "expiresLabel": "Expire le",
+  "actions": {
+    "cancel": "Annuler",
+    "share": "Partager"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "page": {
+    "title": "À valider",
+    "loading": "…",
+    "requestCount_one": "{{count}} demande",
+    "requestCount_other": "{{count}} demandes",
+    "loadingList": "Chargement…",
+    "empty": "Aucune demande en attente.",
+    "titleSale": "Mettre « {{name}} » en vente",
+    "titleSaleGeneric": "Mettre un objet en vente",
+    "titleShare": "Partager le dressing",
+    "requestedBy": "Demandé par {{name}}",
+    "refuse": "Refuser",
+    "approve": "Approuver"
+  },
+  "section": {
+    "loadError": "Impossible de charger les demandes."
+  }
+}

@@ -1,9 +1,11 @@
 import { useState } from 'react'
 import { Check, Loader2, Lock, X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { EmptyState, IconTile, Row } from '@/components/lumen/primitives'
 import { ScreenHeader } from '@/components/lumen/ScreenHeader'
 
 export function ConfidentialitePage({ blocages, loading, onBack, onBlock, onUnblock }) {
+  const { t } = useTranslation('profil')
   const [adding, setAdding] = useState(false)
   const [email, setEmail] = useState('')
   const [saving, setSaving] = useState(false)
@@ -21,7 +23,7 @@ export function ConfidentialitePage({ blocages, loading, onBack, onBlock, onUnbl
       setEmail('')
       setAdding(false)
     } else {
-      setError('Impossible de bloquer cet utilisateur (email inconnu ou déjà bloqué).')
+      setError(t('confidentialite.error'))
     }
   }
 
@@ -33,17 +35,17 @@ export function ConfidentialitePage({ blocages, loading, onBack, onBlock, onUnbl
 
   return (
     <div className="flex flex-1 flex-col pb-10">
-      <ScreenHeader title="Confidentialité" subtitle="Utilisateurs bloqués" onBack={onBack} />
+      <ScreenHeader title={t('confidentialite.title')} subtitle={t('confidentialite.subtitle')} onBack={onBack} />
 
       <div className="space-y-4 px-6 py-5 md:px-10">
         {loading && (
           <div className="flex items-center justify-center gap-2 py-16 text-sm text-muted-foreground">
             <Loader2 className="h-4 w-4 animate-spin" />
-            Chargement…
+            {t('confidentialite.loading')}
           </div>
         )}
 
-        {!loading && blocages.length === 0 && <EmptyState>Aucun utilisateur bloqué.</EmptyState>}
+        {!loading && blocages.length === 0 && <EmptyState>{t('confidentialite.empty')}</EmptyState>}
 
         {!loading &&
           blocages.map((b) => (
@@ -51,7 +53,7 @@ export function ConfidentialitePage({ blocages, loading, onBack, onBlock, onUnbl
               key={b.id}
               lead={<IconTile icon={Lock} size={44} />}
               title={b.userEmail}
-              subtitle="Bloqué"
+              subtitle={t('confidentialite.blockedStatus')}
               trailing={
                 <button
                   type="button"
@@ -63,7 +65,7 @@ export function ConfidentialitePage({ blocages, loading, onBack, onBlock, onUnbl
                   className="flex h-8 items-center gap-1.5 rounded-full border border-border bg-card px-3 text-xs font-semibold text-foreground disabled:opacity-50"
                 >
                   {busyId === b.id ? <Loader2 className="h-3.5 w-3.5 animate-spin" /> : <X className="h-3.5 w-3.5" />}
-                  Débloquer
+                  {t('confidentialite.unblock')}
                 </button>
               }
             />
@@ -75,7 +77,7 @@ export function ConfidentialitePage({ blocages, loading, onBack, onBlock, onUnbl
             onClick={() => setAdding(true)}
             className="flex items-center justify-center gap-2 rounded-2xl border-2 border-dashed border-border py-3.5 text-sm font-semibold text-primary"
           >
-            + Bloquer un utilisateur
+            {t('confidentialite.addBlock')}
           </button>
         )}
 
@@ -88,7 +90,7 @@ export function ConfidentialitePage({ blocages, loading, onBack, onBlock, onUnbl
                 type="email"
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
-                placeholder="email@exemple.com"
+                placeholder={t('confidentialite.emailPlaceholder')}
                 className="h-12 min-w-0 flex-1 rounded-[14px] border border-border bg-card px-4 text-sm text-foreground outline-none focus:border-primary"
               />
               <button

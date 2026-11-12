@@ -1,0 +1,16 @@
+{
+  "list": {
+    "title": "Collections",
+    "subtitle_one": "{{count}} collection",
+    "subtitle_other": "{{count}} collections",
+    "visibility": {
+      "privee": "Private",
+      "amis": "Friends"
+    },
+    "addNew": "New collection"
+  },
+  "detail": {
+    "empty": "No items in this collection yet.",
+    "addObjects": "Add items"
+  }
+}

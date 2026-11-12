@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Check, Plus, UserPlus } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Chip, IconTile, Row } from '@/components/lumen/primitives'
 import { ScreenHeader } from '@/components/lumen/ScreenHeader'
 
@@ -8,14 +9,15 @@ import { ScreenHeader } from '@/components/lumen/ScreenHeader'
 // Les interactions (onglets, accepter/refuser) ne font que changer l'état
 // local, rien n'est persisté.
 const AMIS = [
-  { id: 'tom', nom: 'Tom', sousTitre: '4 objets partagés avec toi', tone: 'sky' },
-  { id: 'lilou', nom: 'Lilou', sousTitre: 'Ami depuis mars 2026', tone: 'pink' },
-  { id: 'max', nom: 'Max', sousTitre: '1 prêt en cours', tone: 'amber' },
+  { id: 'tom', nom: 'Tom', tone: 'sky', subtitleKey: 'sharedObjects', count: 4 },
+  { id: 'lilou', nom: 'Lilou', tone: 'pink', subtitleKey: 'friendSince', date: 'mars 2026' },
+  { id: 'max', nom: 'Max', tone: 'amber', subtitleKey: 'activeLoan', count: 1 },
 ]
 
-const DEMANDES_INITIALES = [{ id: 'noa', nom: 'Noa', sousTitre: 'Veut devenir ton ami', tone: 'violet' }]
+const DEMANDES_INITIALES = [{ id: 'noa', nom: 'Noa', tone: 'violet' }]
 
 export function AmisPage({ onBack }) {
+  const { t } = useTranslation('amis')
   const [tab, setTab] = useState('amis') // 'amis' | 'abonnes' | 'demandes'
   const [demandes, setDemandes] = useState(DEMANDES_INITIALES)
 
@@ -25,40 +27,49 @@ export function AmisPage({ onBack }) {
 
   return (
     <div className="flex flex-1 flex-col pb-10">
-      <ScreenHeader title="Amis" subtitle={`12 amis · ${demandes.length} demande${demandes.length > 1 ? 's' : ''}`} onBack={onBack} />
+      <ScreenHeader
+        title={t('header.title')}
+        subtitle={t('header.subtitle', { friends: 12, count: demandes.length })}
+        onBack={onBack}
+      />
 
       <div className="space-y-4 px-6 py-5 md:px-10">
         <div className="flex gap-2">
           <Chip active={tab === 'amis'} onClick={() => setTab('amis')}>
-            Amis
+            {t('tabs.friends')}
           </Chip>
           <Chip active={tab === 'abonnes'} onClick={() => setTab('abonnes')}>
-            Abonnés
+            {t('tabs.followers')}
           </Chip>
           <Chip active={tab === 'demandes'} onClick={() => setTab('demandes')}>
-            Demandes {demandes.length}
+            {t('tabs.requestsWithCount', { count: demandes.length })}
           </Chip>
         </div>
 
         {tab === 'amis' &&
           AMIS.map((a) => (
-            <Row key={a.id} lead={<IconTile icon={UserPlus} size={44} tone={a.tone} />} title={a.nom} subtitle={a.sousTitre} />
+            <Row
+              key={a.id}
+              lead={<IconTile icon={UserPlus} size={44} tone={a.tone} />}
+              title={a.nom}
+              subtitle={t(`friendsList.subtitles.${a.subtitleKey}`, { count: a.count, date: a.date })}
+            />
           ))}
 
         {tab === 'abonnes' && (
-          <p className="rounded-2xl bg-card px-4 py-5 text-center text-sm text-muted-foreground">Aucun abonné pour le moment.</p>
+          <p className="rounded-2xl bg-card px-4 py-5 text-center text-sm text-muted-foreground">{t('followers.empty')}</p>
         )}
 
         {(tab === 'amis' || tab === 'demandes') && demandes.length > 0 && (
           <section className="space-y-2.5">
-            <h2 className="text-base font-bold text-foreground">Demandes reçues</h2>
+            <h2 className="text-base font-bold text-foreground">{t('requests.sectionTitle')}</h2>
             {demandes.map((d) => (
               <div key={d.id} className="rounded-2xl bg-card p-4">
                 <div className="flex items-center gap-3.5">
                   <IconTile icon={UserPlus} size={44} />
                   <div className="min-w-0 flex-1">
                     <p className="truncate text-sm font-semibold text-foreground">{d.nom}</p>
-                    <p className="truncate text-xs text-muted-foreground">{d.sousTitre}</p>
+                    <p className="truncate text-xs text-muted-foreground">{t('requests.subtitle')}</p>
                   </div>
                 </div>
                 <div className="mt-3 flex gap-2.5">
@@ -67,7 +78,7 @@ export function AmisPage({ onBack }) {
                     onClick={() => repondre(d.id)}
                     className="h-9 flex-1 rounded-full border border-border text-sm font-semibold text-foreground"
                   >
-                    Refuser
+                    {t('requests.decline')}
                   </button>
                   <button
                     type="button"
@@ -75,7 +86,7 @@ export function AmisPage({ onBack }) {
                     className="flex h-9 flex-1 items-center justify-center gap-1.5 rounded-full bg-primary text-sm font-semibold text-primary-foreground"
                   >
                     <Check className="h-3.5 w-3.5" />
-                    Accepter
+                    {t('requests.accept')}
                   </button>
                 </div>
               </div>
@@ -84,13 +95,13 @@ export function AmisPage({ onBack }) {
         )}
 
         {tab === 'demandes' && demandes.length === 0 && (
-          <p className="rounded-2xl bg-card px-4 py-5 text-center text-sm text-muted-foreground">Aucune demande en attente.</p>
+          <p className="rounded-2xl bg-card px-4 py-5 text-center text-sm text-muted-foreground">{t('requests.empty')}</p>
         )}
       </div>
 
       <button
         type="button"
-        aria-label="Ajouter un ami"
+        aria-label={t('addFriend')}
         className="fixed bottom-24 right-5 z-10 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg"
       >
         <Plus className="h-6 w-6" />

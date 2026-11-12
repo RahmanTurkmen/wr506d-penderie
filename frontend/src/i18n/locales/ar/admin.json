@@ -1,0 +1,51 @@
+{
+  "dashboard": {
+    "stats": {
+      "users": "المستخدمون",
+      "objects": "الأشياء",
+      "salesThisMonth": "مبيعات هذا الشهر",
+      "reports": "البلاغات"
+    },
+    "toProcess": "قيد المعالجة",
+    "seeAll": "عرض الكل"
+  },
+  "section": {
+    "tabs": {
+      "dashboard": "لوحة التحكم",
+      "users": "المستخدمون",
+      "reports": "البلاغات",
+      "reportsWithCount": "البلاغات {{count}}",
+      "sales": "المبيعات",
+      "categories": "الفئات"
+    },
+    "subtitles": {
+      "dashboard": "نظرة عامة على Lumen",
+      "users_one": "حساب واحد",
+      "users_other": "{{count}} حساب",
+      "reports": "{{count}} بانتظار المعالجة"
+    }
+  },
+  "reports": {
+    "empty": "لا يوجد شيء للمعالجة حاليًا.",
+    "ignore": "تجاهل",
+    "remove": "إزالة",
+    "urgency": {
+      "urgent": "عاجل",
+      "ouvert": "مفتوح"
+    }
+  },
+  "users": {
+    "filters": {
+      "all": "الكل",
+      "active": "نشطون",
+      "suspended": "موقوفون",
+      "children": "أطفال"
+    },
+    "export": "تصدير",
+    "status": {
+      "actif": "نشط",
+      "suspendu": "موقوف",
+      "enfant": "طفل"
+    }
+  }
+}

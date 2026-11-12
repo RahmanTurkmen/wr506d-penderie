@@ -1,0 +1,16 @@
+{
+  "list": {
+    "title": "المجموعات",
+    "subtitle_one": "مجموعة واحدة",
+    "subtitle_other": "{{count}} مجموعات",
+    "visibility": {
+      "privee": "خاصة",
+      "amis": "الأصدقاء"
+    },
+    "addNew": "مجموعة جديدة"
+  },
+  "detail": {
+    "empty": "لا توجد أشياء في هذه المجموعة حاليًا.",
+    "addObjects": "إضافة أشياء"
+  }
+}

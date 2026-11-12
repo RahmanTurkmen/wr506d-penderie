@@ -1,0 +1,45 @@
+{
+  "newRefus": {
+    "title": "ليست هذه الإطلالة؟",
+    "subtitle": "استبعاد عنصر أو فئة كاملة",
+    "chipObjet": "عنصر محدد",
+    "chipCategorie": "فئة كاملة",
+    "objetLabel": "العنصر",
+    "categorieLabel": "الفئة",
+    "submit": "حفظ",
+    "error": "تعذر حفظ هذا الاستبعاد."
+  },
+  "newTenue": {
+    "title": "إطلالة جديدة",
+    "subtitle": "اختر العناصر التي تُكوّنها",
+    "nameLabel": "الاسم",
+    "namePlaceholder": "إطلالة اليوم",
+    "emptyObjets": "لا توجد عناصر في مخزونك لتكوين إطلالة.",
+    "objetsLabel": "العناصر",
+    "submit": "إنشاء الإطلالة",
+    "error": "تعذر إنشاء الإطلالة."
+  },
+  "list": {
+    "title": "الإطلالات",
+    "subtitle": "كوّن إطلالاتك من مخزونك",
+    "loading": "جارٍ التحميل…",
+    "tenuesSection": {
+      "title": "إطلالاتك",
+      "add": "+ جديدة",
+      "empty": "لم تُكوَّن أي إطلالة بعد."
+    },
+    "objetsCount_one": "{{count}} عنصر",
+    "objetsCount_other": "{{count}} عناصر",
+    "refusSection": {
+      "title": "لا تريد ارتداءها",
+      "add": "+ إضافة",
+      "empty": "لا شيء مستبعد حتى الآن."
+    },
+    "typeObjet": "عنصر",
+    "typeCategorie": "فئة كاملة",
+    "newTenueAria": "إطلالة جديدة"
+  },
+  "section": {
+    "loadError": "تعذر تحميل إطلالاتك."
+  }
+}

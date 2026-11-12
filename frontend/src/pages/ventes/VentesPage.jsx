@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Bike, Book, Box, Plus } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Badge, Chip, IconTile, Row } from '@/components/lumen/primitives'
 import { ScreenHeader } from '@/components/lumen/ScreenHeader'
 
@@ -15,30 +16,31 @@ const ANNONCES = [
 ]
 
 export function VentesPage({ onBack }) {
+  const { t } = useTranslation('ventes')
   const [tab, setTab] = useState('en_vente') // 'en_vente' | 'vendues' | 'brouillons'
 
   const visibles = tab === 'en_vente' ? ANNONCES : []
 
   return (
     <div className="flex flex-1 flex-col pb-10">
-      <ScreenHeader title="Ventes" subtitle="3 annonces · 1 vendue" onBack={onBack} />
+      <ScreenHeader title={t('header.title')} subtitle={t('header.subtitle', { count: 3, sold: 1 })} onBack={onBack} />
 
       <div className="space-y-4 px-6 py-5 md:px-10">
         <div className="flex gap-2">
           <Chip active={tab === 'en_vente'} onClick={() => setTab('en_vente')}>
-            En vente
+            {t('tabs.forSale')}
           </Chip>
           <Chip active={tab === 'vendues'} onClick={() => setTab('vendues')}>
-            Vendues
+            {t('tabs.sold')}
           </Chip>
           <Chip active={tab === 'brouillons'} onClick={() => setTab('brouillons')}>
-            Brouillons
+            {t('tabs.drafts')}
           </Chip>
         </div>
 
         {visibles.length === 0 && (
           <p className="rounded-2xl bg-card px-4 py-5 text-center text-sm text-muted-foreground">
-            {tab === 'vendues' ? 'Aucune vente pour le moment.' : 'Aucun brouillon.'}
+            {tab === 'vendues' ? t('empty.sold') : t('empty.drafts')}
           </p>
         )}
 
@@ -48,14 +50,14 @@ export function VentesPage({ onBack }) {
             lead={<IconTile icon={a.icon} size={48} tone={a.tone} />}
             title={a.nom}
             subtitle={a.sousTitre}
-            trailing={<Badge tone={a.statut === 'a_valider' ? 'solid' : 'pink'}>{a.statut === 'a_valider' ? 'À valider' : 'En ligne'}</Badge>}
+            trailing={<Badge tone={a.statut === 'a_valider' ? 'solid' : 'pink'}>{t(`status.${a.statut}`)}</Badge>}
           />
         ))}
       </div>
 
       <button
         type="button"
-        aria-label="Mettre un objet en vente"
+        aria-label={t('addNewAriaLabel')}
         className="fixed bottom-24 right-5 z-10 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg"
       >
         <Plus className="h-6 w-6" />

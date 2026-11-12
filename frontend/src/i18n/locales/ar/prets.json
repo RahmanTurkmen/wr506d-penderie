@@ -1,0 +1,34 @@
+{
+  "newPret": {
+    "title": "قرض جديد",
+    "subtitle": "إقراض عنصر لصديق",
+    "emptyObjets": "لا توجد عناصر متاحة للإقراض حاليًا.",
+    "objetLabel": "العنصر",
+    "lentToLabel": "مُقرَض إلى",
+    "emprunteurPlaceholder": "اسم المستعير",
+    "returnDateLabel": "تاريخ الإرجاع (اختياري)",
+    "cancel": "إلغاء",
+    "submit": "إقراض",
+    "error": "تعذر إنشاء القرض."
+  },
+  "list": {
+    "title": "القروض",
+    "loading": "جارٍ التحميل…",
+    "subtitleOngoing": "{{count}} جارٍ",
+    "subtitleFinished_one": "{{count}} منتهٍ",
+    "subtitleFinished_other": "{{count}} منتهية",
+    "tabOngoing": "جارية",
+    "tabFinished": "منتهية",
+    "emptyOngoing": "لا توجد قروض جارية حاليًا.",
+    "emptyFinished": "لا توجد قروض منتهية حاليًا.",
+    "lentTo": "مُقرَض إلى {{name}}",
+    "lentToWithReturn": "مُقرَض إلى {{name}} · الإرجاع في {{date}}",
+    "late": "متأخر",
+    "returnButton": "تم الإرجاع",
+    "finishedBadge": "منتهٍ",
+    "newPretAria": "قرض جديد"
+  },
+  "section": {
+    "loadError": "تعذر تحميل عناصرك."
+  }
+}

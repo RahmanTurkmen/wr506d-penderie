@@ -1,0 +1,19 @@
+{
+  "page": {
+    "title": "في انتظار الموافقة",
+    "loading": "…",
+    "requestCount_one": "{{count}} طلب",
+    "requestCount_other": "{{count}} طلبات",
+    "loadingList": "جارٍ التحميل…",
+    "empty": "لا توجد طلبات معلقة.",
+    "titleSale": "عرض «{{name}}» للبيع",
+    "titleSaleGeneric": "عرض عنصر للبيع",
+    "titleShare": "مشاركة خزانة الملابس",
+    "requestedBy": "طلب بواسطة {{name}}",
+    "refuse": "رفض",
+    "approve": "موافقة"
+  },
+  "section": {
+    "loadError": "تعذر تحميل الطلبات."
+  }
+}

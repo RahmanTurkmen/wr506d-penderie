@@ -1,0 +1,39 @@
+{
+  "header": {
+    "buy": { "title": "شراء", "subtitle": "{{object}} · يُباع من قِبل {{seller}}" },
+    "delivery": { "title": "التسليم", "subtitle": "كيف تريد استلام الشيء؟" },
+    "payment": { "title": "الدفع", "subtitle": "الإجمالي: {{amount}}" },
+    "confirmed": { "title": "تم تأكيد الطلب", "subtitle": "شكرًا لك!" }
+  },
+  "order": {
+    "price": "السعر",
+    "shippingFee": "رسوم الشحن",
+    "total": "الإجمالي",
+    "messageLabel": "رسالة إلى البائع (اختياري)",
+    "messagePlaceholder": "مرحبًا، هل أنت متاح الثلاثاء؟"
+  },
+  "delivery": {
+    "inPerson": { "label": "تسليم باليد", "subtitle": "موعد مع {{seller}} · مجاني" },
+    "colissimo": { "label": "كوليسيمو", "subtitle": "توصيل إلى المنزل · {{price}}" },
+    "locationLabel": "مكان اللقاء",
+    "dateLabel": "التاريخ"
+  },
+  "payment": {
+    "card": { "label": "بطاقة بنكية", "subtitle": "فيزا •••• 4242" },
+    "inPerson": { "label": "عند التسليم", "subtitle": "الدفع عند الاستلام باليد" },
+    "cardNumberLabel": "رقم البطاقة",
+    "secureNotice": "دفع آمن. يُدفع للبائع عند تسليم الشيء."
+  },
+  "confirmation": {
+    "object": "الشيء",
+    "delivery": "التسليم",
+    "appointment": "الموعد",
+    "paid": "المدفوع"
+  },
+  "actions": {
+    "contact": "التواصل",
+    "backToSales": "الرجوع إلى المبيعات",
+    "continue": "متابعة",
+    "pay": "دفع {{amount}}"
+  }
+}

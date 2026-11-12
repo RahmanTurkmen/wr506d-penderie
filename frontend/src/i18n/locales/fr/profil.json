@@ -1,0 +1,74 @@
+{
+  "confidentialite": {
+    "title": "Confidentialité",
+    "subtitle": "Utilisateurs bloqués",
+    "loading": "Chargement…",
+    "empty": "Aucun utilisateur bloqué.",
+    "blockedStatus": "Bloqué",
+    "unblock": "Débloquer",
+    "addBlock": "+ Bloquer un utilisateur",
+    "emailPlaceholder": "email@exemple.com",
+    "error": "Impossible de bloquer cet utilisateur (email inconnu ou déjà bloqué)."
+  },
+  "newProfil": {
+    "title": "Nouveau profil",
+    "subtitle": "Profil géré par toi",
+    "firstNameLabel": "Prénom",
+    "firstNamePlaceholder": "Eva",
+    "childProfile": {
+      "title": "Profil enfant",
+      "subtitle": "Validation parentale pour partager/vendre, prix masqués",
+      "toggleLabel": "Profil enfant"
+    },
+    "submit": "Créer",
+    "error": "Impossible de créer ce profil."
+  },
+  "foyer": {
+    "title": "Profils du foyer",
+    "subtitle": "Un compte principal, des profils gérés",
+    "loading": "Chargement…",
+    "empty": "Aucun profil.",
+    "mainAccount": "Compte principal",
+    "childProfile": "Profil enfant",
+    "managedProfile": "Profil géré",
+    "active": "Actif",
+    "addAria": "Ajouter un profil"
+  },
+  "home": {
+    "title": "Profil",
+    "subtitleMainAccount": "compte principal",
+    "subtitleManagedProfile": "profil géré",
+    "stats": {
+      "title": "Mon espace",
+      "objets": "Objets",
+      "logements": "Logements",
+      "pretsActifs": "Prêts en cours",
+      "enVente": "En vente",
+      "ventesTerminees": "Ventes réalisées",
+      "partages": "Partages actifs",
+      "validationsEnAttente": "Demandes en attente"
+    },
+    "rows": {
+      "foyer": {
+        "title": "Profils du foyer",
+        "subtitle_one": "{{count}} profil",
+        "subtitle_other": "{{count}} profils"
+      },
+      "confidentialite": {
+        "title": "Confidentialité",
+        "subtitle_one": "{{count}} utilisateur bloqué",
+        "subtitle_other": "{{count}} utilisateurs bloqués"
+      },
+      "amis": "Mes amis",
+      "ventes": "Mes ventes",
+      "partage": "Partager un objet",
+      "achat": "Acheter un objet",
+      "notifications": "Notifications",
+      "collections": "Collections",
+      "filActualite": "Fil d'actualité",
+      "admin": "Back-office admin"
+    },
+    "comingSoon": "Aperçu (à venir)",
+    "logout": "Se déconnecter"
+  }
+}

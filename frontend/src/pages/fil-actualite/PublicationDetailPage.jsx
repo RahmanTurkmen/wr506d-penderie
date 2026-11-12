@@ -1,12 +1,14 @@
 import { Heart, MessageCircle, Send } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Row } from '@/components/lumen/primitives'
 import { ScreenHeader } from '@/components/lumen/ScreenHeader'
 
 // Figma 16.2 — Détail d'une publication. Statique, voir FilActualitePage.jsx.
 export function PublicationDetailPage({ publication, likes, onBack }) {
+  const { t } = useTranslation('filActualite')
   return (
     <div className="flex flex-1 flex-col pb-10">
-      <ScreenHeader title="Publication" subtitle={`${publication.auteur} · ${publication.quand}`} onBack={onBack} />
+      <ScreenHeader title={t('detail.title')} subtitle={`${publication.auteur} · ${t(`timeAgo.${publication.quand}`)}`} onBack={onBack} />
 
       <div className="space-y-5 px-6 py-5 md:px-10">
         <article className="rounded-2xl bg-card p-4">
@@ -16,7 +18,7 @@ export function PublicationDetailPage({ publication, likes, onBack }) {
             </span>
             <div className="min-w-0 flex-1">
               <p className="truncate text-sm font-semibold text-foreground">{publication.auteur}</p>
-              <p className="truncate text-xs text-muted-foreground">{publication.quand}</p>
+              <p className="truncate text-xs text-muted-foreground">{t(`timeAgo.${publication.quand}`)}</p>
             </div>
           </div>
           <div
@@ -44,15 +46,15 @@ export function PublicationDetailPage({ publication, likes, onBack }) {
             </span>
             <span className="flex items-center gap-1.5">
               <Send className="h-[18px] w-[18px]" />
-              Partager
+              {t('share')}
             </span>
           </div>
         </article>
 
         <section className="space-y-2.5">
-          <h2 className="text-base font-bold text-foreground">Commentaires</h2>
+          <h2 className="text-base font-bold text-foreground">{t('detail.commentsTitle')}</h2>
           {publication.commentaires.length === 0 ? (
-            <p className="rounded-2xl bg-card px-4 py-5 text-center text-sm text-muted-foreground">Aucun commentaire pour le moment.</p>
+            <p className="rounded-2xl bg-card px-4 py-5 text-center text-sm text-muted-foreground">{t('detail.commentsEmpty')}</p>
           ) : (
             publication.commentaires.map((c) => (
               <Row
@@ -76,7 +78,7 @@ export function PublicationDetailPage({ publication, likes, onBack }) {
           className="flex h-[52px] w-full items-center justify-center gap-2 rounded-full bg-primary text-[15px] font-semibold text-primary-foreground"
         >
           <MessageCircle className="h-[18px] w-[18px]" />
-          Je suis intéressé
+          {t('detail.interested')}
         </button>
       </div>
     </div>

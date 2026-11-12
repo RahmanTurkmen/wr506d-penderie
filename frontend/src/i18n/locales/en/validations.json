@@ -1,0 +1,19 @@
+{
+  "page": {
+    "title": "Pending approval",
+    "loading": "…",
+    "requestCount_one": "{{count}} request",
+    "requestCount_other": "{{count}} requests",
+    "loadingList": "Loading…",
+    "empty": "No pending requests.",
+    "titleSale": "List \"{{name}}\" for sale",
+    "titleSaleGeneric": "List an item for sale",
+    "titleShare": "Share the wardrobe",
+    "requestedBy": "Requested by {{name}}",
+    "refuse": "Decline",
+    "approve": "Approve"
+  },
+  "section": {
+    "loadError": "Could not load requests."
+  }
+}

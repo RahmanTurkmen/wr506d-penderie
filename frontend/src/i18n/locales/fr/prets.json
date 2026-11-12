@@ -1,0 +1,34 @@
+{
+  "newPret": {
+    "title": "Nouveau prêt",
+    "subtitle": "Prêter un objet à un ami",
+    "emptyObjets": "Aucun objet disponible à prêter pour le moment.",
+    "objetLabel": "Objet",
+    "lentToLabel": "Prêté à",
+    "emprunteurPlaceholder": "Nom de l'emprunteur",
+    "returnDateLabel": "Date de retour (facultatif)",
+    "cancel": "Annuler",
+    "submit": "Prêter",
+    "error": "Impossible de créer le prêt."
+  },
+  "list": {
+    "title": "Prêts",
+    "loading": "Chargement…",
+    "subtitleOngoing": "{{count}} en cours",
+    "subtitleFinished_one": "{{count}} terminé",
+    "subtitleFinished_other": "{{count}} terminés",
+    "tabOngoing": "En cours",
+    "tabFinished": "Terminés",
+    "emptyOngoing": "Aucun prêt en cours pour le moment.",
+    "emptyFinished": "Aucun prêt terminé pour le moment.",
+    "lentTo": "Prêté à {{name}}",
+    "lentToWithReturn": "Prêté à {{name}} · retour le {{date}}",
+    "late": "En retard",
+    "returnButton": "Rendu",
+    "finishedBadge": "Terminé",
+    "newPretAria": "Nouveau prêt"
+  },
+  "section": {
+    "loadError": "Impossible de charger tes objets."
+  }
+}

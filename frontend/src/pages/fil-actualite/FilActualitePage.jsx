@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Disc3, Heart, MessageCircle, Send, Wrench } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Chip } from '@/components/lumen/primitives'
 import { ScreenHeader } from '@/components/lumen/ScreenHeader'
 import { PublicationDetailPage } from './PublicationDetailPage'
@@ -14,7 +15,7 @@ const PUBLICATIONS = [
     type: 'ventes',
     auteur: 'Tom',
     avatar: 'L',
-    quand: 'il y a 2 h',
+    quand: 'hours2',
     icon: Wrench,
     tone: 'sky',
     texte: 'Tom met en vente une Veste Zara · 45 €',
@@ -30,7 +31,7 @@ const PUBLICATIONS = [
     type: 'collections',
     auteur: 'Lilou',
     avatar: 'I',
-    quand: 'hier',
+    quand: 'yesterday',
     icon: Disc3,
     tone: 'violet',
     texte: 'Lilou a ajouté 6 vinyles à sa collection',
@@ -40,14 +41,11 @@ const PUBLICATIONS = [
   },
 ]
 
-const FILTRES = [
-  { id: 'tout', label: 'Tout' },
-  { id: 'prets', label: 'Prêts' },
-  { id: 'ventes', label: 'Ventes' },
-  { id: 'collections', label: 'Collections' },
-]
+const FILTRE_IDS = ['tout', 'prets', 'ventes', 'collections']
+const FILTRE_KEYS = { tout: 'all', prets: 'loans', ventes: 'sales', collections: 'collections' }
 
 export function FilActualitePage({ onBack }) {
+  const { t } = useTranslation('filActualite')
   const [filtre, setFiltre] = useState('tout')
   const [openId, setOpenId] = useState(null)
   const [likes, setLikes] = useState(() => Object.fromEntries(PUBLICATIONS.map((p) => [p.id, p.likes])))
@@ -70,19 +68,19 @@ export function FilActualitePage({ onBack }) {
 
   return (
     <div className="flex flex-1 flex-col pb-10">
-      <ScreenHeader title="Fil d'actualité" subtitle="Ce que font tes amis" onBack={onBack} />
+      <ScreenHeader title={t('header.title')} subtitle={t('header.subtitle')} onBack={onBack} />
 
       <div className="space-y-4 px-6 py-5 md:px-10">
         <div className="flex gap-2 overflow-x-auto">
-          {FILTRES.map((f) => (
-            <Chip key={f.id} active={filtre === f.id} onClick={() => setFiltre(f.id)}>
-              {f.label}
+          {FILTRE_IDS.map((id) => (
+            <Chip key={id} active={filtre === id} onClick={() => setFiltre(id)}>
+              {t(`filters.${FILTRE_KEYS[id]}`)}
             </Chip>
           ))}
         </div>
 
         {visibles.length === 0 && (
-          <p className="rounded-2xl bg-card px-4 py-5 text-center text-sm text-muted-foreground">Rien à afficher pour ce filtre.</p>
+          <p className="rounded-2xl bg-card px-4 py-5 text-center text-sm text-muted-foreground">{t('empty')}</p>
         )}
 
         {visibles.map((p) => (
@@ -93,7 +91,7 @@ export function FilActualitePage({ onBack }) {
               </span>
               <div className="min-w-0 flex-1">
                 <p className="truncate text-sm font-semibold text-foreground">{p.auteur}</p>
-                <p className="truncate text-xs text-muted-foreground">{p.quand}</p>
+                <p className="truncate text-xs text-muted-foreground">{t(`timeAgo.${p.quand}`)}</p>
               </div>
             </div>
             <button
@@ -119,7 +117,7 @@ export function FilActualitePage({ onBack }) {
               </span>
               <span className="flex items-center gap-1.5">
                 <Send className="h-[18px] w-[18px]" />
-                Partager
+                {t('share')}
               </span>
             </div>
           </article>

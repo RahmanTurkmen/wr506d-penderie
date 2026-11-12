@@ -14,6 +14,7 @@ import {
   Users,
   Wrench,
 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Row } from '@/components/lumen/primitives'
 import { ScreenHeader } from '@/components/lumen/ScreenHeader'
 
@@ -23,17 +24,14 @@ import { ScreenHeader } from '@/components/lumen/ScreenHeader'
 // envoyé à l'API, c'est une maquette interactive.
 const TOTAL_STEPS = 3 // les étapes 2-4 affichent la barre de progression (1 à 3) ; l'étape 1 (offre) n'en a pas
 
-const REMISES = [
-  { id: 'main-propre', icon: Users, label: 'Main propre', sousTitre: 'Rendez-vous avec Tom · gratuit' },
-  { id: 'colissimo', icon: Truck, label: 'Colissimo', sousTitre: 'Livraison à domicile · 6,90 €' },
-]
-
-const PAIEMENTS = [
-  { id: 'carte', icon: CreditCard, label: 'Carte bancaire', sousTitre: 'Visa •••• 4242' },
-  { id: 'sur-place', icon: Users, label: 'Sur place', sousTitre: 'Payer en main propre' },
-]
+const OBJET_NOM = 'Veste Zara'
+const VENDEUR_NOM = 'Tom'
+const PRIX = '45,00 €'
+const FRAIS_PORT = '0,00 €'
+const COLISSIMO_PRIX = '6,90 €'
 
 export function AchatObjetPage({ onBack }) {
+  const { t } = useTranslation('achat')
   const [step, setStep] = useState(1)
   const [message, setMessage] = useState('')
   const [remise, setRemise] = useState('main-propre')
@@ -42,11 +40,21 @@ export function AchatObjetPage({ onBack }) {
   const [paiement, setPaiement] = useState('carte')
   const [carte, setCarte] = useState('4242 4242 4242 4242')
 
+  const REMISES = [
+    { id: 'main-propre', icon: Users, label: t('delivery.inPerson.label'), sousTitre: t('delivery.inPerson.subtitle', { seller: VENDEUR_NOM }) },
+    { id: 'colissimo', icon: Truck, label: t('delivery.colissimo.label'), sousTitre: t('delivery.colissimo.subtitle', { price: COLISSIMO_PRIX }) },
+  ]
+
+  const PAIEMENTS = [
+    { id: 'carte', icon: CreditCard, label: t('payment.card.label'), sousTitre: t('payment.card.subtitle') },
+    { id: 'sur-place', icon: Users, label: t('payment.inPerson.label'), sousTitre: t('payment.inPerson.subtitle') },
+  ]
+
   const STEP_HEADER = {
-    1: { title: 'Acheter', subtitle: 'Veste Zara · vendue par Tom' },
-    2: { title: 'Remise', subtitle: "Comment récupérer l'objet ?" },
-    3: { title: 'Paiement', subtitle: 'Total : 45,00 €' },
-    4: { title: 'Commande confirmée', subtitle: 'Merci !' },
+    1: { title: t('header.buy.title'), subtitle: t('header.buy.subtitle', { object: OBJET_NOM, seller: VENDEUR_NOM }) },
+    2: { title: t('header.delivery.title'), subtitle: t('header.delivery.subtitle') },
+    3: { title: t('header.payment.title'), subtitle: t('header.payment.subtitle', { amount: PRIX }) },
+    4: { title: t('header.confirmed.title'), subtitle: t('header.confirmed.subtitle') },
   }
 
   return (
@@ -67,24 +75,24 @@ export function AchatObjetPage({ onBack }) {
             </div>
             <div className="space-y-2 rounded-2xl bg-card p-4">
               <div className="flex justify-between text-sm text-foreground">
-                <span>Prix</span>
-                <span>45,00 €</span>
+                <span>{t('order.price')}</span>
+                <span>{PRIX}</span>
               </div>
               <div className="flex justify-between text-sm text-foreground">
-                <span>Frais de port</span>
-                <span>0,00 €</span>
+                <span>{t('order.shippingFee')}</span>
+                <span>{FRAIS_PORT}</span>
               </div>
               <div className="flex justify-between border-t border-border pt-2 text-base font-bold text-foreground">
-                <span>Total</span>
-                <span>45,00 €</span>
+                <span>{t('order.total')}</span>
+                <span>{PRIX}</span>
               </div>
             </div>
             <label className="block space-y-1.5 text-left">
-              <span className="text-sm font-medium text-foreground">Message au vendeur (facultatif)</span>
+              <span className="text-sm font-medium text-foreground">{t('order.messageLabel')}</span>
               <textarea
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
-                placeholder="Bonjour, dispo mardi ?"
+                placeholder={t('order.messagePlaceholder')}
                 rows={3}
                 className="w-full resize-none rounded-[14px] border border-border bg-card px-4 py-3 text-sm text-foreground outline-none focus:border-primary"
               />
@@ -112,7 +120,7 @@ export function AchatObjetPage({ onBack }) {
             ))}
             {remise === 'main-propre' && (
               <label className="block space-y-1.5 text-left">
-                <span className="text-sm font-medium text-foreground">Lieu de rendez-vous</span>
+                <span className="text-sm font-medium text-foreground">{t('delivery.locationLabel')}</span>
                 <span className="flex h-12 items-center gap-2.5 rounded-[14px] border border-border bg-card px-4">
                   <MapPin className="h-[18px] w-[18px] shrink-0 text-muted-foreground" />
                   <input
@@ -124,7 +132,7 @@ export function AchatObjetPage({ onBack }) {
               </label>
             )}
             <label className="block space-y-1.5 text-left">
-              <span className="text-sm font-medium text-foreground">Date</span>
+              <span className="text-sm font-medium text-foreground">{t('delivery.dateLabel')}</span>
               <span className="flex h-12 items-center gap-2.5 rounded-[14px] border border-border bg-card px-4">
                 <Calendar className="h-[18px] w-[18px] shrink-0 text-muted-foreground" />
                 <input
@@ -157,7 +165,7 @@ export function AchatObjetPage({ onBack }) {
             ))}
             {paiement === 'carte' && (
               <label className="block space-y-1.5 text-left">
-                <span className="text-sm font-medium text-foreground">Numéro de carte</span>
+                <span className="text-sm font-medium text-foreground">{t('payment.cardNumberLabel')}</span>
                 <span className="flex h-12 items-center gap-2.5 rounded-[14px] border border-border bg-card px-4">
                   <CreditCard className="h-[18px] w-[18px] shrink-0 text-muted-foreground" />
                   <input
@@ -170,7 +178,7 @@ export function AchatObjetPage({ onBack }) {
             )}
             <div className="flex items-start gap-2.5 rounded-2xl bg-secondary px-4 py-3 text-xs font-medium text-primary">
               <Lock className="mt-0.5 h-[18px] w-[18px] shrink-0" />
-              Paiement sécurisé. Le vendeur est payé à la remise de l'objet.
+              {t('payment.secureNotice')}
             </div>
           </>
         )}
@@ -183,23 +191,23 @@ export function AchatObjetPage({ onBack }) {
             <div className="space-y-3 rounded-2xl bg-card p-4">
               <div className="flex items-center gap-2 text-sm">
                 <Tag className="h-[18px] w-[18px] text-muted-foreground" />
-                <span className="flex-1 text-foreground">Objet</span>
-                <span className="font-semibold text-foreground">Veste Zara</span>
+                <span className="flex-1 text-foreground">{t('confirmation.object')}</span>
+                <span className="font-semibold text-foreground">{OBJET_NOM}</span>
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <Users className="h-[18px] w-[18px] text-muted-foreground" />
-                <span className="flex-1 text-foreground">Remise</span>
-                <span className="font-semibold text-foreground">Main propre</span>
+                <span className="flex-1 text-foreground">{t('confirmation.delivery')}</span>
+                <span className="font-semibold text-foreground">{t('delivery.inPerson.label')}</span>
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <Calendar className="h-[18px] w-[18px] text-muted-foreground" />
-                <span className="flex-1 text-foreground">Rendez-vous</span>
+                <span className="flex-1 text-foreground">{t('confirmation.appointment')}</span>
                 <span className="font-semibold text-foreground">Mar. 17 oct. · 15 h</span>
               </div>
               <div className="flex items-center gap-2 text-sm">
                 <CreditCard className="h-[18px] w-[18px] text-muted-foreground" />
-                <span className="flex-1 text-foreground">Payé</span>
-                <span className="font-semibold text-foreground">45,00 €</span>
+                <span className="flex-1 text-foreground">{t('confirmation.paid')}</span>
+                <span className="font-semibold text-foreground">{PRIX}</span>
               </div>
             </div>
           </>
@@ -214,14 +222,14 @@ export function AchatObjetPage({ onBack }) {
               className="flex h-[52px] flex-1 items-center justify-center gap-2 rounded-full border border-border text-[15px] font-semibold text-foreground"
             >
               <Mail className="h-[18px] w-[18px]" />
-              Contacter
+              {t('actions.contact')}
             </button>
             <button
               type="button"
               onClick={onBack}
               className="h-[52px] flex-1 rounded-full bg-primary text-[15px] font-semibold text-primary-foreground"
             >
-              Retour aux ventes
+              {t('actions.backToSales')}
             </button>
           </>
         ) : (
@@ -230,7 +238,7 @@ export function AchatObjetPage({ onBack }) {
             onClick={() => setStep(step + 1)}
             className="flex h-[52px] w-full items-center justify-center gap-2 rounded-full bg-primary text-[15px] font-semibold text-primary-foreground"
           >
-            {step === 3 ? 'Payer 45 €' : 'Continuer'}
+            {step === 3 ? t('actions.pay', { amount: '45 €' }) : t('actions.continue')}
             {step < 3 && <ChevronRight className="h-[18px] w-[18px]" />}
           </button>
         )}

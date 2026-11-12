@@ -1,8 +1,10 @@
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { decideValidation, listObjets, listValidations } from '@/lib/api'
 import { ValidationsPage } from './ValidationsPage'
 
 export function ValidationsSection({ token, onBack }) {
+  const { t } = useTranslation('validations')
   const [validations, setValidations] = useState([])
   const [objetNoms, setObjetNoms] = useState({})
   const [loading, setLoading] = useState(true)
@@ -12,7 +14,7 @@ export function ValidationsSection({ token, onBack }) {
   async function refresh() {
     const res = await listValidations(token)
     if (!res.ok) {
-      setError(res.data?.error ?? 'Impossible de charger les demandes.')
+      setError(res.data?.error ?? t('section.loadError'))
       setValidations([])
       setLoading(false)
       return

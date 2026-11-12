@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { Check, Loader2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { EmptyState } from '@/components/lumen/primitives'
 import { PickOrCreate } from '@/components/inventory/PickOrCreate'
 import { ScreenHeader } from '@/components/lumen/ScreenHeader'
 
 export function NewPretPage({ objetsDisponibles, onCancel, onSubmit }) {
+  const { t } = useTranslation('prets')
   const [objetId, setObjetId] = useState(null)
   const [emprunteurNom, setEmprunteurNom] = useState('')
   const [dateFinPrevue, setDateFinPrevue] = useState('')
@@ -18,21 +20,21 @@ export function NewPretPage({ objetsDisponibles, onCancel, onSubmit }) {
     setError('')
     const ok = await onSubmit(objetId, emprunteurNom.trim(), dateFinPrevue || undefined)
     setSaving(false)
-    if (!ok) setError("Impossible de créer le prêt.")
+    if (!ok) setError(t('newPret.error'))
   }
 
   return (
     <div className="flex flex-1 flex-col pb-10">
-      <ScreenHeader title="Nouveau prêt" subtitle="Prêter un objet à un ami" onBack={onCancel} close />
+      <ScreenHeader title={t('newPret.title')} subtitle={t('newPret.subtitle')} onBack={onCancel} close />
 
       <form onSubmit={handleSubmit} className="mx-auto w-full max-w-xl space-y-5 px-6 py-5 md:px-10">
         {error && <p className="rounded-2xl bg-destructive/5 px-4 py-3 text-sm text-destructive">{error}</p>}
 
         {objetsDisponibles.length === 0 ? (
-          <EmptyState>Aucun objet disponible à prêter pour le moment.</EmptyState>
+          <EmptyState>{t('newPret.emptyObjets')}</EmptyState>
         ) : (
           <PickOrCreate
-            label="Objet"
+            label={t('newPret.objetLabel')}
             items={objetsDisponibles}
             valueId={objetId}
             onChange={setObjetId}
@@ -42,18 +44,18 @@ export function NewPretPage({ objetsDisponibles, onCancel, onSubmit }) {
         )}
 
         <label className="block space-y-1.5 text-left">
-          <span className="text-sm font-medium text-foreground">Prêté à</span>
+          <span className="text-sm font-medium text-foreground">{t('newPret.lentToLabel')}</span>
           <input
             value={emprunteurNom}
             onChange={(e) => setEmprunteurNom(e.target.value)}
-            placeholder="Nom de l'emprunteur"
+            placeholder={t('newPret.emprunteurPlaceholder')}
             data-cy="pret-emprunteur"
             className="h-[52px] w-full rounded-[14px] border border-border bg-card px-4 text-sm text-foreground outline-none focus:border-primary"
           />
         </label>
 
         <label className="block space-y-1.5 text-left">
-          <span className="text-sm font-medium text-foreground">Date de retour (facultatif)</span>
+          <span className="text-sm font-medium text-foreground">{t('newPret.returnDateLabel')}</span>
           <input
             type="date"
             value={dateFinPrevue}
@@ -64,7 +66,7 @@ export function NewPretPage({ objetsDisponibles, onCancel, onSubmit }) {
 
         <div className="flex gap-2.5 pt-1">
           <button type="button" onClick={onCancel} className="h-[52px] flex-1 rounded-full border border-border text-[15px] font-semibold text-foreground">
-            Annuler
+            {t('newPret.cancel')}
           </button>
           <button
             type="submit"
@@ -73,7 +75,7 @@ export function NewPretPage({ objetsDisponibles, onCancel, onSubmit }) {
             className="flex h-[52px] flex-1 items-center justify-center gap-2 rounded-full bg-primary text-[15px] font-semibold text-primary-foreground disabled:opacity-50"
           >
             {saving ? <Loader2 className="h-[18px] w-[18px] animate-spin" /> : <Check className="h-[18px] w-[18px]" />}
-            Prêter
+            {t('newPret.submit')}
           </button>
         </div>
       </form>

@@ -1,0 +1,21 @@
+{
+  "header": {
+    "title": "المبيعات",
+    "subtitle_one": "عرض واحد · {{sold}} مباع",
+    "subtitle_other": "{{count}} عروض · {{sold}} مباع"
+  },
+  "tabs": {
+    "forSale": "معروض للبيع",
+    "sold": "المباعة",
+    "drafts": "المسودات"
+  },
+  "empty": {
+    "sold": "لا توجد مبيعات حاليًا.",
+    "drafts": "لا توجد مسودات."
+  },
+  "status": {
+    "en_ligne": "متاح",
+    "a_valider": "قيد المراجعة"
+  },
+  "addNewAriaLabel": "عرض شيء للبيع"
+}

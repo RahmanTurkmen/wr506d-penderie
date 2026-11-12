@@ -1,0 +1,45 @@
+{
+  "newRefus": {
+    "title": "Pas cette tenue ?",
+    "subtitle": "Exclure un objet ou toute une catégorie",
+    "chipObjet": "Un objet précis",
+    "chipCategorie": "Toute une catégorie",
+    "objetLabel": "Objet",
+    "categorieLabel": "Catégorie",
+    "submit": "Enregistrer",
+    "error": "Impossible d'enregistrer ce refus."
+  },
+  "newTenue": {
+    "title": "Nouvelle tenue",
+    "subtitle": "Choisis les objets qui la composent",
+    "nameLabel": "Nom",
+    "namePlaceholder": "Tenue du jour",
+    "emptyObjets": "Aucun objet dans ton inventaire pour composer une tenue.",
+    "objetsLabel": "Objets",
+    "submit": "Créer la tenue",
+    "error": "Impossible de créer la tenue."
+  },
+  "list": {
+    "title": "Tenues",
+    "subtitle": "Compose tes tenues à partir de ton inventaire",
+    "loading": "Chargement…",
+    "tenuesSection": {
+      "title": "Tes tenues",
+      "add": "+ Nouvelle",
+      "empty": "Aucune tenue composée pour le moment."
+    },
+    "objetsCount_one": "{{count}} objet",
+    "objetsCount_other": "{{count}} objets",
+    "refusSection": {
+      "title": "Tu ne veux pas porter",
+      "add": "+ Ajouter",
+      "empty": "Rien d'exclu pour l'instant."
+    },
+    "typeObjet": "Objet",
+    "typeCategorie": "Catégorie entière",
+    "newTenueAria": "Nouvelle tenue"
+  },
+  "section": {
+    "loadError": "Impossible de charger tes tenues."
+  }
+}

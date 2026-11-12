@@ -1,0 +1,74 @@
+{
+  "confidentialite": {
+    "title": "Privacy",
+    "subtitle": "Blocked users",
+    "loading": "Loading…",
+    "empty": "No blocked users.",
+    "blockedStatus": "Blocked",
+    "unblock": "Unblock",
+    "addBlock": "+ Block a user",
+    "emailPlaceholder": "email@example.com",
+    "error": "Could not block this user (unknown email or already blocked)."
+  },
+  "newProfil": {
+    "title": "New profile",
+    "subtitle": "Profile managed by you",
+    "firstNameLabel": "First name",
+    "firstNamePlaceholder": "Eva",
+    "childProfile": {
+      "title": "Child profile",
+      "subtitle": "Parental approval to share/sell, prices hidden",
+      "toggleLabel": "Child profile"
+    },
+    "submit": "Create",
+    "error": "Could not create this profile."
+  },
+  "foyer": {
+    "title": "Household profiles",
+    "subtitle": "One main account, managed profiles",
+    "loading": "Loading…",
+    "empty": "No profile.",
+    "mainAccount": "Main account",
+    "childProfile": "Child profile",
+    "managedProfile": "Managed profile",
+    "active": "Active",
+    "addAria": "Add a profile"
+  },
+  "home": {
+    "title": "Profile",
+    "subtitleMainAccount": "main account",
+    "subtitleManagedProfile": "managed profile",
+    "stats": {
+      "title": "My space",
+      "objets": "Items",
+      "logements": "Homes",
+      "pretsActifs": "Active loans",
+      "enVente": "For sale",
+      "ventesTerminees": "Completed sales",
+      "partages": "Active shares",
+      "validationsEnAttente": "Pending requests"
+    },
+    "rows": {
+      "foyer": {
+        "title": "Household profiles",
+        "subtitle_one": "{{count}} profile",
+        "subtitle_other": "{{count}} profiles"
+      },
+      "confidentialite": {
+        "title": "Privacy",
+        "subtitle_one": "{{count}} blocked user",
+        "subtitle_other": "{{count}} blocked users"
+      },
+      "amis": "My friends",
+      "ventes": "My sales",
+      "partage": "Share an item",
+      "achat": "Buy an item",
+      "notifications": "Notifications",
+      "collections": "Collections",
+      "filActualite": "News feed",
+      "admin": "Admin back-office"
+    },
+    "comingSoon": "Preview (coming soon)",
+    "logout": "Log out"
+  }
+}

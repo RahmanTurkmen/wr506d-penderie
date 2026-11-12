@@ -1,0 +1,21 @@
+{
+  "header": {
+    "title": "Sales",
+    "subtitle_one": "{{count}} listing · {{sold}} sold",
+    "subtitle_other": "{{count}} listings · {{sold}} sold"
+  },
+  "tabs": {
+    "forSale": "For sale",
+    "sold": "Sold",
+    "drafts": "Drafts"
+  },
+  "empty": {
+    "sold": "No sales yet.",
+    "drafts": "No drafts."
+  },
+  "status": {
+    "en_ligne": "Live",
+    "a_valider": "Pending review"
+  },
+  "addNewAriaLabel": "List an item for sale"
+}

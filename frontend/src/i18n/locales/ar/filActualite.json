@@ -1,0 +1,24 @@
+{
+  "header": {
+    "title": "آخر الأخبار",
+    "subtitle": "ما يفعله أصدقاؤك"
+  },
+  "filters": {
+    "all": "الكل",
+    "loans": "الاستعارات",
+    "sales": "المبيعات",
+    "collections": "المجموعات"
+  },
+  "empty": "لا يوجد شيء لعرضه لهذا الفلتر.",
+  "share": "مشاركة",
+  "timeAgo": {
+    "hours2": "منذ ساعتين",
+    "yesterday": "أمس"
+  },
+  "detail": {
+    "title": "المنشور",
+    "commentsTitle": "التعليقات",
+    "commentsEmpty": "لا توجد تعليقات حاليًا.",
+    "interested": "أنا مهتم"
+  }
+}

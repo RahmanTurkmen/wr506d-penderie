@@ -1,0 +1,74 @@
+{
+  "confidentialite": {
+    "title": "الخصوصية",
+    "subtitle": "المستخدمون المحظورون",
+    "loading": "جارٍ التحميل…",
+    "empty": "لا يوجد مستخدمون محظورون.",
+    "blockedStatus": "محظور",
+    "unblock": "إلغاء الحظر",
+    "addBlock": "+ حظر مستخدم",
+    "emailPlaceholder": "email@example.com",
+    "error": "تعذر حظر هذا المستخدم (بريد إلكتروني غير معروف أو محظور بالفعل)."
+  },
+  "newProfil": {
+    "title": "ملف شخصي جديد",
+    "subtitle": "ملف شخصي تديره أنت",
+    "firstNameLabel": "الاسم الأول",
+    "firstNamePlaceholder": "إيفا",
+    "childProfile": {
+      "title": "ملف طفل",
+      "subtitle": "موافقة الوالدين للمشاركة/البيع، الأسعار مخفية",
+      "toggleLabel": "ملف طفل"
+    },
+    "submit": "إنشاء",
+    "error": "تعذر إنشاء هذا الملف الشخصي."
+  },
+  "foyer": {
+    "title": "ملفات الأسرة",
+    "subtitle": "حساب رئيسي واحد، وملفات مُدارة",
+    "loading": "جارٍ التحميل…",
+    "empty": "لا يوجد ملف شخصي.",
+    "mainAccount": "الحساب الرئيسي",
+    "childProfile": "ملف طفل",
+    "managedProfile": "ملف مُدار",
+    "active": "نشط",
+    "addAria": "إضافة ملف شخصي"
+  },
+  "home": {
+    "title": "الملف الشخصي",
+    "subtitleMainAccount": "حساب رئيسي",
+    "subtitleManagedProfile": "ملف مُدار",
+    "stats": {
+      "title": "مساحتي",
+      "objets": "الأشياء",
+      "logements": "المساكن",
+      "pretsActifs": "قروض جارية",
+      "enVente": "للبيع",
+      "ventesTerminees": "مبيعات مكتملة",
+      "partages": "مشاركات نشطة",
+      "validationsEnAttente": "طلبات في الانتظار"
+    },
+    "rows": {
+      "foyer": {
+        "title": "ملفات الأسرة",
+        "subtitle_one": "{{count}} ملف شخصي",
+        "subtitle_other": "{{count}} ملفات شخصية"
+      },
+      "confidentialite": {
+        "title": "الخصوصية",
+        "subtitle_one": "{{count}} مستخدم محظور",
+        "subtitle_other": "{{count}} مستخدمين محظورين"
+      },
+      "amis": "أصدقائي",
+      "ventes": "مبيعاتي",
+      "partage": "مشاركة عنصر",
+      "achat": "شراء عنصر",
+      "notifications": "الإشعارات",
+      "collections": "المجموعات",
+      "filActualite": "آخر الأخبار",
+      "admin": "لوحة تحكم المسؤول"
+    },
+    "comingSoon": "معاينة (قريبًا)",
+    "logout": "تسجيل الخروج"
+  }
+}

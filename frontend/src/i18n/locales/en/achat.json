@@ -1,0 +1,39 @@
+{
+  "header": {
+    "buy": { "title": "Buy", "subtitle": "{{object}} · sold by {{seller}}" },
+    "delivery": { "title": "Delivery", "subtitle": "How would you like to get the item?" },
+    "payment": { "title": "Payment", "subtitle": "Total: {{amount}}" },
+    "confirmed": { "title": "Order confirmed", "subtitle": "Thank you!" }
+  },
+  "order": {
+    "price": "Price",
+    "shippingFee": "Shipping fee",
+    "total": "Total",
+    "messageLabel": "Message to the seller (optional)",
+    "messagePlaceholder": "Hi, are you free on Tuesday?"
+  },
+  "delivery": {
+    "inPerson": { "label": "In person", "subtitle": "Meet up with {{seller}} · free" },
+    "colissimo": { "label": "Colissimo", "subtitle": "Home delivery · {{price}}" },
+    "locationLabel": "Meeting location",
+    "dateLabel": "Date"
+  },
+  "payment": {
+    "card": { "label": "Credit card", "subtitle": "Visa •••• 4242" },
+    "inPerson": { "label": "In person", "subtitle": "Pay on pickup" },
+    "cardNumberLabel": "Card number",
+    "secureNotice": "Secure payment. The seller is paid once the item is handed over."
+  },
+  "confirmation": {
+    "object": "Item",
+    "delivery": "Delivery",
+    "appointment": "Meeting",
+    "paid": "Paid"
+  },
+  "actions": {
+    "contact": "Contact",
+    "backToSales": "Back to sales",
+    "continue": "Continue",
+    "pay": "Pay {{amount}}"
+  }
+}

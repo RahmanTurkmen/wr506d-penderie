@@ -1,0 +1,24 @@
+{
+  "header": {
+    "title": "Fil d'actualité",
+    "subtitle": "Ce que font tes amis"
+  },
+  "filters": {
+    "all": "Tout",
+    "loans": "Prêts",
+    "sales": "Ventes",
+    "collections": "Collections"
+  },
+  "empty": "Rien à afficher pour ce filtre.",
+  "share": "Partager",
+  "timeAgo": {
+    "hours2": "il y a 2 h",
+    "yesterday": "hier"
+  },
+  "detail": {
+    "title": "Publication",
+    "commentsTitle": "Commentaires",
+    "commentsEmpty": "Aucun commentaire pour le moment.",
+    "interested": "Je suis intéressé"
+  }
+}

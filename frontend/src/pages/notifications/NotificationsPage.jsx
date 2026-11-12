@@ -1,4 +1,5 @@
 import { Check, RefreshCw, Search, ShoppingBag, UserPlus } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Badge, IconTile, Row } from '@/components/lumen/primitives'
 import { ScreenHeader } from '@/components/lumen/ScreenHeader'
 
@@ -13,19 +14,20 @@ const INITIAL = [
 ]
 
 export function NotificationsPage({ onBack, onOpenRecherche }) {
+  const { t } = useTranslation('notifications')
   const nouvelles = INITIAL.filter((n) => n.nouveau).length
 
   return (
     <div className="flex flex-1 flex-col pb-10">
       <ScreenHeader
-        title="Notifications"
-        subtitle={`${nouvelles} nouvelle${nouvelles > 1 ? 's' : ''}`}
+        title={t('list.title')}
+        subtitle={t('list.subtitle', { count: nouvelles })}
         onBack={onBack}
         action={
           <button
             type="button"
             onClick={onOpenRecherche}
-            aria-label="Recherche"
+            aria-label={t('list.searchAriaLabel')}
             className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border bg-card text-foreground hover:bg-muted"
           >
             <Search className="h-[18px] w-[18px]" />
@@ -40,7 +42,7 @@ export function NotificationsPage({ onBack, onOpenRecherche }) {
             lead={<IconTile icon={n.icon} size={44} tone={n.tone} />}
             title={n.titre}
             subtitle={n.sousTitre}
-            trailing={n.nouveau ? <Badge tone="solid">Nouveau</Badge> : null}
+            trailing={n.nouveau ? <Badge tone="solid">{t('list.newBadge')}</Badge> : null}
           />
         ))}
       </div>

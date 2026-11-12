@@ -1,0 +1,22 @@
+{
+  "list": {
+    "title": "الإشعارات",
+    "subtitle_one": "إشعار جديد واحد",
+    "subtitle_other": "{{count}} إشعارات جديدة",
+    "searchAriaLabel": "البحث",
+    "newBadge": "جديد"
+  },
+  "search": {
+    "title": "البحث",
+    "subtitle": "أشياء، أصدقاء، إعلانات",
+    "placeholder": "بحث…",
+    "clearAriaLabel": "مسح",
+    "empty": "لا توجد نتائج.",
+    "filters": {
+      "all": "الكل",
+      "objects": "أشياء",
+      "friends": "أصدقاء",
+      "listings": "إعلانات"
+    }
+  }
+}

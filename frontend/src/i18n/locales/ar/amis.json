@@ -1,0 +1,32 @@
+{
+  "header": {
+    "title": "الأصدقاء",
+    "subtitle_one": "{{friends}} صديقًا · طلب واحد",
+    "subtitle_other": "{{friends}} صديقًا · {{count}} طلبات"
+  },
+  "tabs": {
+    "friends": "الأصدقاء",
+    "followers": "المتابعون",
+    "requestsWithCount": "الطلبات {{count}}"
+  },
+  "friendsList": {
+    "subtitles": {
+      "sharedObjects_one": "عنصر واحد مشترك معك",
+      "sharedObjects_other": "{{count}} عناصر مشتركة معك",
+      "friendSince": "صديق منذ {{date}}",
+      "activeLoan_one": "استعارة واحدة جارية",
+      "activeLoan_other": "{{count}} استعارات جارية"
+    }
+  },
+  "followers": {
+    "empty": "لا يوجد متابعون حاليًا."
+  },
+  "requests": {
+    "sectionTitle": "طلبات الصداقة",
+    "subtitle": "يريد أن يكون صديقك",
+    "decline": "رفض",
+    "accept": "قبول",
+    "empty": "لا توجد طلبات معلقة."
+  },
+  "addFriend": "إضافة صديق"
+}

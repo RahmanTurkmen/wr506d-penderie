@@ -1,0 +1,32 @@
+{
+  "header": {
+    "title": "Amis",
+    "subtitle_one": "{{friends}} amis · {{count}} demande",
+    "subtitle_other": "{{friends}} amis · {{count}} demandes"
+  },
+  "tabs": {
+    "friends": "Amis",
+    "followers": "Abonnés",
+    "requestsWithCount": "Demandes {{count}}"
+  },
+  "friendsList": {
+    "subtitles": {
+      "sharedObjects_one": "{{count}} objet partagé avec toi",
+      "sharedObjects_other": "{{count}} objets partagés avec toi",
+      "friendSince": "Ami depuis {{date}}",
+      "activeLoan_one": "{{count}} prêt en cours",
+      "activeLoan_other": "{{count}} prêts en cours"
+    }
+  },
+  "followers": {
+    "empty": "Aucun abonné pour le moment."
+  },
+  "requests": {
+    "sectionTitle": "Demandes reçues",
+    "subtitle": "Veut devenir ton ami",
+    "decline": "Refuser",
+    "accept": "Accepter",
+    "empty": "Aucune demande en attente."
+  },
+  "addFriend": "Ajouter un ami"
+}

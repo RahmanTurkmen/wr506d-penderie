@@ -1,4 +1,5 @@
 import { Box, Flag, ShoppingBag, Users } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Badge, Row, SectionHeader, IconTile } from '@/components/lumen/primitives'
 
 // Écran statique (pas d'entité "Administration" côté backend) : données
@@ -20,33 +21,34 @@ function StatCard({ value, label, icon: Icon, tone }) {
 }
 
 export function AdminDashboardPage({ signalements, onOpenSignalements }) {
+  const { t } = useTranslation('admin')
   const aTraiter = signalements.slice(0, 2)
 
   return (
     <div className="space-y-6">
       <div className="grid grid-cols-2 gap-3">
-        <StatCard value="1 284" label="Utilisateurs" icon={Users} tone="sky" />
-        <StatCard value="9 420" label="Objets" icon={Box} tone="pink" />
-        <StatCard value="212" label="Ventes ce mois" icon={ShoppingBag} tone="amber" />
-        <StatCard value={String(signalements.length)} label="Signalements" icon={Flag} tone="violet" />
+        <StatCard value="1 284" label={t('dashboard.stats.users')} icon={Users} tone="sky" />
+        <StatCard value="9 420" label={t('dashboard.stats.objects')} icon={Box} tone="pink" />
+        <StatCard value="212" label={t('dashboard.stats.salesThisMonth')} icon={ShoppingBag} tone="amber" />
+        <StatCard value={String(signalements.length)} label={t('dashboard.stats.reports')} icon={Flag} tone="violet" />
       </div>
 
       <section className="space-y-2.5">
         <SectionHeader
-          title="À traiter"
+          title={t('dashboard.toProcess')}
           action={
             <button type="button" onClick={onOpenSignalements} className="text-sm font-semibold text-primary">
-              Tout voir
+              {t('dashboard.seeAll')}
             </button>
           }
         />
         {aTraiter.map((s) => (
           <Row
             key={s.id}
-            lead={<IconTile icon={Flag} size={44} tone={s.urgence === 'Urgent' ? 'amber' : 'violet'} />}
+            lead={<IconTile icon={Flag} size={44} tone={s.urgence === 'urgent' ? 'amber' : 'violet'} />}
             title={s.titre}
             subtitle={s.detail}
-            trailing={<Badge tone={s.urgence === 'Urgent' ? 'solid' : 'pink'}>{s.urgence}</Badge>}
+            trailing={<Badge tone={s.urgence === 'urgent' ? 'solid' : 'pink'}>{t(`reports.urgency.${s.urgence}`)}</Badge>}
           />
         ))}
       </section>

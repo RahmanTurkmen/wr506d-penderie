@@ -1,0 +1,51 @@
+{
+  "dashboard": {
+    "stats": {
+      "users": "Utilisateurs",
+      "objects": "Objets",
+      "salesThisMonth": "Ventes ce mois",
+      "reports": "Signalements"
+    },
+    "toProcess": "À traiter",
+    "seeAll": "Tout voir"
+  },
+  "section": {
+    "tabs": {
+      "dashboard": "Tableau de bord",
+      "users": "Utilisateurs",
+      "reports": "Signalements",
+      "reportsWithCount": "Signalements {{count}}",
+      "sales": "Ventes",
+      "categories": "Catégories"
+    },
+    "subtitles": {
+      "dashboard": "Vue d'ensemble de Lumen",
+      "users_one": "{{count}} compte",
+      "users_other": "{{count}} comptes",
+      "reports": "{{count}} à traiter"
+    }
+  },
+  "reports": {
+    "empty": "Rien à traiter pour le moment.",
+    "ignore": "Ignorer",
+    "remove": "Retirer",
+    "urgency": {
+      "urgent": "Urgent",
+      "ouvert": "Ouvert"
+    }
+  },
+  "users": {
+    "filters": {
+      "all": "Tous",
+      "active": "Actifs",
+      "suspended": "Suspendus",
+      "children": "Enfants"
+    },
+    "export": "Exporter",
+    "status": {
+      "actif": "Actif",
+      "suspendu": "Suspendu",
+      "enfant": "Enfant"
+    }
+  }
+}

@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Check, Loader2 } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Chip } from '@/components/lumen/primitives'
 import { PickOrCreate } from '@/components/inventory/PickOrCreate'
 import { ScreenHeader } from '@/components/lumen/ScreenHeader'
@@ -9,6 +10,7 @@ import { ScreenHeader } from '@/components/lumen/ScreenHeader'
 // propose donc qu'un choix exclusif entre les deux, pas un formulaire avec
 // les deux à la fois.
 export function NewRefusPage({ objets, categories, onCancel, onSubmit }) {
+  const { t } = useTranslation('tenues')
   const [mode, setMode] = useState('objet') // 'objet' | 'categorie'
   const [objetId, setObjetId] = useState(null)
   const [categorieId, setCategorieId] = useState(null)
@@ -23,29 +25,29 @@ export function NewRefusPage({ objets, categories, onCancel, onSubmit }) {
     setError('')
     const ok = await onSubmit(mode === 'objet' ? { objetId } : { categorieId })
     setSaving(false)
-    if (!ok) setError('Impossible d\'enregistrer ce refus.')
+    if (!ok) setError(t('newRefus.error'))
   }
 
   return (
     <div className="flex flex-1 flex-col pb-10">
-      <ScreenHeader title="Pas cette tenue ?" subtitle="Exclure un objet ou toute une catégorie" onBack={onCancel} close />
+      <ScreenHeader title={t('newRefus.title')} subtitle={t('newRefus.subtitle')} onBack={onCancel} close />
 
       <div className="mx-auto w-full max-w-xl space-y-5 px-6 py-5 md:px-10">
         {error && <p className="rounded-2xl bg-destructive/5 px-4 py-3 text-sm text-destructive">{error}</p>}
 
         <div className="flex gap-2">
           <Chip active={mode === 'objet'} onClick={() => setMode('objet')}>
-            Un objet précis
+            {t('newRefus.chipObjet')}
           </Chip>
           <Chip active={mode === 'categorie'} onClick={() => setMode('categorie')}>
-            Toute une catégorie
+            {t('newRefus.chipCategorie')}
           </Chip>
         </div>
 
         {mode === 'objet' ? (
-          <PickOrCreate label="Objet" items={objets} valueId={objetId} onChange={setObjetId} allowCreate={false} />
+          <PickOrCreate label={t('newRefus.objetLabel')} items={objets} valueId={objetId} onChange={setObjetId} allowCreate={false} />
         ) : (
-          <PickOrCreate label="Catégorie" items={categories} valueId={categorieId} onChange={setCategorieId} allowCreate={false} />
+          <PickOrCreate label={t('newRefus.categorieLabel')} items={categories} valueId={categorieId} onChange={setCategorieId} allowCreate={false} />
         )}
 
         <button
@@ -55,7 +57,7 @@ export function NewRefusPage({ objets, categories, onCancel, onSubmit }) {
           className="flex h-[52px] w-full items-center justify-center gap-2 rounded-full bg-primary text-[15px] font-semibold text-primary-foreground disabled:opacity-50"
         >
           {saving ? <Loader2 className="h-[18px] w-[18px] animate-spin" /> : <Check className="h-[18px] w-[18px]" />}
-          Enregistrer
+          {t('newRefus.submit')}
         </button>
       </div>
     </div>

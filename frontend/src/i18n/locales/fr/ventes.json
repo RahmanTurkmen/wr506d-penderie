@@ -1,0 +1,21 @@
+{
+  "header": {
+    "title": "Ventes",
+    "subtitle_one": "{{count}} annonce · {{sold}} vendue",
+    "subtitle_other": "{{count}} annonces · {{sold}} vendue"
+  },
+  "tabs": {
+    "forSale": "En vente",
+    "sold": "Vendues",
+    "drafts": "Brouillons"
+  },
+  "empty": {
+    "sold": "Aucune vente pour le moment.",
+    "drafts": "Aucun brouillon."
+  },
+  "status": {
+    "en_ligne": "En ligne",
+    "a_valider": "À valider"
+  },
+  "addNewAriaLabel": "Mettre un objet en vente"
+}

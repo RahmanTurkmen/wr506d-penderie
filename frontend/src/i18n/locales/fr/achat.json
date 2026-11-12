@@ -1,0 +1,39 @@
+{
+  "header": {
+    "buy": { "title": "Acheter", "subtitle": "{{object}} · vendue par {{seller}}" },
+    "delivery": { "title": "Remise", "subtitle": "Comment récupérer l'objet ?" },
+    "payment": { "title": "Paiement", "subtitle": "Total : {{amount}}" },
+    "confirmed": { "title": "Commande confirmée", "subtitle": "Merci !" }
+  },
+  "order": {
+    "price": "Prix",
+    "shippingFee": "Frais de port",
+    "total": "Total",
+    "messageLabel": "Message au vendeur (facultatif)",
+    "messagePlaceholder": "Bonjour, dispo mardi ?"
+  },
+  "delivery": {
+    "inPerson": { "label": "Main propre", "subtitle": "Rendez-vous avec {{seller}} · gratuit" },
+    "colissimo": { "label": "Colissimo", "subtitle": "Livraison à domicile · {{price}}" },
+    "locationLabel": "Lieu de rendez-vous",
+    "dateLabel": "Date"
+  },
+  "payment": {
+    "card": { "label": "Carte bancaire", "subtitle": "Visa •••• 4242" },
+    "inPerson": { "label": "Sur place", "subtitle": "Payer en main propre" },
+    "cardNumberLabel": "Numéro de carte",
+    "secureNotice": "Paiement sécurisé. Le vendeur est payé à la remise de l'objet."
+  },
+  "confirmation": {
+    "object": "Objet",
+    "delivery": "Remise",
+    "appointment": "Rendez-vous",
+    "paid": "Payé"
+  },
+  "actions": {
+    "contact": "Contacter",
+    "backToSales": "Retour aux ventes",
+    "continue": "Continuer",
+    "pay": "Payer {{amount}}"
+  }
+}

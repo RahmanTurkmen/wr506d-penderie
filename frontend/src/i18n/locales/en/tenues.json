@@ -1,0 +1,45 @@
+{
+  "newRefus": {
+    "title": "Not this outfit?",
+    "subtitle": "Exclude an item or a whole category",
+    "chipObjet": "A specific item",
+    "chipCategorie": "A whole category",
+    "objetLabel": "Item",
+    "categorieLabel": "Category",
+    "submit": "Save",
+    "error": "Could not save this exclusion."
+  },
+  "newTenue": {
+    "title": "New outfit",
+    "subtitle": "Choose the items it's made of",
+    "nameLabel": "Name",
+    "namePlaceholder": "Today's outfit",
+    "emptyObjets": "No items in your inventory to build an outfit.",
+    "objetsLabel": "Items",
+    "submit": "Create outfit",
+    "error": "Could not create the outfit."
+  },
+  "list": {
+    "title": "Outfits",
+    "subtitle": "Build your outfits from your inventory",
+    "loading": "Loading…",
+    "tenuesSection": {
+      "title": "Your outfits",
+      "add": "+ New",
+      "empty": "No outfit created yet."
+    },
+    "objetsCount_one": "{{count}} item",
+    "objetsCount_other": "{{count}} items",
+    "refusSection": {
+      "title": "You don't want to wear",
+      "add": "+ Add",
+      "empty": "Nothing excluded yet."
+    },
+    "typeObjet": "Item",
+    "typeCategorie": "Whole category",
+    "newTenueAria": "New outfit"
+  },
+  "section": {
+    "loadError": "Could not load your outfits."
+  }
+}

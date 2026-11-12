@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { Copy } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Badge, Chip, Row } from '@/components/lumen/primitives'
 
 // Reprend le Figma 14.2 (liste tronquée à 3 lignes) + quelques comptes
@@ -16,13 +17,14 @@ const UTILISATEURS = [
   { id: 'alex', nom: 'Alex', email: 'alex@example.com', statut: 'suspendu', initiale: 'A' },
 ]
 
-const BADGE = {
-  actif: { label: 'Actif', tone: 'pink' },
-  suspendu: { label: 'Suspendu', tone: 'gray' },
-  enfant: { label: 'Enfant', tone: 'pink' },
+const BADGE_TONE = {
+  actif: 'pink',
+  suspendu: 'gray',
+  enfant: 'pink',
 }
 
 export function AdminUtilisateursPage() {
+  const { t } = useTranslation('admin')
   const [filtre, setFiltre] = useState('tous') // 'tous' | 'actif' | 'suspendu' | 'enfant'
 
   const visibles = filtre === 'tous' ? UTILISATEURS : UTILISATEURS.filter((u) => u.statut === filtre)
@@ -32,16 +34,16 @@ export function AdminUtilisateursPage() {
       <div className="flex items-center justify-between gap-3">
         <div className="flex flex-wrap gap-2">
           <Chip active={filtre === 'tous'} onClick={() => setFiltre('tous')}>
-            Tous
+            {t('users.filters.all')}
           </Chip>
           <Chip active={filtre === 'actif'} onClick={() => setFiltre('actif')}>
-            Actifs
+            {t('users.filters.active')}
           </Chip>
           <Chip active={filtre === 'suspendu'} onClick={() => setFiltre('suspendu')}>
-            Suspendus
+            {t('users.filters.suspended')}
           </Chip>
           <Chip active={filtre === 'enfant'} onClick={() => setFiltre('enfant')}>
-            Enfants
+            {t('users.filters.children')}
           </Chip>
         </div>
         <button
@@ -49,7 +51,7 @@ export function AdminUtilisateursPage() {
           className="flex h-10 shrink-0 items-center gap-2 rounded-full border border-border bg-card px-4 text-sm font-semibold text-foreground hover:bg-muted"
         >
           <Copy className="h-4 w-4" />
-          Exporter
+          {t('users.export')}
         </button>
       </div>
 
@@ -64,7 +66,7 @@ export function AdminUtilisateursPage() {
             }
             title={u.nom}
             subtitle={u.email}
-            trailing={<Badge tone={BADGE[u.statut].tone}>{BADGE[u.statut].label}</Badge>}
+            trailing={<Badge tone={BADGE_TONE[u.statut]}>{t(`users.status.${u.statut}`)}</Badge>}
           />
         ))}
       </div>

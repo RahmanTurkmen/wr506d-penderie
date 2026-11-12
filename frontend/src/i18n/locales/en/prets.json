@@ -1,0 +1,34 @@
+{
+  "newPret": {
+    "title": "New loan",
+    "subtitle": "Lend an item to a friend",
+    "emptyObjets": "No items available to lend right now.",
+    "objetLabel": "Item",
+    "lentToLabel": "Lent to",
+    "emprunteurPlaceholder": "Borrower's name",
+    "returnDateLabel": "Return date (optional)",
+    "cancel": "Cancel",
+    "submit": "Lend",
+    "error": "Could not create the loan."
+  },
+  "list": {
+    "title": "Loans",
+    "loading": "Loading…",
+    "subtitleOngoing": "{{count}} ongoing",
+    "subtitleFinished_one": "{{count}} finished",
+    "subtitleFinished_other": "{{count}} finished",
+    "tabOngoing": "Ongoing",
+    "tabFinished": "Finished",
+    "emptyOngoing": "No ongoing loans right now.",
+    "emptyFinished": "No finished loans right now.",
+    "lentTo": "Lent to {{name}}",
+    "lentToWithReturn": "Lent to {{name}} · return on {{date}}",
+    "late": "Overdue",
+    "returnButton": "Returned",
+    "finishedBadge": "Finished",
+    "newPretAria": "New loan"
+  },
+  "section": {
+    "loadError": "Could not load your items."
+  }
+}

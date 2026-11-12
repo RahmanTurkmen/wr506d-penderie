@@ -1,0 +1,21 @@
+{
+  "header": {
+    "title": "مشاركة"
+  },
+  "visibility": {
+    "question": "من يمكنه الرؤية؟",
+    "onlyMe": "أنا فقط",
+    "chosenFriends": "أصدقاء محددون",
+    "allFriends": "جميع أصدقائي"
+  },
+  "shareWith": "مشاركة مع {{name}}",
+  "hideLocation": {
+    "title": "إخفاء الموقع",
+    "subtitle": "مخفي عن الأصدقاء"
+  },
+  "expiresLabel": "تنتهي في",
+  "actions": {
+    "cancel": "إلغاء",
+    "share": "مشاركة"
+  }
+}

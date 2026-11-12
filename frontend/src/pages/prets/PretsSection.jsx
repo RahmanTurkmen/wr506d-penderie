@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import { cloturerPret, createPret, listObjets, listPrets } from '@/lib/api'
 import { NewPretPage } from './NewPretPage'
 import { PretsListPage } from './PretsListPage'
 
 export function PretsSection({ token, activeProfil, onOpenObjet, onBack }) {
+  const { t } = useTranslation('prets')
   const [view, setView] = useState('list')
   const [objets, setObjets] = useState([])
   const [loans, setLoans] = useState([])
@@ -14,7 +16,7 @@ export function PretsSection({ token, activeProfil, onOpenObjet, onBack }) {
   async function refresh() {
     const objetsRes = await listObjets(token, activeProfil?.id)
     if (!objetsRes.ok) {
-      setError(objetsRes.data?.error ?? 'Impossible de charger tes objets.')
+      setError(objetsRes.data?.error ?? t('section.loadError'))
       setObjets([])
       setLoans([])
       setLoading(false)
