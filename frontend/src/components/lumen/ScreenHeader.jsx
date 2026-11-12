@@ -1,6 +1,8 @@
 import { ArrowLeft, X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 export function ScreenHeader({ title, subtitle, onBack, close = false, action, step }) {
+  const { t } = useTranslation('common')
   return (
     <header className="sticky top-0 z-10 space-y-3 border-b border-border bg-background/95 px-6 py-4 backdrop-blur md:px-10">
       <div className="flex items-center gap-3.5">
@@ -8,7 +10,7 @@ export function ScreenHeader({ title, subtitle, onBack, close = false, action, s
           <button
             type="button"
             onClick={onBack}
-            aria-label={close ? 'Fermer' : 'Retour'}
+            aria-label={close ? t('close') : t('back')}
             className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border bg-card text-foreground hover:bg-muted"
           >
             {close ? <X className="h-[18px] w-[18px]" /> : <ArrowLeft className="h-[18px] w-[18px]" />}

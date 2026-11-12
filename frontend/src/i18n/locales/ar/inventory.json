@@ -1,0 +1,164 @@
+{
+  "addObjet": {
+    "title": "إضافة عنصر",
+    "stepSubtitle": "الخطوة {{step}} من {{total}} · {{label}}",
+    "stepLabels": {
+      "photo": "صورة",
+      "infos": "معلومات",
+      "emplacement": "الموقع"
+    },
+    "types": {
+      "vetement": "ملابس",
+      "livre": "كتاب",
+      "vinyle": "فينيل",
+      "autre": "أخرى"
+    },
+    "fields": {
+      "nomLabel": "الاسم",
+      "nomPlaceholder": "سترة جينز",
+      "typeLabel": "النوع",
+      "marqueLabel": "العلامة التجارية",
+      "marquePlaceholder": "اختياري",
+      "tailleLabel": "المقاس",
+      "taillePlaceholder": "M، 42…",
+      "couleurLabel": "اللون",
+      "couleurPlaceholder": "اختياري"
+    },
+    "categorie": {
+      "label": "الفئة",
+      "placeholder": "اسم الفئة"
+    },
+    "tags": {
+      "label": "الوسوم (اختياري)",
+      "placeholder": "اسم الوسم"
+    },
+    "logement": {
+      "label": "السكن",
+      "placeholder": "اسم السكن"
+    },
+    "piece": {
+      "label": "الغرفة",
+      "placeholder": "اسم الغرفة"
+    },
+    "actions": {
+      "back": "رجوع",
+      "continue": "متابعة",
+      "add": "إضافة"
+    },
+    "errors": {
+      "categorie": "تعذّر إنشاء الفئة.",
+      "tag": "تعذّر إنشاء الوسم.",
+      "logement": "تعذّر إنشاء السكن.",
+      "piece": "تعذّر إنشاء الغرفة.",
+      "objet": "تعذّر إنشاء العنصر."
+    }
+  },
+  "dressing": {
+    "title": "خزانة الملابس",
+    "count_one": "{{count}} قطعة ملابس",
+    "count_other": "{{count}} قطع ملابس",
+    "categoryPlaceholder": "الفئة",
+    "all": "الكل",
+    "emptyNoClothes": "لا توجد ملابس حتى الآن — أضف عنصرًا من نوع «ملابس» من المخزون.",
+    "emptyNoMatch": "لا توجد ملابس مطابقة لهذه الفلاتر."
+  },
+  "list": {
+    "title": "المخزون",
+    "loadingEllipsis": "…",
+    "count_one": "{{count}} عنصر",
+    "count_other": "{{count}} عناصر",
+    "searchPlaceholder": "ابحث عن عنصر أو علامة تجارية…",
+    "dressingCard": {
+      "title": "خزانة ملابسي",
+      "subtitle": "تصفية حسب الفئة والوسم"
+    },
+    "categoryPlaceholder": "الفئة",
+    "all": "الكل",
+    "emptyNoObjets": "لا توجد عناصر حتى الآن — أضف عنصرك الأول.",
+    "emptyNoMatch": "لا توجد عناصر مطابقة لبحثك.",
+    "addAriaLabel": "إضافة عنصر"
+  },
+  "section": {
+    "loadError": "تعذّر تحميل عناصرك."
+  },
+  "detail": {
+    "notFoundTitle": "العنصر غير موجود",
+    "notFoundBody": "لم يعد هذا العنصر موجودًا أو تم حذفه.",
+    "editAriaLabel": "تعديل العلامة التجارية والمقاس واللون",
+    "types": {
+      "vetement": "ملابس",
+      "livre": "كتاب",
+      "vinyle": "فينيل",
+      "autre": "أخرى"
+    },
+    "statuts": {
+      "disponible": "متاح",
+      "prete": "مُقرَض",
+      "en_vente": "معروض للبيع"
+    },
+    "fields": {
+      "marque": "العلامة التجارية",
+      "taille": "المقاس",
+      "couleur": "اللون",
+      "emplacement": "الموقع",
+      "qrCode": "رمز QR",
+      "tags": "الوسوم"
+    },
+    "emptyValue": "—",
+    "addDetails": "+ إضافة العلامة التجارية والمقاس واللون",
+    "editForm": {
+      "title": "العلامة التجارية والمقاس واللون",
+      "marquePlaceholder": "العلامة التجارية",
+      "taillePlaceholder": "المقاس",
+      "couleurPlaceholder": "اللون",
+      "cancel": "إلغاء",
+      "save": "حفظ"
+    },
+    "lendForm": {
+      "title": "إقراض هذا العنصر",
+      "borrowerPlaceholder": "اسم المستعير",
+      "cancel": "إلغاء",
+      "confirm": "تأكيد"
+    },
+    "actions": {
+      "lend": "إقراض",
+      "markAvailable": "وضع علامة متاح",
+      "sell": "بيع",
+      "removeFromSale": "إزالة من البيع"
+    },
+    "errors": {
+      "update": "تعذّر التحديث.",
+      "statut": "لا يمكن تنفيذ هذا الإجراء.",
+      "pret": "تعذّر إنشاء القرض.",
+      "pendingValidation": "تم إرساله إلى الحساب الرئيسي للموافقة."
+    }
+  },
+  "pickOrCreate": {
+    "newChip": "جديد",
+    "suggestionUse": "اقتراح من الصورة: «{{suggestion}}» — استخدامه"
+  },
+  "multiPickOrCreate": {
+    "newChip": "جديد",
+    "defaultPlaceholder": "وسم جديد"
+  },
+  "photoScanStep": {
+    "takePhoto": "التقاط صورة",
+    "importPhoto": "استيراد صورة",
+    "helper": "يحاول Lumen التعرف على العنصر من أجلك (نماذج مجانية، قد تكون بطيئة أحيانًا)",
+    "analyzing": "التحليل جارٍ… (حتى دقيقة واحدة، نماذج مجانية)",
+    "analyze": "تحليل الصورة",
+    "error": "تعذّر تحليل الصورة.",
+    "suggestionText": "التعرّف: «{{name}}» · {{confidence}}% — يمكن تعديله في الخطوة التالية.",
+    "photoAlt": "صورة العنصر",
+    "removePhotoAria": "إزالة الصورة",
+    "continueNoPhoto": "متابعة بدون صورة",
+    "ignoreSuggestion": "تجاهل الاقتراح",
+    "skipWithPhoto": "تخطي مع هذه الصورة",
+    "useSuggestion": "استخدام هذا الاقتراح"
+  },
+  "cameraCapture": {
+    "closeAria": "إغلاق الكاميرا",
+    "captureAria": "التقاط الصورة",
+    "error": "تعذّر الوصول إلى الكاميرا. تحقّق من أذونات الكاميرا في المتصفح لهذا الموقع."
+  }
+}

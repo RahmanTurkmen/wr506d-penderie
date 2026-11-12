@@ -1,0 +1,46 @@
+{
+  "list": {
+    "title": "Logements",
+    "loadingEllipsis": "…",
+    "logementCount_one": "{{count}} logement",
+    "logementCount_other": "{{count}} logements",
+    "pieceCount_one": "{{count}} pièce",
+    "pieceCount_other": "{{count}} pièces",
+    "objetCount_one": "{{count}} objet",
+    "objetCount_other": "{{count}} objets",
+    "emptyNoLogements": "Aucun logement pour le moment — ajoute ta maison, ton appartement...",
+    "addLogement": {
+      "label": "Ajouter un logement",
+      "placeholder": "Maison, appartement…"
+    }
+  },
+  "detail": {
+    "notFoundTitle": "Logement introuvable",
+    "pieceCount_one": "{{count}} pièce",
+    "pieceCount_other": "{{count}} pièces",
+    "objetCount_one": "{{count}} objet",
+    "objetCount_other": "{{count}} objets",
+    "emptyNoPieces": "Aucune pièce pour le moment — ajoute ta première pièce.",
+    "addPiece": {
+      "label": "Ajouter une pièce",
+      "placeholder": "Chambre, cuisine, cave…"
+    }
+  },
+  "piece": {
+    "notFoundTitle": "Pièce introuvable",
+    "rangementsTitle": "Rangements",
+    "emptyNoRangements": "Aucun rangement — étagère, armoire, tiroir…",
+    "addRangement": {
+      "label": "Ajouter un rangement",
+      "placeholder": "Étagère, armoire, tiroir…"
+    },
+    "objetsTitle": "Objets rangés directement ici",
+    "emptyNoObjetsHere": "Aucun objet rangé directement dans cette pièce (ils peuvent être dans un rangement ci-dessus)."
+  },
+  "section": {
+    "loadError": "Impossible de charger tes logements."
+  },
+  "inlineCreate": {
+    "confirmAria": "Confirmer"
+  }
+}

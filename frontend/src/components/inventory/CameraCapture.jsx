@@ -1,11 +1,13 @@
 import { useEffect, useRef, useState } from 'react'
 import { AlertCircle, X } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 
 // Caméra live via getUserMedia (webcam PC, ou caméra du téléphone depuis le
 // navigateur). Ne marche qu'en contexte sécurisé (https, ou localhost) — sur
 // http://<ip-lan>:5173 le navigateur refuse l'accès caméra, d'où le fallback
 // vers l'input `capture` natif géré par PhotoScanStep dans ce cas.
 export function CameraCapture({ onCapture, onClose }) {
+  const { t } = useTranslation('inventory')
   const videoRef = useRef(null)
   const streamRef = useRef(null)
   const [error, setError] = useState('')
@@ -28,7 +30,7 @@ export function CameraCapture({ onCapture, onClose }) {
         }
         setReady(true)
       } catch {
-        if (!cancelled) setError("Impossible d'accéder à la caméra. Vérifie les autorisations du navigateur pour ce site.")
+        if (!cancelled) setError(t('cameraCapture.error'))
       }
     }
 
@@ -37,6 +39,7 @@ export function CameraCapture({ onCapture, onClose }) {
       cancelled = true
       streamRef.current?.getTracks().forEach((t) => t.stop())
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   function handleClose() {
@@ -67,7 +70,7 @@ export function CameraCapture({ onCapture, onClose }) {
       <button
         type="button"
         onClick={handleClose}
-        aria-label="Fermer la caméra"
+        aria-label={t('cameraCapture.closeAria')}
         className="absolute right-4 top-4 z-10 flex h-10 w-10 items-center justify-center rounded-full bg-black/55 text-white"
       >
         <X className="h-5 w-5" />
@@ -88,7 +91,7 @@ export function CameraCapture({ onCapture, onClose }) {
             type="button"
             disabled={!ready}
             onClick={capture}
-            aria-label="Prendre la photo"
+            aria-label={t('cameraCapture.captureAria')}
             className="flex h-16 w-16 items-center justify-center rounded-full border-4 border-white disabled:opacity-40"
           >
             <span className="h-12 w-12 rounded-full bg-white" />

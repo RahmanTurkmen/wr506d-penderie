@@ -1,0 +1,32 @@
+{
+  "greeting": "مرحبًا {{name}}",
+  "subtitle": "هذه حالة منزلك",
+  "stats": {
+    "objects": "الأشياء",
+    "activeLoans": "قروض جارية",
+    "forSale": "للبيع"
+  },
+  "quickActions": {
+    "add": "إضافة",
+    "scan": "مسح",
+    "outfit": "ملابس"
+  },
+  "loansSection": {
+    "title": "قروض للمتابعة",
+    "seeAll": "عرض الكل",
+    "empty": "لا يوجد شيء مُقرَض حاليًا.",
+    "lentTo": "مُقرَض إلى {{name}}",
+    "lentToWithReturn": "مُقرَض إلى {{name}} · الإرجاع في {{date}}",
+    "lent": "مُقرَض",
+    "late": "متأخر",
+    "ongoing": "جاري"
+  },
+  "recentSection": {
+    "title": "أُضيف حديثًا",
+    "empty": "لا توجد عناصر حتى الآن — أضف أول عنصر لك."
+  },
+  "validationsBanner_one": "{{count}} طلب في انتظار الموافقة",
+  "validationsBanner_other": "{{count}} طلبات في انتظار الموافقة",
+  "validationsDetail": "ملف مُدار في انتظار موافقتك على المشاركة أو البيع.",
+  "errorLoading": "تعذّر تحميل عناصرك."
+}

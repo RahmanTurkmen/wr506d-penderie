@@ -1,0 +1,16 @@
+{
+  "nav": {
+    "accueil": "Accueil",
+    "inventaire": "Inventaire",
+    "logements": "Logements",
+    "tenues": "Tenues",
+    "profil": "Profil"
+  },
+  "profilMenu": {
+    "householdProfiles": "Profils du foyer",
+    "mainAccount": "Compte principal",
+    "childProfile": "Profil enfant",
+    "managedProfile": "Profil géré",
+    "logout": "Se déconnecter"
+  }
+}

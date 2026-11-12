@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { useTranslation } from 'react-i18next'
 import {
   AlertCircle,
   Bell,
@@ -35,12 +36,13 @@ function StatCard({ value, label, icon: Icon, tone }) {
 }
 
 function QuickAction({ icon: Icon, label, primary, onClick, disabled, 'data-cy': dataCy }) {
+  const { t } = useTranslation('common')
   return (
     <button
       type="button"
       disabled={disabled}
       onClick={onClick}
-      title={disabled ? 'Bientôt disponible' : undefined}
+      title={disabled ? t('comingSoon') : undefined}
       data-cy={dataCy}
       className={`flex h-9 shrink-0 items-center gap-2 rounded-full px-4 text-sm font-semibold transition-all duration-150 ${
         disabled ? 'cursor-not-allowed opacity-60' : 'active:scale-95'
@@ -53,6 +55,8 @@ function QuickAction({ icon: Icon, label, primary, onClick, disabled, 'data-cy':
 }
 
 export function HomePage({ token, profils, activeProfil, onSwitchProfil, onAddObjet, onOpenObjet, onOpenPrets, onOpenValidations, onLogout }) {
+  const { t, i18n } = useTranslation('home')
+  const i18nLocaleForDate = { fr: 'fr-FR', en: 'en-US', ar: 'ar' }[i18n.language] ?? 'fr-FR'
   const [objets, setObjets] = useState(null)
   const [prets, setPrets] = useState({})
   const [error, setError] = useState('')
@@ -68,7 +72,7 @@ export function HomePage({ token, profils, activeProfil, onSwitchProfil, onAddOb
       const { ok, data } = await listObjets(token, activeProfil?.id)
       if (cancelled) return
       if (!ok) {
-        setError(data?.error ?? 'Impossible de charger tes objets.')
+        setError(data?.error ?? t('errorLoading'))
         setObjets([])
         return
       }
@@ -117,10 +121,10 @@ export function HomePage({ token, profils, activeProfil, onSwitchProfil, onAddOb
         <div className="flex items-start justify-between gap-3">
           <button type="button" onClick={() => setMenuOpen((v) => !v)} data-cy="profil-menu-toggle" className="min-w-0 text-left">
             <span className="flex items-center gap-1">
-              <h1 className="truncate text-2xl font-bold">Bonjour {activeProfil?.nom ?? '...'}</h1>
+              <h1 className="truncate text-2xl font-bold">{t('greeting', { name: activeProfil?.nom ?? '...' })}</h1>
               <ChevronDown className="h-4 w-4 shrink-0 opacity-80" />
             </span>
-            <p className="mt-0.5 text-sm text-secondary">Voici l'état de ton foyer</p>
+            <p className="mt-0.5 text-sm text-secondary">{t('subtitle')}</p>
           </button>
           <div className="flex shrink-0 gap-2">
             <IconButton icon={Search} variant="solid-light" disabled title="Bientôt disponible" />
@@ -163,10 +167,8 @@ export function HomePage({ token, profils, activeProfil, onSwitchProfil, onAddOb
           >
             <Shield className="mt-0.5 h-[18px] w-[18px] shrink-0" />
             <span>
-              <span className="block text-sm font-semibold">
-                {validationsCount} demande{validationsCount > 1 ? 's' : ''} à valider
-              </span>
-              Un profil géré attend ton approbation pour partager ou vendre.
+              <span className="block text-sm font-semibold">{t('validationsBanner', { count: validationsCount })}</span>
+              {t('validationsDetail')}
             </span>
           </button>
         )}
@@ -174,29 +176,29 @@ export function HomePage({ token, profils, activeProfil, onSwitchProfil, onAddOb
         {!loading && !error && (
           <>
             <div className="grid grid-cols-3 gap-3 animate-in fade-in-0 slide-in-from-bottom-2 duration-300">
-              <StatCard value={list.length} label="Objets" icon={Boxes} tone="pink" />
-              <StatCard value={enCours.length} label="Prêts en cours" icon={RefreshCw} tone="sky" />
-              <StatCard value={enVente.length} label="En vente" icon={ShoppingBag} tone="amber" />
+              <StatCard value={list.length} label={t('stats.objects')} icon={Boxes} tone="pink" />
+              <StatCard value={enCours.length} label={t('stats.activeLoans')} icon={RefreshCw} tone="sky" />
+              <StatCard value={enVente.length} label={t('stats.forSale')} icon={ShoppingBag} tone="amber" />
             </div>
 
             <div className="-mx-6 flex gap-2.5 overflow-x-auto px-6">
-              <QuickAction icon={Plus} label="Ajouter" primary onClick={onAddObjet} data-cy="home-ajouter" />
-              <QuickAction icon={ScanLine} label="Scanner" disabled />
-              <QuickAction icon={Sun} label="Tenue" disabled />
+              <QuickAction icon={Plus} label={t('quickActions.add')} primary onClick={onAddObjet} data-cy="home-ajouter" />
+              <QuickAction icon={ScanLine} label={t('quickActions.scan')} disabled />
+              <QuickAction icon={Sun} label={t('quickActions.outfit')} disabled />
             </div>
 
             <section className="space-y-2.5">
               <SectionHeader
-                title="Prêts à suivre"
+                title={t('loansSection.title')}
                 action={
                   enCours.length > 0 && (
                     <button type="button" onClick={onOpenPrets} className="text-sm font-semibold text-primary">
-                      Voir tout
+                      {t('loansSection.seeAll')}
                     </button>
                   )
                 }
               />
-              {enCours.length === 0 && <EmptyState>Aucun objet prêté pour le moment.</EmptyState>}
+              {enCours.length === 0 && <EmptyState>{t('loansSection.empty')}</EmptyState>}
               {enCours.slice(0, 3).map((o) => {
                 const pret = prets[o.id]
                 const retour = pret?.dateFinPrevue
@@ -208,18 +210,25 @@ export function HomePage({ token, profils, activeProfil, onSwitchProfil, onAddOb
                     title={o.nom}
                     subtitle={
                       pret
-                        ? `Prêté à ${pret.emprunteurNom}${retour ? ` · retour le ${new Date(retour).toLocaleDateString('fr-FR')}` : ''}`
-                        : 'Prêté'
+                        ? retour
+                          ? t('loansSection.lentToWithReturn', {
+                              name: pret.emprunteurNom,
+                              date: new Date(retour).toLocaleDateString(i18nLocaleForDate),
+                            })
+                          : t('loansSection.lentTo', { name: pret.emprunteurNom })
+                        : t('loansSection.lent')
                     }
-                    trailing={<Badge tone={pret?.late ? 'solid' : 'pink'}>{pret?.late ? 'En retard' : 'En cours'}</Badge>}
+                    trailing={
+                      <Badge tone={pret?.late ? 'solid' : 'pink'}>{pret?.late ? t('loansSection.late') : t('loansSection.ongoing')}</Badge>
+                    }
                   />
                 )
               })}
             </section>
 
             <section className="space-y-2.5">
-              <SectionHeader title="Récemment ajoutés" />
-              {recents.length === 0 && <EmptyState>Aucun objet pour le moment — ajoute ton premier objet.</EmptyState>}
+              <SectionHeader title={t('recentSection.title')} />
+              {recents.length === 0 && <EmptyState>{t('recentSection.empty')}</EmptyState>}
               {recents.map((o) => (
                 <Row
                   key={o.id}

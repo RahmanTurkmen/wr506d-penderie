@@ -1,0 +1,32 @@
+{
+  "greeting": "Hi {{name}}",
+  "subtitle": "Here's how your household is doing",
+  "stats": {
+    "objects": "Items",
+    "activeLoans": "Active loans",
+    "forSale": "For sale"
+  },
+  "quickActions": {
+    "add": "Add",
+    "scan": "Scan",
+    "outfit": "Outfit"
+  },
+  "loansSection": {
+    "title": "Loans to track",
+    "seeAll": "See all",
+    "empty": "No item currently on loan.",
+    "lentTo": "Lent to {{name}}",
+    "lentToWithReturn": "Lent to {{name}} · due back {{date}}",
+    "lent": "Lent",
+    "late": "Overdue",
+    "ongoing": "Ongoing"
+  },
+  "recentSection": {
+    "title": "Recently added",
+    "empty": "No items yet — add your first item."
+  },
+  "validationsBanner_one": "{{count}} request awaiting approval",
+  "validationsBanner_other": "{{count}} requests awaiting approval",
+  "validationsDetail": "A managed profile is waiting for your approval to share or sell.",
+  "errorLoading": "Could not load your items."
+}

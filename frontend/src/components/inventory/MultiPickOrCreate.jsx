@@ -1,10 +1,12 @@
 import { useState } from 'react'
 import { Check, Loader2, Plus } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { Chip } from '@/components/lumen/primitives'
 
 // Même principe que PickOrCreate, mais plusieurs éléments peuvent être
 // sélectionnés en même temps (les tags d'un objet).
-export function MultiPickOrCreate({ label, items, valueIds, onToggle, onCreate, placeholder = 'Nouveau tag' }) {
+export function MultiPickOrCreate({ label, items, valueIds, onToggle, onCreate, placeholder, allowCreate = true }) {
+  const { t } = useTranslation('inventory')
   const [creating, setCreating] = useState(false)
   const [draft, setDraft] = useState('')
   const [saving, setSaving] = useState(false)
@@ -30,9 +32,9 @@ export function MultiPickOrCreate({ label, items, valueIds, onToggle, onCreate, 
             {item.nom}
           </Chip>
         ))}
-        {!creating && (
+        {allowCreate && !creating && (
           <Chip onClick={() => setCreating(true)} icon={Plus}>
-            Nouveau
+            {t('multiPickOrCreate.newChip')}
           </Chip>
         )}
       </div>
@@ -42,7 +44,7 @@ export function MultiPickOrCreate({ label, items, valueIds, onToggle, onCreate, 
             autoFocus
             value={draft}
             onChange={(e) => setDraft(e.target.value)}
-            placeholder={placeholder}
+            placeholder={placeholder ?? t('multiPickOrCreate.defaultPlaceholder')}
             className="h-10 min-w-0 flex-1 rounded-[14px] border border-border bg-card px-3.5 text-sm text-foreground outline-none focus:border-primary"
           />
           <button

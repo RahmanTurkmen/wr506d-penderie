@@ -1,5 +1,6 @@
 import { useState } from 'react'
 import { ArrowLeft, Mail, Send } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { AuthHeader } from '@/components/auth/AuthHeader'
 import { FieldInput } from '@/components/auth/FieldInput'
 import { PillButton } from '@/components/auth/PillButton'
@@ -8,6 +9,7 @@ import { PillButton } from '@/components/auth/PillButton'
 // de passe. Cet écran est pour l'instant une maquette fonctionnelle côté UI :
 // il enchaîne simplement sur l'écran "E-mail envoyé".
 export function ForgotPasswordPage({ onSent, onNavigate }) {
+  const { t } = useTranslation('auth')
   const [email, setEmail] = useState('')
 
   function handleSubmit(e) {
@@ -17,14 +19,10 @@ export function ForgotPasswordPage({ onSent, onNavigate }) {
 
   return (
     <>
-      <AuthHeader
-        icon={Mail}
-        title="Mot de passe oublié"
-        subtitle="Entre ton e-mail, on t'envoie un lien pour en choisir un nouveau."
-      />
+      <AuthHeader icon={Mail} title={t('forgot.title')} subtitle={t('forgot.subtitle')} />
       <form onSubmit={handleSubmit} className="space-y-4">
         <FieldInput
-          label="Adresse e-mail"
+          label={t('forgot.emailLabel')}
           icon={Mail}
           type="email"
           autoComplete="email"
@@ -34,10 +32,10 @@ export function ForgotPasswordPage({ onSent, onNavigate }) {
           required
         />
         <PillButton type="submit" icon={Send}>
-          Envoyer le lien
+          {t('forgot.submit')}
         </PillButton>
         <PillButton type="button" variant="outline" icon={ArrowLeft} onClick={() => onNavigate('login')}>
-          Retour à la connexion
+          {t('forgot.backToLogin')}
         </PillButton>
       </form>
     </>

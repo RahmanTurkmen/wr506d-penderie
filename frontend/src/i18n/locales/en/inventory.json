@@ -1,0 +1,164 @@
+{
+  "addObjet": {
+    "title": "Add an item",
+    "stepSubtitle": "Step {{step}} of {{total}} · {{label}}",
+    "stepLabels": {
+      "photo": "Photo",
+      "infos": "Details",
+      "emplacement": "Location"
+    },
+    "types": {
+      "vetement": "Clothing",
+      "livre": "Book",
+      "vinyle": "Vinyl",
+      "autre": "Other"
+    },
+    "fields": {
+      "nomLabel": "Name",
+      "nomPlaceholder": "Denim jacket",
+      "typeLabel": "Type",
+      "marqueLabel": "Brand",
+      "marquePlaceholder": "Optional",
+      "tailleLabel": "Size",
+      "taillePlaceholder": "M, 42…",
+      "couleurLabel": "Color",
+      "couleurPlaceholder": "Optional"
+    },
+    "categorie": {
+      "label": "Category",
+      "placeholder": "Category name"
+    },
+    "tags": {
+      "label": "Tags (optional)",
+      "placeholder": "Tag name"
+    },
+    "logement": {
+      "label": "Home",
+      "placeholder": "Home name"
+    },
+    "piece": {
+      "label": "Room",
+      "placeholder": "Room name"
+    },
+    "actions": {
+      "back": "Back",
+      "continue": "Continue",
+      "add": "Add"
+    },
+    "errors": {
+      "categorie": "Could not create the category.",
+      "tag": "Could not create the tag.",
+      "logement": "Could not create the home.",
+      "piece": "Could not create the room.",
+      "objet": "Could not create the item."
+    }
+  },
+  "dressing": {
+    "title": "Wardrobe",
+    "count_one": "{{count}} item",
+    "count_other": "{{count}} items",
+    "categoryPlaceholder": "Category",
+    "all": "All",
+    "emptyNoClothes": "No clothes yet — add an item of type \"Clothing\" from the inventory.",
+    "emptyNoMatch": "No clothes match these filters."
+  },
+  "list": {
+    "title": "Inventory",
+    "loadingEllipsis": "…",
+    "count_one": "{{count}} item",
+    "count_other": "{{count}} items",
+    "searchPlaceholder": "Search for an item, a brand…",
+    "dressingCard": {
+      "title": "My wardrobe",
+      "subtitle": "Filter by category and tag"
+    },
+    "categoryPlaceholder": "Category",
+    "all": "All",
+    "emptyNoObjets": "No items yet — add your first item.",
+    "emptyNoMatch": "No items match your search.",
+    "addAriaLabel": "Add an item"
+  },
+  "section": {
+    "loadError": "Could not load your items."
+  },
+  "detail": {
+    "notFoundTitle": "Item not found",
+    "notFoundBody": "This item no longer exists or has been deleted.",
+    "editAriaLabel": "Edit brand, size, color",
+    "types": {
+      "vetement": "Clothing",
+      "livre": "Book",
+      "vinyle": "Vinyl",
+      "autre": "Other"
+    },
+    "statuts": {
+      "disponible": "Available",
+      "prete": "Lent out",
+      "en_vente": "For sale"
+    },
+    "fields": {
+      "marque": "Brand",
+      "taille": "Size",
+      "couleur": "Color",
+      "emplacement": "Location",
+      "qrCode": "QR code",
+      "tags": "Tags"
+    },
+    "emptyValue": "—",
+    "addDetails": "+ Add brand, size, color",
+    "editForm": {
+      "title": "Brand, size, color",
+      "marquePlaceholder": "Brand",
+      "taillePlaceholder": "Size",
+      "couleurPlaceholder": "Color",
+      "cancel": "Cancel",
+      "save": "Save"
+    },
+    "lendForm": {
+      "title": "Lend this item",
+      "borrowerPlaceholder": "Borrower's name",
+      "cancel": "Cancel",
+      "confirm": "Confirm"
+    },
+    "actions": {
+      "lend": "Lend",
+      "markAvailable": "Mark available",
+      "sell": "Sell",
+      "removeFromSale": "Remove from sale"
+    },
+    "errors": {
+      "update": "Could not update.",
+      "statut": "Action not possible.",
+      "pret": "Could not create the loan.",
+      "pendingValidation": "Submitted to the main account for approval."
+    }
+  },
+  "pickOrCreate": {
+    "newChip": "New",
+    "suggestionUse": "Suggestion from the photo: \"{{suggestion}}\" — use it"
+  },
+  "multiPickOrCreate": {
+    "newChip": "New",
+    "defaultPlaceholder": "New tag"
+  },
+  "photoScanStep": {
+    "takePhoto": "Take a photo",
+    "importPhoto": "Import a photo",
+    "helper": "Lumen tries to recognize the item for you (free models, sometimes a bit slow)",
+    "analyzing": "Analyzing… (up to 1 minute, free models)",
+    "analyze": "Analyze the photo",
+    "error": "Could not analyze the photo.",
+    "suggestionText": "Recognition: \"{{name}}\" · {{confidence}}% — editable on the next step.",
+    "photoAlt": "Photo of the item",
+    "removePhotoAria": "Remove the photo",
+    "continueNoPhoto": "Continue without a photo",
+    "ignoreSuggestion": "Ignore the suggestion",
+    "skipWithPhoto": "Skip with this photo",
+    "useSuggestion": "Use this suggestion"
+  },
+  "cameraCapture": {
+    "closeAria": "Close the camera",
+    "captureAria": "Take the photo",
+    "error": "Could not access the camera. Check this site's camera permissions in your browser."
+  }
+}

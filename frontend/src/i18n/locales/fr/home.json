@@ -1,0 +1,32 @@
+{
+  "greeting": "Bonjour {{name}}",
+  "subtitle": "Voici l'état de ton foyer",
+  "stats": {
+    "objects": "Objets",
+    "activeLoans": "Prêts en cours",
+    "forSale": "En vente"
+  },
+  "quickActions": {
+    "add": "Ajouter",
+    "scan": "Scanner",
+    "outfit": "Tenue"
+  },
+  "loansSection": {
+    "title": "Prêts à suivre",
+    "seeAll": "Voir tout",
+    "empty": "Aucun objet prêté pour le moment.",
+    "lentTo": "Prêté à {{name}}",
+    "lentToWithReturn": "Prêté à {{name}} · retour le {{date}}",
+    "lent": "Prêté",
+    "late": "En retard",
+    "ongoing": "En cours"
+  },
+  "recentSection": {
+    "title": "Récemment ajoutés",
+    "empty": "Aucun objet pour le moment — ajoute ton premier objet."
+  },
+  "validationsBanner_one": "{{count}} demande à valider",
+  "validationsBanner_other": "{{count}} demandes à valider",
+  "validationsDetail": "Un profil géré attend ton approbation pour partager ou vendre.",
+  "errorLoading": "Impossible de charger tes objets."
+}

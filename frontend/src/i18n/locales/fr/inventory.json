@@ -1,0 +1,164 @@
+{
+  "addObjet": {
+    "title": "Ajouter un objet",
+    "stepSubtitle": "Étape {{step}} sur {{total}} · {{label}}",
+    "stepLabels": {
+      "photo": "Photo",
+      "infos": "Infos",
+      "emplacement": "Emplacement"
+    },
+    "types": {
+      "vetement": "Vêtement",
+      "livre": "Livre",
+      "vinyle": "Vinyle",
+      "autre": "Autre"
+    },
+    "fields": {
+      "nomLabel": "Nom",
+      "nomPlaceholder": "Veste en jean",
+      "typeLabel": "Type",
+      "marqueLabel": "Marque",
+      "marquePlaceholder": "Facultatif",
+      "tailleLabel": "Taille",
+      "taillePlaceholder": "M, 42…",
+      "couleurLabel": "Couleur",
+      "couleurPlaceholder": "Facultatif"
+    },
+    "categorie": {
+      "label": "Catégorie",
+      "placeholder": "Nom de la catégorie"
+    },
+    "tags": {
+      "label": "Tags (facultatif)",
+      "placeholder": "Nom du tag"
+    },
+    "logement": {
+      "label": "Logement",
+      "placeholder": "Nom du logement"
+    },
+    "piece": {
+      "label": "Pièce",
+      "placeholder": "Nom de la pièce"
+    },
+    "actions": {
+      "back": "Retour",
+      "continue": "Continuer",
+      "add": "Ajouter"
+    },
+    "errors": {
+      "categorie": "Impossible de créer la catégorie.",
+      "tag": "Impossible de créer le tag.",
+      "logement": "Impossible de créer le logement.",
+      "piece": "Impossible de créer la pièce.",
+      "objet": "Impossible de créer l'objet."
+    }
+  },
+  "dressing": {
+    "title": "Dressing",
+    "count_one": "{{count}} vêtement",
+    "count_other": "{{count}} vêtements",
+    "categoryPlaceholder": "Catégorie",
+    "all": "Tout",
+    "emptyNoClothes": "Aucun vêtement pour le moment — ajoute un objet de type « Vêtement » depuis l'inventaire.",
+    "emptyNoMatch": "Aucun vêtement ne correspond à ces filtres."
+  },
+  "list": {
+    "title": "Inventaire",
+    "loadingEllipsis": "…",
+    "count_one": "{{count}} objet",
+    "count_other": "{{count}} objets",
+    "searchPlaceholder": "Rechercher un objet, une marque…",
+    "dressingCard": {
+      "title": "Mon dressing",
+      "subtitle": "Filtre par catégorie et par tag"
+    },
+    "categoryPlaceholder": "Catégorie",
+    "all": "Tout",
+    "emptyNoObjets": "Aucun objet pour le moment — ajoute ton premier objet.",
+    "emptyNoMatch": "Aucun objet ne correspond à ta recherche.",
+    "addAriaLabel": "Ajouter un objet"
+  },
+  "section": {
+    "loadError": "Impossible de charger tes objets."
+  },
+  "detail": {
+    "notFoundTitle": "Objet introuvable",
+    "notFoundBody": "Cet objet n'existe plus ou a été supprimé.",
+    "editAriaLabel": "Modifier marque, taille, couleur",
+    "types": {
+      "vetement": "Vêtement",
+      "livre": "Livre",
+      "vinyle": "Vinyle",
+      "autre": "Autre"
+    },
+    "statuts": {
+      "disponible": "Disponible",
+      "prete": "Prêté",
+      "en_vente": "En vente"
+    },
+    "fields": {
+      "marque": "Marque",
+      "taille": "Taille",
+      "couleur": "Couleur",
+      "emplacement": "Emplacement",
+      "qrCode": "QR code",
+      "tags": "Tags"
+    },
+    "emptyValue": "—",
+    "addDetails": "+ Ajouter marque, taille, couleur",
+    "editForm": {
+      "title": "Marque, taille, couleur",
+      "marquePlaceholder": "Marque",
+      "taillePlaceholder": "Taille",
+      "couleurPlaceholder": "Couleur",
+      "cancel": "Annuler",
+      "save": "Enregistrer"
+    },
+    "lendForm": {
+      "title": "Prêter cet objet",
+      "borrowerPlaceholder": "Nom de l'emprunteur",
+      "cancel": "Annuler",
+      "confirm": "Confirmer"
+    },
+    "actions": {
+      "lend": "Prêter",
+      "markAvailable": "Marquer disponible",
+      "sell": "Vendre",
+      "removeFromSale": "Retirer de la vente"
+    },
+    "errors": {
+      "update": "Impossible de mettre à jour.",
+      "statut": "Action impossible.",
+      "pret": "Impossible de créer le prêt.",
+      "pendingValidation": "Soumis au compte principal pour validation."
+    }
+  },
+  "pickOrCreate": {
+    "newChip": "Nouveau",
+    "suggestionUse": "Suggestion de la photo : « {{suggestion}} » — utiliser"
+  },
+  "multiPickOrCreate": {
+    "newChip": "Nouveau",
+    "defaultPlaceholder": "Nouveau tag"
+  },
+  "photoScanStep": {
+    "takePhoto": "Prendre une photo",
+    "importPhoto": "Importer une photo",
+    "helper": "Lumen essaie de reconnaître l'objet pour toi (modèles gratuits, parfois un peu lents)",
+    "analyzing": "Analyse en cours… (jusqu'à 1 min, modèles gratuits)",
+    "analyze": "Analyser la photo",
+    "error": "Impossible d'analyser la photo.",
+    "suggestionText": "Reconnaissance : « {{name}} » · {{confidence}}% — modifiable à l'étape suivante.",
+    "photoAlt": "Photo de l'objet",
+    "removePhotoAria": "Retirer la photo",
+    "continueNoPhoto": "Continuer sans photo",
+    "ignoreSuggestion": "Ignorer la suggestion",
+    "skipWithPhoto": "Passer avec cette photo",
+    "useSuggestion": "Utiliser cette suggestion"
+  },
+  "cameraCapture": {
+    "closeAria": "Fermer la caméra",
+    "captureAria": "Prendre la photo",
+    "error": "Impossible d'accéder à la caméra. Vérifie les autorisations du navigateur pour ce site."
+  }
+}

@@ -1,5 +1,6 @@
 import { useMemo, useState } from 'react'
 import { AlertCircle, BookOpen, Disc3, ListFilter, Package, Plus, Search, Shirt } from 'lucide-react'
+import { useTranslation } from 'react-i18next'
 import { EmptyState, Skeleton } from '@/components/lumen/primitives'
 import { PullToRefresh } from '@/components/lumen/PullToRefresh'
 import { ScreenHeader } from '@/components/lumen/ScreenHeader'
@@ -15,6 +16,7 @@ const TYPE_TONE = {
 }
 
 export function InventoryListPage({ objets, categories, loading, error, onOpenObjet, onAddObjet, onOpenDressing, onRefresh }) {
+  const { t } = useTranslation('inventory')
   const [search, setSearch] = useState('')
   const [categorieFilter, setCategorieFilter] = useState(null)
 
@@ -31,8 +33,8 @@ export function InventoryListPage({ objets, categories, loading, error, onOpenOb
   return (
     <div className="flex flex-1 flex-col pb-24 md:pb-10">
       <ScreenHeader
-        title="Inventaire"
-        subtitle={loading ? '…' : `${objets.length} objet${objets.length > 1 ? 's' : ''}`}
+        title={t('list.title')}
+        subtitle={loading ? t('list.loadingEllipsis') : t('list.count', { count: objets.length })}
       />
 
       <PullToRefresh onRefresh={onRefresh}>
@@ -42,7 +44,7 @@ export function InventoryListPage({ objets, categories, loading, error, onOpenOb
           <input
             value={search}
             onChange={(e) => setSearch(e.target.value)}
-            placeholder="Rechercher un objet, une marque…"
+            placeholder={t('list.searchPlaceholder')}
             className="h-full min-w-0 flex-1 bg-transparent text-sm text-foreground outline-none placeholder:text-muted-foreground"
           />
         </div>
@@ -56,8 +58,8 @@ export function InventoryListPage({ objets, categories, loading, error, onOpenOb
             <Shirt className="h-[18px] w-[18px]" />
           </span>
           <span className="flex-1">
-            <span className="block text-sm font-semibold text-primary">Mon dressing</span>
-            <span className="block text-xs text-primary/80">Filtre par catégorie et par tag</span>
+            <span className="block text-sm font-semibold text-primary">{t('list.dressingCard.title')}</span>
+            <span className="block text-xs text-primary/80">{t('list.dressingCard.subtitle')}</span>
           </span>
           <span className="text-sm text-primary">›</span>
         </button>
@@ -70,13 +72,17 @@ export function InventoryListPage({ objets, categories, loading, error, onOpenOb
             <SelectTrigger className="h-12 w-full justify-between gap-2.5 rounded-2xl border-2 border-primary/20 bg-secondary px-4 text-sm font-semibold text-primary [&>svg]:text-primary">
               <span className="flex items-center gap-2.5">
                 <ListFilter className="h-[18px] w-[18px] shrink-0" />
-                <SelectValue placeholder="Catégorie">
-                  {(value) => (value === 'tout' || !value ? 'Tout' : (categories.find((c) => c.id === value)?.nom ?? 'Catégorie'))}
+                <SelectValue placeholder={t('list.categoryPlaceholder')}>
+                  {(value) =>
+                    value === 'tout' || !value
+                      ? t('list.all')
+                      : (categories.find((c) => c.id === value)?.nom ?? t('list.categoryPlaceholder'))
+                  }
                 </SelectValue>
               </span>
             </SelectTrigger>
             <SelectContent>
-              <SelectItem value="tout">Tout</SelectItem>
+              <SelectItem value="tout">{t('list.all')}</SelectItem>
               {categories.map((c) => (
                 <SelectItem key={c.id} value={c.id}>
                   {c.nom}
@@ -106,9 +112,7 @@ export function InventoryListPage({ objets, categories, loading, error, onOpenOb
         )}
 
         {!loading && !error && filtered.length === 0 && (
-          <EmptyState>
-            {objets.length === 0 ? "Aucun objet pour le moment — ajoute ton premier objet." : 'Aucun objet ne correspond à ta recherche.'}
-          </EmptyState>
+          <EmptyState>{objets.length === 0 ? t('list.emptyNoObjets') : t('list.emptyNoMatch')}</EmptyState>
         )}
 
         {!loading && !error && filtered.length > 0 && (
@@ -148,7 +152,7 @@ export function InventoryListPage({ objets, categories, loading, error, onOpenOb
       <button
         type="button"
         onClick={onAddObjet}
-        aria-label="Ajouter un objet"
+        aria-label={t('list.addAriaLabel')}
         className="fixed bottom-24 right-5 z-10 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg"
       >
         <Plus className="h-6 w-6" />
